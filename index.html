@@ -2,7 +2,8 @@
 <html lang="tr" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Mobil Zoom Engelleme Düzeltmesi Yapıldı -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Anonim Chat & Gelişmiş Yönetici Paneli</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -63,9 +64,18 @@
             border: 1px solid rgba(251, 191, 36, 0.4);
             box-shadow: 0 0 12px rgba(251, 191, 36, 0.15);
         }
+
+        /* Full Overlay Smooth Entrance Animation */
+        @keyframes overlayFadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .animate-overlay {
+            animation: overlayFadeIn 0.3s ease-out forwards;
+        }
     </style>
 </head>
-<body class="bg-gradient-to-br from-zinc-950 via-purple-950/20 to-zinc-950 text-gray-100 font-sans h-[100dvh] flex flex-col overflow-hidden">
+<body class="bg-gradient-to-br from-zinc-950 via-purple-950/20 to-zinc-950 text-gray-100 font-sans h-[100dvh] flex flex-col overflow-hidden select-none">
 
     <!-- Top Rules / Announcement Banner -->
     <div id="topBanner" class="bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 border-b border-purple-500/30 text-white px-3 sm:px-4 py-2 flex items-center justify-between shadow-lg z-20 transition-all">
@@ -168,7 +178,7 @@
         </div>
 
         <!-- Twitch Style Admin Panel Sidebar -->
-        <div id="adminPanel" class="hidden absolute inset-y-0 right-0 w-full sm:w-96 bg-twitch-sidebar/95 backdrop-blur-md border-l border-twitch-border flex flex-col h-full shadow-2xl z-30 transition-all">
+        <div id="adminPanel" class="hidden absolute inset-y-0 right-0 w-full sm:w-96 bg-twitch-sidebar border-l border-twitch-border flex flex-col h-full shadow-2xl z-50 transition-all">
             <!-- Admin Header -->
             <div class="p-3.5 bg-twitch-card border-b border-twitch-border flex justify-between items-center">
                 <div class="flex items-center space-x-2 text-purple-400 font-black text-sm">
@@ -330,31 +340,35 @@
         </div>
     </div>
 
-    <!-- Maintenance Overlay Screen -->
-    <div id="maintenanceOverlay" class="hidden fixed inset-0 bg-zinc-950/98 backdrop-blur-md z-50 flex flex-col items-center justify-center text-center p-6">
-        <div class="w-16 h-16 bg-yellow-500/10 text-yellow-400 border border-yellow-500/30 rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-xl animate-pulse">
-            <i class="fa-solid fa-wrench"></i>
+    <!-- Maintenance Overlay Screen (Tamamen Kapalı, Blursuz, Animasyonlu) -->
+    <div id="maintenanceOverlay" class="hidden fixed inset-0 bg-zinc-950 z-40 flex flex-col items-center justify-center text-center p-6 animate-overlay">
+        <div class="w-20 h-20 bg-yellow-500/20 text-yellow-400 border border-yellow-500/40 rounded-3xl flex items-center justify-center text-4xl mb-6 shadow-[0_0_30px_rgba(234,179,8,0.2)] animate-bounce">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
         </div>
-        <h2 class="text-2xl font-black text-white mb-2">Sistem Bakımındadır</h2>
-        <p class="text-gray-400 max-w-md text-sm mb-6">Şu anda sistemimizde bakım çalışması yapılmaktadır. Lütfen daha sonra tekrar deneyiniz.</p>
-        <div class="text-xs text-gray-500">Admin Paneline Erişmek için: <button onclick="toggleAdminModal()" class="text-purple-400 underline font-bold">Giriş Yap</button></div>
+        <h2 class="text-3xl font-black text-white mb-3 tracking-wide">Sistem Bakımdadır</h2>
+        <p class="text-gray-400 max-w-md text-sm mb-8 leading-relaxed">Sizlere daha iyi hizmet verebilmek için altyapı güncellemeleri yapıyoruz. Lütfen kısa bir süre sonra tekrar ziyaret edin.</p>
+        <div class="text-xs text-gray-500 bg-zinc-900 border border-zinc-800 px-4 py-2 rounded-xl">
+            Yönetici Girişi Yapmak İçin: <button onclick="toggleAdminModal()" class="text-purple-400 underline font-bold ml-1 hover:text-purple-300">Giriş Yap</button>
+        </div>
     </div>
 
-    <!-- Scheduled Opening Overlay Screen -->
-    <div id="scheduledOverlay" class="hidden fixed inset-0 bg-zinc-950/98 backdrop-blur-md z-50 flex flex-col items-center justify-center text-center p-6">
-        <div class="w-16 h-16 bg-purple-500/10 text-purple-400 border border-purple-500/30 rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-xl">
-            <i class="fa-solid fa-clock"></i>
+    <!-- Scheduled Opening Overlay Screen (Tamamen Kapalı, Blursuz, Animasyonlu) -->
+    <div id="scheduledOverlay" class="hidden fixed inset-0 bg-zinc-950 z-40 flex flex-col items-center justify-center text-center p-6 animate-overlay">
+        <div class="w-20 h-20 bg-purple-500/20 text-purple-400 border border-purple-500/40 rounded-3xl flex items-center justify-center text-4xl mb-6 shadow-[0_0_30px_rgba(168,85,247,0.25)] animate-pulse">
+            <i class="fa-solid fa-hourglass-half"></i>
         </div>
-        <h2 class="text-2xl font-black text-white mb-2">Açılış Saatimiz</h2>
-        <p class="text-gray-400 max-w-md text-sm mb-4">Sohbet odası belirlenen saatte kullanıma açılacaktır.</p>
-        <div id="countdownTimer" class="font-mono text-3xl font-black text-purple-300 bg-twitch-card px-6 py-3 rounded-2xl border border-twitch-border mb-6 shadow-xl">
+        <h2 class="text-3xl font-black text-white mb-2 tracking-wide">Açılış Saatine Kalan Süre</h2>
+        <p class="text-gray-400 max-w-md text-sm mb-6">Sohbet odamız belirlenen vakitte otomatik olarak açılacaktır.</p>
+        <div id="countdownTimer" class="font-mono text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 bg-zinc-900 px-8 py-4 rounded-3xl border border-zinc-800 mb-8 shadow-2xl tracking-widest">
             00:00:00
         </div>
-        <div class="text-xs text-gray-500">Admin Paneline Erişmek için: <button onclick="toggleAdminModal()" class="text-purple-400 underline font-bold">Giriş Yap</button></div>
+        <div class="text-xs text-gray-500 bg-zinc-900 border border-zinc-800 px-4 py-2 rounded-xl">
+            Yönetici Girişi Yapmak İçin: <button onclick="toggleAdminModal()" class="text-purple-400 underline font-bold ml-1 hover:text-purple-300">Giriş Yap</button>
+        </div>
     </div>
 
     <!-- Admin Password Login Modal -->
-    <div id="adminLoginModal" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+    <div id="adminLoginModal" class="hidden fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
         <div class="bg-twitch-card border border-twitch-border p-6 rounded-2xl w-full max-w-sm shadow-2xl">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="font-bold text-white text-sm sm:text-base flex items-center">
@@ -417,7 +431,7 @@
         let siteConfig = JSON.parse(localStorage.getItem('chat_siteConfig')) || {
             title: "Anonim Chat Odası",
             subtitle: "Özgürce ve canlı bir şekilde sohbet edin",
-            banner: "Canlı Sohbet Odasına Hoş Geldiniz! Küfür and hakaret kesinlikle yasaktır.",
+            banner: "Canlı Sohbet Odasına Hoş Geldiniz! Küfür ve hakaret kesinlikle yasaktır.",
             mode: "normal",
             scheduledTime: null,
             slowModeSeconds: 0
@@ -693,7 +707,6 @@
                     return;
                 }
 
-                // Bubble styling based on role
                 let bubbleClass = "bg-twitch-card border border-twitch-border";
                 if (role === 'admin') {
                     bubbleClass = "rainbow-bubble";
