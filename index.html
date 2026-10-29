@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="tr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anonim Chat & Yönetici Paneli</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        twitch: {
+                            base: '#0e0e10',
+                            sidebar: '#1f1f23',
+                            card: '#18181b',
+                            accent: '#9146FF',
+                            accentHover: '#772ce8',
+                            chatBg: '#0e0e10',
+                            border: '#2f2f35'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #18181b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3f3f46;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #52525b;
+        }
+        
+        .rainbow-text {
+            background-image: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000);
+            -webkit-background-clip: text;
+            color: transparent;
+            background-size: 200% auto;
+            animation: rainbow 3s linear infinite;
+        }
+        @keyframes rainbow {
+            to {
+                background-position: 200% center;
+            }
+        }
+    </style>
+</head>
+<body class="bg-twitch-base text-gray-100 font-sans h-screen flex flex-col overflow-hidden">
+
+    <!-- Top Rules / Announcement Banner -->
+    <div id="topBanner" class="bg-red-600/90 border-b border-red-500 text-white px-4 py-2 flex items-center justify-between shadow-md z-20 transition-all">
+        <div class="flex items-center space-x-2 text-xs sm:text-sm font-semibold tracking-wide">
+            <i class="fa-solid fa-triangle-exclamation animate-bounce text-yellow-300"></i>
+            <span id="bannerText">Küfür ve hakaret kesinlikle yasaktır! Küfür eden kullanıcılar kademeli olarak engellenir.</span>
+        </div>
+        <button onclick="dismissBanner()" class="text-white/80 hover:text-white text-xs px-2 py-1 rounded bg-black/20">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <!-- Main Container -->
+    <div class="flex-1 flex overflow-hidden relative">
+
+        <!-- Chat Area -->
+        <div class="flex-1 flex flex-col h-full bg-twitch-chatBg">
+            <!-- Header Bar -->
+            <div class="bg-twitch-card border-b border-twitch-border p-3 flex justify-between items-center z-10 shadow">
+                <div class="flex items-center space-x-3">
+                    <div class="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
+                    <div>
+                        <h1 id="siteTitle" class="font-bold text-base sm:text-lg text-white leading-tight">Anonim Chat Odası</h1>
+                        <p id="siteSubtitle" class="text-[11px] text-gray-400">Özgürce ve saygılı bir şekilde sohbet edin</p>
+                    </div>
+                    <span id="slowModeBadge" class="hidden bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 text-[10px] px-2 py-0.5 rounded-full font-mono">
+                        <i class="fa-solid fa-gauge-simple-high mr-1"></i>Yavaş Mod: <span id="slowModeTime">5</span>s
+                    </span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <!-- User Identity Info -->
+                    <span id="myIdentity" class="text-xs font-mono bg-purple-950/60 border border-purple-800/50 text-purple-300 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-user-ninja mr-1"></i> Anonim
+                    </span>
+                    <!-- Admin Login / Panel Button -->
+                    <button onclick="handleAdminButtonClick()" class="bg-twitch-border hover:bg-twitch-accent text-white px-3 py-1 rounded-md text-xs font-semibold transition flex items-center space-x-1">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span id="adminBtnText">Admin</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Messages Stream (Empty initially - No Fake Data) -->
+            <div id="chatStream" class="flex-1 overflow-y-auto p-4 space-y-3">
+                <div id="emptyChatNotice" class="h-full flex flex-col items-center justify-center text-gray-500 text-xs">
+                    <i class="fa-regular fa-comments text-4xl mb-2 text-gray-600"></i>
+                    <span>Henüz mesaj yok. Sohbeti başlatan ilk kişi olun!</span>
+                </div>
+            </div>
+
+            <!-- Mute / Ban Warning Overlay (If Muted) -->
+            <div id="muteOverlay" class="hidden bg-red-950/95 border-t border-red-600 p-3 text-center text-red-200 text-sm font-semibold">
+                <i class="fa-solid fa-ban mr-2 text-lg"></i>
+                <span id="muteMessage">Küfür ihlali nedeniyle geçici olarak engellendiniz!</span>
+                <span id="muteTimer" class="font-mono underline ml-2">--:--</span>
+            </div>
+
+            <!-- Reply Preview Bar -->
+            <div id="replyBar" class="hidden bg-twitch-sidebar border-t border-twitch-border p-2 px-4 flex justify-between items-center text-xs text-purple-300">
+                <div class="truncate">
+                    <i class="fa-solid fa-reply mr-2 text-twitch-accent"></i>
+                    Yanıtlanan: <span id="replyTargetUser" class="font-bold text-white"></span> - 
+                    <span id="replyTargetText" class="italic text-gray-400"></span>
+                </div>
+                <button onclick="cancelReply()" class="text-gray-400 hover:text-white">
+                    <i class="fa-solid fa-x"></i>
+                </button>
+            </div>
+
+            <!-- Chat Input Box -->
+            <div class="bg-twitch-card border-t border-twitch-border p-3">
+                <form id="chatForm" onsubmit="sendMessage(event)" class="flex space-x-2">
+                    <input type="text" id="messageInput" placeholder="Sohbete katıl... (Küfür yasaktır)" 
+                        class="flex-1 bg-twitch-base border border-twitch-border focus:border-twitch-accent text-white px-4 py-2.5 rounded-lg text-sm outline-none transition" autocomplete="off">
+                    <button type="submit" id="sendBtn" class="bg-twitch-accent hover:bg-twitch-accentHover text-white px-5 py-2.5 rounded-lg font-semibold text-sm transition flex items-center space-x-2">
+                        <span>Gönder</span>
+                        <i class="fa-solid fa-paper-plane text-xs"></i>
+                    </button>
+                </form>
+                <div id="slowModeCountdown" class="hidden text-[11px] text-yellow-400 mt-1 text-right font-mono"></div>
+            </div>
+        </div>
+
+        <!-- Twitch Style Admin Panel Sidebar -->
+        <div id="adminPanel" class="hidden w-80 md:w-96 bg-twitch-sidebar border-l border-twitch-border flex flex-col h-full shadow-2xl z-30 transition-all">
+            <!-- Admin Header -->
+            <div class="p-3 bg-twitch-card border-b border-twitch-border flex justify-between items-center">
+                <div class="flex items-center space-x-2 text-twitch-accent font-bold">
+                    <i class="fa-solid fa-headset text-lg"></i>
+                    <span>Yönetici Paneli</span>
+                </div>
+                <button onclick="toggleAdminPanel(false)" class="text-gray-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+                    <!-- Admin Tabs -->
+            <div class="flex border-b border-twitch-border text-[11px] font-semibold bg-twitch-base">
+                <button onclick="switchAdminTab('mod')" id="tabModBtn" class="flex-1 py-2.5 text-center text-twitch-accent border-b-2 border-twitch-accent">
+                    <i class="fa-solid fa-gavel mr-1"></i> Canlı Yayın
+                </button>
+                <button onclick="switchAdminTab('users')" id="tabUsersBtn" class="flex-1 py-2.5 text-center text-gray-400 hover:text-white">
+                    <i class="fa-solid fa-users-gear mr-1"></i> Kullanıcılar
+                </button>
+                <button onclick="switchAdminTab('site')" id="tabSiteBtn" class="flex-1 py-2.5 text-center text-gray-400 hover:text-white">
+                    <i class="fa-solid fa-sliders mr-1"></i> Ayarlar
+                </button>
+            </div>
+
+            <!-- Moderation Tab Content -->
+            <div id="adminTabMod" class="flex-1 overflow-y-auto p-3 space-y-4">
+                
+                <!-- Quick Moderation Tools -->
+                <div class="bg-twitch-card p-3 rounded-lg border border-twitch-border space-y-2">
+                    <h3 class="text-xs font-bold uppercase text-gray-400">Hızlı Chat Araçları</h3>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="clearAllChat()" class="bg-red-600/20 border border-red-500/30 hover:bg-red-600 text-red-300 hover:text-white text-xs py-1.5 px-2 rounded font-semibold transition">
+                            <i class="fa-solid fa-trash mr-1"></i> Chat'i Temizle
+                        </button>
+                        <button onclick="toggleSlowModePrompt()" id="btnToggleSlowMode" class="bg-twitch-base border border-twitch-border hover:bg-twitch-border text-gray-300 text-xs py-1.5 px-2 rounded font-semibold transition">
+                            <i class="fa-solid fa-hourglass-start mr-1"></i> Yavaş Mod
+                        </button>
+                    </div>
+                </div>
+
+                <!-- System Broadcast Creator -->
+                <div class="bg-twitch-card p-3 rounded-lg border border-twitch-border space-y-2">
+                    <h3 class="text-xs font-bold uppercase text-twitch-accent">Resmi Duyuru Gönder</h3>
+                    <div class="flex space-x-2">
+                        <input type="text" id="broadcastInput" placeholder="Sistem duyurusu metni..." class="flex-1 bg-twitch-base border border-twitch-border px-2.5 py-1.5 rounded text-xs text-white outline-none">
+                        <button onclick="sendBroadcast()" class="bg-twitch-accent hover:bg-twitch-accentHover text-white px-3 py-1.5 rounded text-xs font-semibold">
+                            Yayınla
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Live Chat Feed Inspection -->
+                <div class="bg-twitch-card p-3 rounded-lg border border-twitch-border">
+                    <h3 class="text-xs font-bold uppercase text-gray-400 mb-2">Canlı Chat İnceleme</h3>
+                    <div id="adminMessageList" class="space-y-2 max-h-72 overflow-y-auto pr-1">
+                        <!-- Dynamic stream of chat with admin action triggers -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Moderation Tab Content -->
+            <div id="adminTabUsers" class="hidden flex-1 overflow-y-auto p-3 space-y-4">
+                
+                <!-- Active User Inspector Modal/Box -->
+                <div id="userInspectorCard" class="bg-twitch-card p-3 rounded-lg border border-twitch-border space-y-3">
+                    <h3 class="text-xs font-bold uppercase text-purple-400">Kullanıcı İnceleme & İşlem</h3>
+                    <div class="text-xs space-y-1 bg-twitch-base p-2.5 rounded border border-twitch-border">
+                        <div>Kullanıcı: <span id="inspectUser" class="font-mono font-bold text-white">Seçilmedi</span></div>
+                        <div>Rolü: <span id="inspectRole" class="font-bold">Kullanıcı</span></div>
+                        <div>İhlal Sayısı: <span id="inspectBans" class="font-bold text-yellow-400">0</span></div>
+                        <div>Mute Durumu: <span id="inspectMuteStatus" class="text-gray-400">Temiz</span></div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-[11px] text-gray-400">Ceza İşlemleri:</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="applyAdminAction('mute', 10)" class="bg-yellow-600/30 border border-yellow-500/40 text-yellow-300 hover:bg-yellow-600 hover:text-white text-[10px] py-1.5 rounded font-semibold">10 Dk Mute</button>
+                            <button onclick="applyAdminAction('mute', 60)" class="bg-orange-600/30 border border-orange-500/40 text-orange-300 hover:bg-orange-600 hover:text-white text-[10px] py-1.5 rounded font-semibold">1 Saat Mute</button>
+                            <button onclick="applyAdminAction('ban_perm')" class="bg-red-700 hover:bg-red-800 text-white text-[10px] py-1.5 rounded font-semibold">Kalıcı Ban</button>
+                            <button onclick="applyAdminAction('unban')" class="bg-green-600 hover:bg-green-700 text-white text-[10px] py-1.5 rounded font-semibold">Cezayı Kaldır</button>
+                        </div>
+                    </div>
+
+                    <div id="adminRoleActions" class="space-y-2 border-t border-twitch-border pt-2 hidden">
+                        <label class="block text-[11px] text-gray-400">Rol İşlemleri (Sadece Admin):</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="applyAdminAction('set_mod')" class="bg-blue-600/30 border border-blue-500/40 text-blue-300 hover:bg-blue-600 hover:text-white text-[10px] py-1.5 rounded font-semibold">Moderatör Yap</button>
+                            <button onclick="applyAdminAction('set_user')" class="bg-gray-600/30 border border-gray-500/40 text-gray-300 hover:bg-gray-600 hover:text-white text-[10px] py-1.5 rounded font-semibold">Kullanıcı Yap</button>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-twitch-border pt-2 flex flex-col flex-1 min-h-[100px]">
+                        <label class="block text-[11px] text-gray-400 mb-1">Kullanıcının Mesaj Geçmişi:</label>
+                        <div id="inspectHistory" class="flex-1 overflow-y-auto space-y-1 bg-twitch-base p-1.5 rounded border border-twitch-border text-[10px] text-gray-300 max-h-32">
+                            <!-- history -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Banned/Muted List -->
+                <div class="bg-twitch-card p-3 rounded-lg border border-twitch-border">
+                    <h3 class="text-xs font-bold uppercase text-red-400 mb-2">Cezalı Kullanıcılar</h3>
+                    <div id="bannedUsersList" class="space-y-2 max-h-48 overflow-y-auto text-xs">
+                        <!-- Dynamic list of punished users -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Site Management Tab Content -->
+            <div id="adminTabSite" class="hidden flex-1 overflow-y-auto p-3 space-y-4">
+                <!-- Site Text Customization -->
+                <div class="bg-twitch-card p-3 rounded-lg border border-twitch-border space-y-3">
+                    <h3 class="text-xs font-bold uppercase text-twitch-accent">Metinleri Düzenle</h3>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Site Başlığı</label>
+                        <input type="text" id="inputSiteTitle" class="w-full bg-twitch-base border border-twitch-border px-3 py-1.5 rounded text-xs text-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Site Alt Başlığı</label>
+                        <input type="text" id="inputSiteSubtitle" class="w-full bg-twitch-base border border-twitch-border px-3 py-1.5 rounded text-xs text-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Üst Banner Uyarısı</label>
+                        <input type="text" id="inputBannerText" class="w-full bg-twitch-base border border-twitch-border px-3 py-1.5 rounded text-xs text-white outline-none">
+                    </div>
+                    <button onclick="saveSiteTexts()" class="w-full bg-twitch-accent hover:bg-twitch-accentHover text-white py-1.5 rounded text-xs font-semibold">
+                        Görünümü Güncelle
+                    </button>
+                </div>
+
+                <!-- Site Status Control -->
+                <div class="bg-twitch-card p-3 rounded-lg border border-twitch-border space-y-3">
+                    <h3 class="text-xs font-bold uppercase text-twitch-accent">Erişim Modları</h3>
+                    
+                    <div class="space-y-2">
+                        <label class="flex items-center space-x-2 text-xs cursor-pointer">
+                            <input type="radio" name="siteMode" value="normal" checked onchange="handleModeChange('normal')" class="text-twitch-accent">
+                            <span>Normal Mod (Sohbet Açık)</span>
+                        </label>
+                        <label class="flex items-center space-x-2 text-xs cursor-pointer">
+                            <input type="radio" name="siteMode" value="maintenance" onchange="handleModeChange('maintenance')" class="text-twitch-accent">
+                            <span>Bakım Modu (Erişim Kapalı)</span>
+                        </label>
+                        <label class="flex items-center space-x-2 text-xs cursor-pointer">
+                            <input type="radio" name="siteMode" value="scheduled" onchange="handleModeChange('scheduled')" class="text-twitch-accent">
+                            <span>Açılış Saati Belirle (Geri Sayım)</span>
+                        </label>
+                    </div>
+
+                    <!-- Scheduled Opening Time Setting -->
+                    <div id="scheduledSettings" class="hidden pt-2 border-t border-twitch-border space-y-2">
+                        <label class="block text-xs text-gray-400">Açılış Zamanı Seçin:</label>
+                        <input type="datetime-local" id="openDateTime" class="w-full bg-twitch-base border border-twitch-border px-2 py-1 rounded text-xs text-white outline-none">
+                    </div>
+
+                    <button onclick="applySiteMode()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-1.5 rounded text-xs font-semibold">
+                        Erişim Modunu Kaydet
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Maintenance Overlay Screen -->
+    <div id="maintenanceOverlay" class="hidden fixed inset-0 bg-twitch-base/98 backdrop-blur-md z-50 flex flex-col items-center justify-center text-center p-6">
+        <div class="w-16 h-16 bg-yellow-500/10 text-yellow-500 border border-yellow-500/20 rounded-full flex items-center justify-center text-3xl mb-4 animate-pulse">
+            <i class="fa-solid fa-wrench"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-white mb-2">Sistem Bakımındadır</h2>
+        <p class="text-gray-400 max-w-md text-sm mb-6">Şu anda sistemimizde bakım çalışması yapılmaktadır. Lütfen daha sonra tekrar deneyiniz.</p>
+        <div class="text-xs text-gray-500">Admin Paneline Erişmek için: <button onclick="toggleAdminModal()" class="text-twitch-accent underline font-semibold">Giriş Yap</button></div>
+    </div>
+
+    <!-- Scheduled Opening Overlay Screen -->
+    <div id="scheduledOverlay" class="hidden fixed inset-0 bg-twitch-base/98 backdrop-blur-md z-50 flex flex-col items-center justify-center text-center p-6">
+        <div class="w-16 h-16 bg-twitch-accent/10 text-twitch-accent border border-twitch-accent/20 rounded-full flex items-center justify-center text-3xl mb-4">
+            <i class="fa-solid fa-clock"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-white mb-2">Açılış Saatimiz</h2>
+        <p class="text-gray-400 max-w-md text-sm mb-4">Sohbet odası belirlenen saatte kullanıma açılacaktır.</p>
+        <div id="countdownTimer" class="font-mono text-3xl font-extrabold text-twitch-accent bg-twitch-card px-6 py-3 rounded-xl border border-twitch-border mb-6">
+            00:00:00
+        </div>
+        <div class="text-xs text-gray-500">Admin Paneline Erişmek için: <button onclick="toggleAdminModal()" class="text-twitch-accent underline font-semibold">Giriş Yap</button></div>
+    </div>
+
+    <!-- Admin Password Login Modal -->
+    <div id="adminLoginModal" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-twitch-card border border-twitch-border p-6 rounded-xl w-full max-w-sm shadow-2xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold text-white text-base"><i class="fa-solid fa-shield-halved text-twitch-accent mr-2"></i>Yönetici Doğrulaması</h3>
+                <button onclick="toggleAdminModal(false)" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form onsubmit="loginAdmin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Admin Şifresi</label>
+                    <input type="password" id="adminPasswordInput" placeholder="Şifrenizi girin..." class="w-full bg-twitch-base border border-twitch-border px-3 py-2 rounded-lg text-sm text-white outline-none focus:border-twitch-accent">
+                </div>
+                <button type="submit" class="w-full bg-twitch-accent hover:bg-twitch-accentHover text-white py-2 rounded-lg text-sm font-semibold transition">
+                    Paneli Aç
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Application Script Logic -->
+    <script>
+        // --- Security SHA-256 Hasher for Password Validation ---
+        // Plain text password is NEVER stored or displayed in code or UI.
+        const ADMIN_PASS_SHA256 = "9d375bb6912bcff1d2f7a9344ed7ff74ef82e705b060d4dbeab296cc379e4ea2";
+
+        async function sha256(message) {
+            const msgUint8 = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return hashHex;
+        }
+
+        // --- Bad Words Engine & Anti-Circumvention Filters ---
+        const BAD_WORDS = [
+            'amk', 'a.m.k', 'a.m.k.', 'aq', 'a.q', 'mk', 'm.k', 'sik', 'sikerim', 'sikim', 
+            'orospu', 'piç', 'pic', 'yarrak', 'yarak', 'ibne', 'göt', 'got', 'kahpe', 'puşt', 'pust', 'yavşak', 'oç', 'o.ç'
+        ];
+
+        // --- System State & Persistence ---
+        let currentUser = {
+            id: localStorage.getItem('chat_userId') || 'Anonim #' + Math.floor(1000 + Math.random() * 9000),
+            banCount: parseInt(localStorage.getItem('chat_banCount') || '0'),
+            mutedUntil: parseInt(localStorage.getItem('chat_mutedUntil') || '0'),
+            role: localStorage.getItem('chat_userRole') || 'user'
+        };
+        localStorage.setItem('chat_userId', currentUser.id);
+
+        let replyingTo = null;
+        let selectedInspectUser = null;
+        let lastSentTime = 0;
+
+        let siteConfig = JSON.parse(localStorage.getItem('chat_siteConfig')) || {
+            title: "Anonim Chat Odası",
+            subtitle: "Özgürce ve saygılı bir şekilde sohbet edin",
+            banner: "Küfür ve hakaret kesinlikle yasaktır! Küfür eden kullanıcılar kademeli olarak engellenir.",
+            mode: "normal",
+            scheduledTime: null,
+            slowModeSeconds: 0
+        };
+
+        // ZERO Fake Messages on start
+        let messages = JSON.parse(localStorage.getItem('chat_messages')) || [];
+        let userRecords = JSON.parse(localStorage.getItem('chat_userRecords')) || {}; // Stores user punishment states
+
+        let countdownInterval = null;
+
+        // --- Init Function ---
+        window.onload = function() {
+            syncUserRecord();
+            updateIdentityUI();
+            
+            if (currentUser.role === 'admin' || currentUser.role === 'mod') {
+                document.getElementById('adminBtnText').innerText = currentUser.role === 'admin' ? "Yönetici" : "Moderatör";
+            }
+
+            applyConfigToUI();
+            renderMessages();
+            checkMuteStatus();
+            startCountdown();
+
+            setInterval(checkMuteStatus, 1000);
+        };
+        
+        function syncUserRecord() {
+            userRecords[currentUser.id] = {
+                banCount: currentUser.banCount,
+                mutedUntil: currentUser.mutedUntil,
+                role: currentUser.role
+            };
+            localStorage.setItem('chat_userRecords', JSON.stringify(userRecords));
+        }
+
+        function updateIdentityUI() {
+            let roleIcon = '<i class="fa-solid fa-user-ninja mr-1"></i>';
+            let roleStyle = 'bg-purple-950/60 border border-purple-800/50 text-purple-300';
+            
+            if (currentUser.role === 'admin') {
+                roleIcon = '<i class="fa-solid fa-crown mr-1"></i>';
+                roleStyle = 'bg-red-950/60 border border-red-800/50 text-red-300 rainbow-text font-bold shadow-[0_0_10px_rgba(255,0,0,0.3)]';
+            } else if (currentUser.role === 'mod') {
+                roleIcon = '<i class="fa-solid fa-shield mr-1"></i>';
+                roleStyle = 'bg-yellow-950/60 border border-yellow-800/50 text-yellow-400 font-bold';
+            }
+
+            document.getElementById('myIdentity').innerHTML = `${roleIcon} ${currentUser.id}`;
+            document.getElementById('myIdentity').className = `text-xs font-mono px-2.5 py-1 rounded-md ${roleStyle}`;
+        }
+
+        // --- Profanity Check Engine ---
+        function containsProfanity(text) {
+            if (!text) return false;
+            
+            // Normalize text (lower case, replace leetspeak/symbols)
+            const normalized = text.toLowerCase()
+                .replace(/0/g, 'o')
+                .replace(/1/g, 'i')
+                .replace(/3/g, 'e')
+                .replace(/@/g, 'a')
+                .replace(/\$/g, 's')
+                .replace(/[^a-z0-9ğüşıöç\s]/g, ''); // strip punctuation for strict check
+
+            const cleanedCompact = normalized.replace(/\s+/g, '');
+            const words = text.toLowerCase().split(/\s+/);
+
+            for (let bad of BAD_WORDS) {
+                const cleanBad = bad.replace(/[^a-z0-9ğüşıöç]/g, '');
+                
+                // Word match or compact string match
+                if (words.includes(bad) || cleanedCompact.includes(cleanBad)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // --- Progressive Mute/Ban Penalty System ---
+        function handleProfanityViolation() {
+            if (currentUser.role === 'admin') return;
+
+            currentUser.banCount += 1;
+            let muteSeconds = 30;
+
+            if (currentUser.banCount <= 10) {
+                muteSeconds = 30;
+            } else if (currentUser.banCount <= 20) {
+                muteSeconds = 60;
+            } else if (currentUser.banCount <= 25) {
+                muteSeconds = 300; // 5 mins
+            } else if (currentUser.banCount <= 30) {
+                muteSeconds = 600; // 10 mins
+            } else {
+                 muteSeconds = 31536000; // Perm Ban
+            }
+
+            currentUser.mutedUntil = Date.now() + (muteSeconds * 1000);
+
+            // Record user state
+            localStorage.setItem('chat_banCount', currentUser.banCount);
+            localStorage.setItem('chat_mutedUntil', currentUser.mutedUntil);
+            
+            syncUserRecord();
+
+            const isPerm = currentUser.banCount > 30;
+            alert(`⚠️ KÜFÜR / ARGO TESPİT EDİLDİ!\n\nİhlal Sayısı: ${currentUser.banCount}\n${isPerm ? 'Sistemden KALICI OLARAK BANLANDINIZ!' : `Cevap: ${muteSeconds >= 60 ? muteSeconds/60 + ' dakika' : muteSeconds + ' saniye'} boyunca mesaj yazamazsınız.`}`);
+            
+            checkMuteStatus();
+            renderMessages();
+        }
+
+        function checkMuteStatus() {
+            const now = Date.now();
+            const record = userRecords[currentUser.id] || { mutedUntil: currentUser.mutedUntil, banCount: currentUser.banCount, role: currentUser.role };
+            const effectiveMutedUntil = Math.max(currentUser.mutedUntil, record.mutedUntil || 0);
+
+            if (effectiveMutedUntil > now && currentUser.role !== 'admin') {
+                const remainingSecs = Math.ceil((effectiveMutedUntil - now) / 1000);
+                const isPerm = (record.banCount > 30 || remainingSecs > 31536000);
+
+                document.getElementById('muteOverlay').classList.remove('hidden');
+                
+                if (isPerm) {
+                    document.getElementById('muteMessage').innerText = `Hesabınız KALICI OLARAK BANLANDI!`;
+                    document.getElementById('muteTimer').innerText = `Sonsuz`;
+                } else {
+                    const mins = Math.floor(remainingSecs / 60);
+                    const secs = remainingSecs % 60;
+                    document.getElementById('muteMessage').innerText = `Küfür tamamen yasaktır! (${record.banCount}. İhlal)`;
+                    document.getElementById('muteTimer').innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                }
+                
+                document.getElementById('messageInput').disabled = true;
+                document.getElementById('sendBtn').disabled = true;
+            } else {
+                document.getElementById('muteOverlay').classList.add('hidden');
+                document.getElementById('messageInput').disabled = false;
+                document.getElementById('sendBtn').disabled = false;
+            }
+        }
+
+        // --- Chat Form & Operations ---
+        function sendMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+
+            if (!text) return;
+
+            // Slow mode check
+            if (siteConfig.slowModeSeconds > 0 && currentUser.role !== 'admin' && currentUser.role !== 'mod') {
+                const elapsed = Math.floor((Date.now() - lastSentTime) / 1000);
+                if (elapsed < siteConfig.slowModeSeconds) {
+                    const waitSecs = siteConfig.slowModeSeconds - elapsed;
+                    alert(`Yavaş Mod Aktif: ${waitSecs} saniye daha beklemelisiniz.`);
+                    return;
+                }
+            }
+
+            // Profanity Filter Check
+            if (currentUser.role !== 'admin' && containsProfanity(text)) {
+                input.value = '';
+                handleProfanityViolation();
+                return;
+            }
+
+            const now = new Date();
+            const timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+
+            const newMessage = {
+                id: Date.now(),
+                user: currentUser.id,
+                text: text,
+                time: timeStr,
+                isSystem: false,
+                replyTo: replyingTo ? { ...replyingTo } : null
+            };
+
+            messages.push(newMessage);
+            localStorage.setItem('chat_messages', JSON.stringify(messages));
+
+            lastSentTime = Date.now();
+            input.value = '';
+            cancelReply();
+            renderMessages();
+        }
+        
+        function getUsernameHtml(userId) {
+            const record = userRecords[userId] || {};
+            const role = record.role || (userId === currentUser.id ? currentUser.role : 'user');
+            
+            if (role === 'admin') {
+                return `<span class="rainbow-text font-extrabold cursor-pointer" onclick="inspectUserFromChat('${userId}')">${userId}</span>`;
+            } else if (role === 'mod') {
+                return `<span class="text-yellow-400 font-bold cursor-pointer" onclick="inspectUserFromChat('${userId}')">${userId}</span>`;
+            }
+            return `<span class="font-bold text-gray-300 cursor-pointer hover:underline" onclick="inspectUserFromChat('${userId}')">${userId}</span>`;
+        }
+
+        function renderMessages() {
+            const stream = document.getElementById('chatStream');
+            const emptyNotice = document.getElementById('emptyChatNotice');
+            const adminList = document.getElementById('adminMessageList');
+            
+            stream.innerHTML = '';
+            adminList.innerHTML = '';
+
+            if (messages.length === 0) {
+                stream.appendChild(emptyNotice);
+                adminList.innerHTML = '<div class="text-xs text-gray-500 italic p-2">Sohbet geçmişi temiz.</div>';
+                renderBannedUsersList();
+                return;
+            }
+
+            messages.forEach(msg => {
+                const isMe = msg.user === currentUser.id;
+                
+                if (msg.isSystem) {
+                    // Render Official System Broadcast Message
+                    const sysEl = document.createElement('div');
+                    sysEl.className = "my-2 text-center";
+                    sysEl.innerHTML = `
+                        <div class="inline-block bg-purple-900/40 border border-purple-500/50 text-purple-200 text-xs px-3 py-1.5 rounded-lg shadow">
+                            <i class="fa-solid fa-bullhorn mr-1.5 text-twitch-accent"></i>
+                            <span class="font-bold mr-1">[Sistem Duyurusu]:</span> ${escapeHtml(msg.text)}
+                        </div>
+                    `;
+                    stream.appendChild(sysEl);
+                    return;
+                }
+
+                // Construct Main Chat Message
+                const msgEl = document.createElement('div');
+                msgEl.className = `flex flex-col group ${isMe ? 'items-end' : 'items-start'}`;
+
+                let replyBlock = '';
+                if (msg.replyTo) {
+                    replyBlock = `
+                        <div class="text-[11px] bg-twitch-sidebar border-l-2 border-twitch-accent px-2 py-0.5 rounded text-gray-400 mb-1 max-w-xs truncate">
+                            <span class="text-purple-300 font-semibold">@${msg.replyTo.user}:</span> ${escapeHtml(msg.replyTo.text)}
+                        </div>
+                    `;
+                }
+
+                msgEl.innerHTML = `
+                    <div class="flex items-center space-x-2 text-xs text-gray-400 mb-0.5">
+                        ${getUsernameHtml(msg.user)}
+                        <span>${msg.time}</span>
+                    </div>
+                    ${replyBlock}
+                    <div class="relative group/msg max-w-md bg-twitch-card border border-twitch-border p-2.5 rounded-xl text-sm text-gray-100 shadow-sm">
+                        ${escapeHtml(msg.text)}
+                        <button onclick="setReply(${msg.id}, '${msg.user}', '${escapeHtml(msg.text)}')" 
+                            class="opacity-0 group-hover/msg:opacity-100 transition-opacity absolute right-2 -top-3 bg-twitch-sidebar border border-twitch-border hover:bg-twitch-accent text-white rounded-full w-6 h-6 flex items-center justify-center text-xs shadow">
+                            <i class="fa-solid fa-reply"></i>
+                        </button>
+                    </div>
+                `;
+                stream.appendChild(msgEl);
+
+                // Admin Feed Item
+                const adminMsgEl = document.createElement('div');
+                adminMsgEl.className = "p-2 bg-twitch-base rounded border border-twitch-border flex justify-between items-center text-xs";
+                adminMsgEl.innerHTML = `
+                    <div class="truncate mr-2 cursor-pointer" onclick="inspectUserFromChat('${msg.user}')">
+                        <span class="font-bold text-twitch-accent">${msg.user}</span>: 
+                        <span class="text-gray-300">${escapeHtml(msg.text)}</span>
+                    </div>
+                    <button onclick="deleteMessage(${msg.id})" class="text-red-400 hover:text-red-300 px-1 text-xs" title="Mesajı Sil">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                `;
+                adminList.appendChild(adminMsgEl);
+            });
+
+            renderBannedUsersList();
+
+            // Auto scroll stream to bottom
+            stream.scrollTop = stream.scrollHeight;
+        }
+
+        // --- Reply Functionality ---
+        function setReply(id, user, text) {
+            replyingTo = { id, user, text };
+            document.getElementById('replyTargetUser').innerText = user;
+            document.getElementById('replyTargetText').innerText = text;
+            document.getElementById('replyBar').classList.remove('hidden');
+            document.getElementById('messageInput').focus();
+        }
+
+        function cancelReply() {
+            replyingTo = null;
+            document.getElementById('replyBar').classList.add('hidden');
+        }
+
+        // --- Admin Authentication (Secure Hash - Password Hidden) ---
+        function handleAdminButtonClick() {
+            if (currentUser.role === 'admin' || currentUser.role === 'mod') {
+                toggleAdminPanel(true);
+            } else {
+                toggleAdminModal(true);
+            }
+        }
+
+        function toggleAdminModal(show = true) {
+            document.getElementById('adminLoginModal').classList.toggle('hidden', !show);
+        }
+
+        async function loginAdmin(e) {
+            e.preventDefault();
+            const passInput = document.getElementById('adminPasswordInput').value;
+            if (!passInput) return;
+            
+            try {
+                const hashedInput = await sha256(passInput);
+
+                if (hashedInput.toLowerCase() === ADMIN_PASS_SHA256.toLowerCase()) {
+                    currentUser.role = 'admin';
+                    localStorage.setItem('chat_userRole', 'admin');
+                    syncUserRecord();
+                    
+                    toggleAdminModal(false);
+                    toggleAdminPanel(true);
+                    document.getElementById('adminBtnText').innerText = "Yönetici";
+                    document.getElementById('adminPasswordInput').value = '';
+                    updateIdentityUI();
+                    renderMessages();
+                } else {
+                    alert('Hatalı Yönetici Şifresi!');
+                }
+            } catch (err) {
+                console.error("Şifre doğrulama hatası:", err);
+                alert("Giriş yapılırken bir hata oluştu.");
+            }
+        }
+
+        function toggleAdminPanel(show) {
+            document.getElementById('adminPanel').classList.toggle('hidden', !show);
+            if (show) {
+                if (currentUser.role === 'mod') {
+                    document.getElementById('tabModBtn').classList.add('hidden');
+                    document.getElementById('tabSiteBtn').classList.add('hidden');
+                    switchAdminTab('users');
+                } else {
+                    document.getElementById('tabModBtn').classList.remove('hidden');
+                    document.getElementById('tabSiteBtn').classList.remove('hidden');
+                }
+            }
+        }
+
+        function switchAdminTab(tab) {
+            document.getElementById('adminTabMod').classList.toggle('hidden', tab !== 'mod');
+            document.getElementById('adminTabUsers').classList.toggle('hidden', tab !== 'users');
+            document.getElementById('adminTabSite').classList.toggle('hidden', tab !== 'site');
+            
+            document.getElementById('tabModBtn').className = tab === 'mod' 
+                ? "flex-1 py-2.5 text-center text-twitch-accent border-b-2 border-twitch-accent" 
+                : "flex-1 py-2.5 text-center text-gray-400 hover:text-white";
+
+            document.getElementById('tabUsersBtn').className = tab === 'users' 
+                ? "flex-1 py-2.5 text-center text-twitch-accent border-b-2 border-twitch-accent" 
+                : "flex-1 py-2.5 text-center text-gray-400 hover:text-white";
+
+            document.getElementById('tabSiteBtn').className = tab === 'site' 
+                ? "flex-1 py-2.5 text-center text-twitch-accent border-b-2 border-twitch-accent" 
+                : "flex-1 py-2.5 text-center text-gray-400 hover:text-white";
+        }
+
+        // --- Admin Actions & Moderation Tools ---
+        function clearAllChat() {
+            if (confirm("Tüm sohbet geçmişini silmek istediğinize emin misiniz?")) {
+                messages = [];
+                localStorage.setItem('chat_messages', JSON.stringify(messages));
+                renderMessages();
+            }
+        }
+
+        function toggleSlowModePrompt() {
+            const current = siteConfig.slowModeSeconds;
+            const input = prompt("Yavaş mod süresini saniye olarak girin (0 = Kapalı):", current);
+            if (input !== null) {
+                const secs = parseInt(input) || 0;
+                siteConfig.slowModeSeconds = secs;
+                localStorage.setItem('chat_siteConfig', JSON.stringify(siteConfig));
+                applyConfigToUI();
+            }
+        }
+
+        function sendBroadcast() {
+            const input = document.getElementById('broadcastInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const sysMsg = {
+                id: Date.now(),
+                user: "Sistem",
+                text: text,
+                time: "",
+                isSystem: true
+            };
+
+            messages.push(sysMsg);
+            localStorage.setItem('chat_messages', JSON.stringify(messages));
+            input.value = '';
+            renderMessages();
+        }
+
+        function deleteMessage(id) {
+            messages = messages.filter(m => m.id !== id);
+            localStorage.setItem('chat_messages', JSON.stringify(messages));
+            renderMessages();
+        }
+
+        function inspectUserFromChat(username) {
+            if (currentUser.role !== 'admin' && currentUser.role !== 'mod') return;
+            
+            toggleAdminPanel(true);
+            switchAdminTab('users');
+            selectedInspectUser = username;
+
+            const record = userRecords[username] || { banCount: 0, mutedUntil: 0, role: 'user' };
+            document.getElementById('inspectUser').innerText = username;
+            document.getElementById('inspectBans').innerText = record.banCount;
+            
+            let roleText = "Kullanıcı";
+            if(record.role === 'admin') roleText = "Admin (Kurucu)";
+            if(record.role === 'mod') roleText = "Moderatör";
+            document.getElementById('inspectRole').innerText = roleText;
+            
+            const isMuted = record.mutedUntil > Date.now();
+            document.getElementById('inspectMuteStatus').innerHTML = isMuted 
+                ? `<span class="text-red-400 font-bold">Cezalı</span>` 
+                : `<span class="text-green-400">Temiz</span>`;
+
+            // Admin only actions visibility
+            document.getElementById('adminRoleActions').classList.toggle('hidden', currentUser.role !== 'admin');
+            
+            // Populate history
+            const histContainer = document.getElementById('inspectHistory');
+            histContainer.innerHTML = '';
+            const userHistory = messages.filter(m => m.user === username);
+            if (userHistory.length === 0) {
+                histContainer.innerHTML = '<div class="italic text-gray-500 p-2">Geçmiş mesajı yok.</div>';
+            } else {
+                userHistory.forEach(m => {
+                    const el = document.createElement('div');
+                    el.className = "border-b border-twitch-border pb-1 mb-1 break-words";
+                    el.innerText = `[${m.time}] ${m.text}`;
+                    histContainer.appendChild(el);
+                });
+            }
+        }
+
+        function applyAdminAction(type, minutes = 0) {
+            if (!selectedInspectUser) {
+                alert("Lütfen önce bir kullanıcı seçin.");
+                return;
+            }
+            if (currentUser.role !== 'admin' && currentUser.role !== 'mod') return;
+
+            let targetRecord = userRecords[selectedInspectUser] || { banCount: 0, mutedUntil: 0, role: 'user' };
+            if (selectedInspectUser === currentUser.id) targetRecord.role = currentUser.role;
+
+            // Mod restriction
+            if (currentUser.role === 'mod' && targetRecord.role !== 'user') {
+                alert("Yetkiniz bu kullanıcıya işlem yapmak için yetersiz!");
+                return;
+            }
+
+            if (type === 'mute') {
+                targetRecord.mutedUntil = Date.now() + (minutes * 60 * 1000);
+                targetRecord.banCount += 1;
+                alert(`${selectedInspectUser} kullanıcısına ${minutes} dakika mute atıldı.`);
+            } else if (type === 'ban_perm') {
+                targetRecord.mutedUntil = Date.now() + (52560000 * 60 * 1000);
+                targetRecord.banCount = 31; // Ensures it passes the 30 check for perm ban string
+                alert(`${selectedInspectUser} kullanıcısı kalıcı olarak BANLANDI.`);
+            } else if (type === 'unban') {
+                targetRecord.mutedUntil = 0;
+                targetRecord.banCount = 0;
+                alert(`${selectedInspectUser} kullanıcısının tüm cezaları kaldırıldı.`);
+            } else if (type === 'set_mod' && currentUser.role === 'admin') {
+                targetRecord.role = 'mod';
+                alert(`${selectedInspectUser} moderatör yapıldı.`);
+            } else if (type === 'set_user' && currentUser.role === 'admin') {
+                targetRecord.role = 'user';
+                alert(`${selectedInspectUser} normal kullanıcı yapıldı.`);
+            }
+
+            userRecords[selectedInspectUser] = targetRecord;
+            localStorage.setItem('chat_userRecords', JSON.stringify(userRecords));
+
+            // Sync if inspecting current self
+            if (selectedInspectUser === currentUser.id) {
+                currentUser.banCount = targetRecord.banCount;
+                currentUser.mutedUntil = targetRecord.mutedUntil;
+                currentUser.role = targetRecord.role;
+                localStorage.setItem('chat_banCount', currentUser.banCount);
+                localStorage.setItem('chat_mutedUntil', currentUser.mutedUntil);
+                localStorage.setItem('chat_userRole', currentUser.role);
+                checkMuteStatus();
+                updateIdentityUI();
+            }
+
+            inspectUserFromChat(selectedInspectUser);
+            renderMessages();
+        }
+
+        function renderBannedUsersList() {
+            const container = document.getElementById('bannedUsersList');
+            container.innerHTML = '';
+
+            const keys = Object.keys(userRecords);
+            let activePenalties = 0;
+
+            keys.forEach(user => {
+                const rec = userRecords[user];
+                if (rec.mutedUntil > Date.now()) {
+                    activePenalties++;
+                    const isPerm = rec.banCount >= 4;
+                    const item = document.createElement('div');
+                    item.className = "flex justify-between items-center bg-twitch-base p-2 rounded border border-twitch-border";
+                    item.innerHTML = `
+                        <div>
+                            <span class="font-bold text-white">${user}</span>
+                            <span class="text-[10px] text-red-400 block">${isPerm ? 'Kalıcı Ban' : `${rec.banCount}. İhlal (Muted)`}</span>
+                        </div>
+                        <button onclick="quickUnban('${user}')" class="bg-green-600/30 text-green-300 hover:bg-green-600 hover:text-white px-2 py-1 rounded text-[10px]">
+                            Aç
+                        </button>
+                    `;
+                    container.appendChild(item);
+                }
+            });
+
+            if (activePenalties === 0) {
+                container.innerHTML = `<div class="text-gray-500 italic text-[11px]">Aktif cezalı kullanıcı yok.</div>`;
+            }
+        }
+
+        function quickUnban(user) {
+            selectedInspectUser = user;
+            applyAdminAction('unban');
+        }
+
+        // --- Site Mode & Customization Engine ---
+        function saveSiteTexts() {
+            siteConfig.title = document.getElementById('inputSiteTitle').value || siteConfig.title;
+            siteConfig.subtitle = document.getElementById('inputSiteSubtitle').value || siteConfig.subtitle;
+            siteConfig.banner = document.getElementById('inputBannerText').value || siteConfig.banner;
+            
+            localStorage.setItem('chat_siteConfig', JSON.stringify(siteConfig));
+            applyConfigToUI();
+            alert('Site metinleri güncellendi!');
+        }
+
+        function applyConfigToUI() {
+            document.getElementById('siteTitle').innerText = siteConfig.title;
+            document.getElementById('siteSubtitle').innerText = siteConfig.subtitle;
+            document.getElementById('bannerText').innerText = siteConfig.banner;
+            
+            document.getElementById('inputSiteTitle').value = siteConfig.title;
+            document.getElementById('inputSiteSubtitle').value = siteConfig.subtitle;
+            document.getElementById('inputBannerText').value = siteConfig.banner;
+
+            // Slow mode badge
+            const slowBadge = document.getElementById('slowModeBadge');
+            if (siteConfig.slowModeSeconds > 0) {
+                slowBadge.classList.remove('hidden');
+                document.getElementById('slowModeTime').innerText = siteConfig.slowModeSeconds;
+            } else {
+                slowBadge.classList.add('hidden');
+            }
+
+            // Site Mode Overlays
+            document.getElementById('maintenanceOverlay').classList.toggle('hidden', siteConfig.mode !== 'maintenance');
+            document.getElementById('scheduledOverlay').classList.toggle('hidden', siteConfig.mode !== 'scheduled');
+        }
+
+        function handleModeChange(mode) {
+            document.getElementById('scheduledSettings').classList.toggle('hidden', mode !== 'scheduled');
+        }
+
+        function applySiteMode() {
+            const selectedMode = document.querySelector('input[name="siteMode"]:checked').value;
+            siteConfig.mode = selectedMode;
+
+            if (selectedMode === 'scheduled') {
+                const dtValue = document.getElementById('openDateTime').value;
+                if (!dtValue) {
+                    alert('Lütfen geçerli bir tarih ve saat seçin!');
+                    return;
+                }
+                siteConfig.scheduledTime = new Date(dtValue).getTime();
+            }
+
+            localStorage.setItem('chat_siteConfig', JSON.stringify(siteConfig));
+            applyConfigToUI();
+            startCountdown();
+            alert('Erişim modu güncellendi!');
+        }
+
+        function startCountdown() {
+            if (countdownInterval) clearInterval(countdownInterval);
+
+            countdownInterval = setInterval(() => {
+                if (siteConfig.mode === 'scheduled' && siteConfig.scheduledTime) {
+                    const diff = siteConfig.scheduledTime - Date.now();
+                    if (diff <= 0) {
+                        siteConfig.mode = 'normal';
+                        localStorage.setItem('chat_siteConfig', JSON.stringify(siteConfig));
+                        applyConfigToUI();
+                        clearInterval(countdownInterval);
+                    } else {
+                        const h = Math.floor(diff / (1000 * 60 * 60));
+                        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                        const s = Math.floor((diff % (1000 * 60)) / 1000);
+                        document.getElementById('countdownTimer').innerText = 
+                            `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                    }
+                }
+            }, 1000);
+        }
+
+        function dismissBanner() {
+            document.getElementById('topBanner').classList.add('hidden');
+        }
+
+        function escapeHtml(text) {
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
