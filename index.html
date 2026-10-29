@@ -2,9 +2,8 @@
 <html lang="tr" class="dark">
 <head>
     <meta charset="UTF-8">
-    <!-- Mobil Zoom Engelleme Düzeltmesi Yapıldı -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Anonim Chat & Gelişmiş Yönetici Paneli</title>
+    <title>Anonim Chat & Firebase Gelişmiş Yönetici Paneli</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -29,6 +28,35 @@
     </script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, set, get, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyDhfV_mNCJsD4rL6r8viKUHPgIn-_z01-s",
+            authDomain: "itirafhelvaci.firebaseapp.com",
+            databaseURL: "https://itirafhelvaci-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "itirafhelvaci",
+            storageBucket: "itirafhelvaci.firebasestorage.app",
+            messagingSenderId: "155382461179",
+            appId: "1:155382461179:web:fb134296241b509c8a765e",
+            measurementId: "G-T7HXVGLZ6S"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        window.db = getDatabase(app);
+        window.dbRef = ref;
+        window.dbSet = set;
+        window.dbGet = get;
+        window.dbPush = push;
+        window.dbOnValue = onValue;
+        window.dbRemove = remove;
+        window.dbUpdate = update;
+        
+        // Dispatch custom event when firebase is ready
+        window.dispatchEvent(new Event('firebase-ready'));
+    </script>
     <style>
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #18181b; }
@@ -45,11 +73,17 @@
         }
         @keyframes rainbow { to { background-position: 200% center; } }
 
+        /* RGB Animated Glowing Bubble for Admin */
+        @keyframes rgbBorder {
+            0% { border-color: #ff007f; box-shadow: 0 0 15px rgba(255, 0, 127, 0.4); }
+            33% { border-color: #00ff7f; box-shadow: 0 0 15px rgba(0, 255, 127, 0.4); }
+            66% { border-color: #00ffff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.4); }
+            100% { border-color: #ff007f; box-shadow: 0 0 15px rgba(255, 0, 127, 0.4); }
+        }
         .rainbow-bubble {
-            background: linear-gradient(135deg, rgba(255, 0, 127, 0.15), rgba(127, 0, 255, 0.15));
-            border: 2px solid transparent;
-            border-image: linear-gradient(90deg, #ff007f, #ff7f00, #00ff7f, #00ffff, #7f00ff) 1;
-            box-shadow: 0 0 15px rgba(255, 0, 127, 0.2);
+            background: linear-gradient(135deg, rgba(20, 20, 25, 0.95), rgba(35, 15, 35, 0.95));
+            border: 2px solid #ff007f;
+            animation: rgbBorder 4s linear infinite;
         }
 
         /* Gold Styling for Moderators */
@@ -65,7 +99,6 @@
             box-shadow: 0 0 12px rgba(251, 191, 36, 0.15);
         }
 
-        /* Full Overlay Smooth Entrance Animation */
         @keyframes overlayFadeIn {
             from { opacity: 0; transform: scale(0.98); }
             to { opacity: 1; transform: scale(1); }
@@ -183,7 +216,7 @@
             <div class="p-3.5 bg-twitch-card border-b border-twitch-border flex justify-between items-center">
                 <div class="flex items-center space-x-2 text-purple-400 font-black text-sm">
                     <i class="fa-solid fa-sliders text-base text-pink-500"></i>
-                    <span>Yönetici Paneli</span>
+                    <span>Yönetici Paneli (Firebase)</span>
                 </div>
                 <button onclick="toggleAdminPanel(false)" class="text-gray-400 hover:text-white w-8 h-8 rounded-lg bg-twitch-base flex items-center justify-center border border-twitch-border">
                     <i class="fa-solid fa-xmark text-base"></i>
@@ -340,7 +373,7 @@
         </div>
     </div>
 
-    <!-- Maintenance Overlay Screen (Tamamen Kapalı, Blursuz, Animasyonlu) -->
+    <!-- Maintenance Overlay Screen -->
     <div id="maintenanceOverlay" class="hidden fixed inset-0 bg-zinc-950 z-40 flex flex-col items-center justify-center text-center p-6 animate-overlay">
         <div class="w-20 h-20 bg-yellow-500/20 text-yellow-400 border border-yellow-500/40 rounded-3xl flex items-center justify-center text-4xl mb-6 shadow-[0_0_30px_rgba(234,179,8,0.2)] animate-bounce">
             <i class="fa-solid fa-screwdriver-wrench"></i>
@@ -352,7 +385,7 @@
         </div>
     </div>
 
-    <!-- Scheduled Opening Overlay Screen (Tamamen Kapalı, Blursuz, Animasyonlu) -->
+    <!-- Scheduled Opening Overlay Screen -->
     <div id="scheduledOverlay" class="hidden fixed inset-0 bg-zinc-950 z-40 flex flex-col items-center justify-center text-center p-6 animate-overlay">
         <div class="w-20 h-20 bg-purple-500/20 text-purple-400 border border-purple-500/40 rounded-3xl flex items-center justify-center text-4xl mb-6 shadow-[0_0_30px_rgba(168,85,247,0.25)] animate-pulse">
             <i class="fa-solid fa-hourglass-half"></i>
@@ -437,16 +470,18 @@
             slowModeSeconds: 0
         };
 
-        let messages = JSON.parse(localStorage.getItem('chat_messages')) || [];
-        let userRecords = JSON.parse(localStorage.getItem('chat_userRecords')) || {};
-        let activeUsers = JSON.parse(localStorage.getItem('chat_activeUsers')) || {};
-
+        let messages = [];
+        let userRecords = {};
+        let activeUsers = {};
         let countdownInterval = null;
+
+        window.addEventListener('firebase-ready', () => {
+            initFirebaseListeners();
+        });
 
         window.onload = function() {
             syncUserRecord();
             updateIdentityUI();
-            registerActiveUser();
             populateEmojiGrid();
             
             if (currentUser.role === 'admin' || currentUser.role === 'mod') {
@@ -454,8 +489,6 @@
             }
 
             applyConfigToUI();
-            renderMessages();
-            renderActiveUsersList();
             checkMuteStatus();
             startCountdown();
 
@@ -464,6 +497,36 @@
                 checkMuteStatus();
             }, 3000);
         };
+
+        function initFirebaseListeners() {
+            // Messages sync
+            const msgsRef = window.dbRef(window.db, 'messages');
+            window.dbOnValue(msgsRef, (snapshot) => {
+                const data = snapshot.val();
+                messages = data ? Object.values(data) : [];
+                renderMessages();
+            });
+
+            // Users sync
+            const usersRef = window.dbRef(window.db, 'users');
+            window.dbOnValue(usersRef, (snapshot) => {
+                const data = snapshot.val();
+                userRecords = data || {};
+                renderActiveUsersList();
+            });
+
+            // Config sync
+            const configRef = window.dbRef(window.db, 'config');
+            window.dbOnValue(configRef, (snapshot) => {
+                const data = snapshot.val();
+                if(data) {
+                    siteConfig = data;
+                    applyConfigToUI();
+                }
+            });
+
+            registerActiveUser();
+        }
         
         function populateEmojiGrid() {
             const grid = document.getElementById('emojiGrid');
@@ -485,7 +548,18 @@
                 lastSeen: Date.now(),
                 role: currentUser.role
             };
-            localStorage.setItem('chat_activeUsers', JSON.stringify(activeUsers));
+            if(window.db) {
+                window.dbSet(window.dbRef(window.db, 'activeUsers/' + currentUser.id.replace(/[.#$[\]]/g, '_')), {
+                    lastSeen: Date.now(),
+                    role: currentUser.role
+                });
+                
+                const activeRef = window.dbRef(window.db, 'activeUsers');
+                window.dbOnValue(activeRef, (snapshot) => {
+                    activeUsers = snapshot.val() || {};
+                    renderActiveUsersList();
+                }, { onlyOnce: true });
+            }
             renderActiveUsersList();
         }
 
@@ -495,7 +569,9 @@
                 mutedUntil: currentUser.mutedUntil,
                 role: currentUser.role
             };
-            localStorage.setItem('chat_userRecords', JSON.stringify(userRecords));
+            if(window.db) {
+                window.dbSet(window.dbRef(window.db, 'users/' + currentUser.id.replace(/[.#$[\]]/g, '_')), userRecords[currentUser.id]);
+            }
         }
 
         function getUserRole(userId) {
@@ -533,7 +609,7 @@
 
             if (userRecords[oldId]) {
                 userRecords[newName] = userRecords[oldId];
-                delete userRecords[oldId];
+                if(window.db) window.dbRemove(window.dbRef(window.db, 'users/' + oldId.replace(/[.#$[\]]/g, '_')));
             }
             syncUserRecord();
             updateIdentityUI();
@@ -648,20 +724,25 @@
             const now = new Date();
             const timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
 
-            messages.push({
+            const msgData = {
                 id: Date.now(),
                 user: currentUser.id,
                 text: text,
                 time: timeStr,
                 isSystem: false,
                 replyTo: replyingTo ? { ...replyingTo } : null
-            });
+            };
 
-            localStorage.setItem('chat_messages', JSON.stringify(messages));
+            if(window.db) {
+                window.dbSet(window.dbRef(window.db, 'messages/' + msgData.id), msgData);
+            } else {
+                messages.push(msgData);
+                renderMessages();
+            }
+
             lastSentTime = Date.now();
             input.value = '';
             cancelReply();
-            renderMessages();
             playNotificationSound();
         }
         
@@ -681,10 +762,11 @@
             const emptyNotice = document.getElementById('emptyChatNotice');
             const adminList = document.getElementById('adminMessageList');
             
+            if(!stream || !adminList) return;
             stream.innerHTML = '';
             adminList.innerHTML = '';
 
-            if (messages.length === 0) {
+            if (!messages || messages.length === 0) {
                 stream.appendChild(emptyNotice);
                 adminList.innerHTML = '<div class="text-xs text-gray-500 italic p-2">Sohbet geçmişi temiz.</div>';
                 return;
@@ -707,6 +789,7 @@
                     return;
                 }
 
+                // ADMIN RGB ANIMATED BUBBLE & MOD GOLD BUBBLE
                 let bubbleClass = "bg-twitch-card border border-twitch-border";
                 if (role === 'admin') {
                     bubbleClass = "rainbow-bubble";
@@ -877,9 +960,12 @@
 
         function clearAllChat() {
             if (confirm("Tüm sohbet geçmişini silmek istediğinize emin misiniz?")) {
-                messages = [];
-                localStorage.setItem('chat_messages', JSON.stringify(messages));
-                renderMessages();
+                if(window.db) {
+                    window.dbRemove(window.dbRef(window.db, 'messages'));
+                } else {
+                    messages = [];
+                    renderMessages();
+                }
             }
         }
 
@@ -888,8 +974,7 @@
             const input = prompt("Yavaş mod süresini saniye olarak girin (0 = Kapalı):", current);
             if (input !== null) {
                 siteConfig.slowModeSeconds = parseInt(input) || 0;
-                localStorage.setItem('chat_siteConfig', JSON.stringify(siteConfig));
-                applyConfigToUI();
+                saveConfigToFirebase();
             }
         }
 
@@ -898,23 +983,30 @@
             const text = input.value.trim();
             if (!text) return;
 
-            messages.push({
+            const sysMsg = {
                 id: Date.now(),
                 user: "Sistem",
                 text: text,
                 time: "",
                 isSystem: true
-            });
+            };
 
-            localStorage.setItem('chat_messages', JSON.stringify(messages));
+            if(window.db) {
+                window.dbSet(window.dbRef(window.db, 'messages/' + sysMsg.id), sysMsg);
+            } else {
+                messages.push(sysMsg);
+                renderMessages();
+            }
             input.value = '';
-            renderMessages();
         }
 
         function deleteMessage(id) {
-            messages = messages.filter(m => m.id !== id);
-            localStorage.setItem('chat_messages', JSON.stringify(messages));
-            renderMessages();
+            if(window.db) {
+                window.dbRemove(window.dbRef(window.db, 'messages/' + id));
+            } else {
+                messages = messages.filter(m => m.id !== id);
+                renderMessages();
+            }
         }
 
         function inspectUserFromChat(username) {
@@ -984,7 +1076,9 @@
             }
 
             userRecords[selectedInspectUser] = targetRecord;
-            localStorage.setItem('chat_userRecords', JSON.stringify(userRecords));
+            if(window.db) {
+                window.dbSet(window.dbRef(window.db, 'users/' + selectedInspectUser.replace(/[.#$[\]]/g, '_')), targetRecord);
+            }
 
             if (selectedInspectUser === currentUser.id) {
                 currentUser.banCount = targetRecord.banCount;
@@ -1007,9 +1101,17 @@
             siteConfig.subtitle = document.getElementById('inputSiteSubtitle').value || siteConfig.subtitle;
             siteConfig.banner = document.getElementById('inputBannerText').value || siteConfig.banner;
             
-            localStorage.setItem('chat_siteConfig', JSON.stringify(siteConfig));
-            applyConfigToUI();
+            saveConfigToFirebase();
             alert('Site metinleri güncellendi!');
+        }
+
+        function saveConfigToFirebase() {
+            if(window.db) {
+                window.dbSet(window.dbRef(window.db, 'config'), siteConfig);
+            } else {
+                localStorage.setItem('chat_siteConfig', JSON.stringify(siteConfig));
+            }
+            applyConfigToUI();
         }
 
         function applyConfigToUI() {
@@ -1065,8 +1167,7 @@
                 siteConfig.scheduledTime = new Date(dtValue).getTime();
             }
 
-            localStorage.setItem('chat_siteConfig', JSON.stringify(siteConfig));
-            applyConfigToUI();
+            saveConfigToFirebase();
             startCountdown();
             alert('Erişim modu güncellendi! (Adminler bu ekranlardan etkilenmez)');
         }
@@ -1079,8 +1180,7 @@
                     const diff = siteConfig.scheduledTime - Date.now();
                     if (diff <= 0) {
                         siteConfig.mode = 'normal';
-                        localStorage.setItem('chat_siteConfig', JSON.stringify(siteConfig));
-                        applyConfigToUI();
+                        saveConfigToFirebase();
                         clearInterval(countdownInterval);
                     } else {
                         const h = Math.floor(diff / (1000 * 60 * 60));
