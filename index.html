@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anonim Chat & Yönetici Paneli</title>
+    <title>Anonim Chat & Gelişmiş Yönetici Paneli</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -29,20 +29,10 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #18181b;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #a855f7;
-            border-radius: 3px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #9333ea;
-        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #18181b; }
+        ::-webkit-scrollbar-thumb { background: #a855f7; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9333ea; }
         
         .rainbow-text {
             background-image: linear-gradient(90deg, #ff007f, #ff7f00, #ffff00, #00ff7f, #00ffff, #7f00ff, #ff007f);
@@ -51,11 +41,7 @@
             background-size: 200% auto;
             animation: rainbow 3s linear infinite;
         }
-        @keyframes rainbow {
-            to {
-                background-position: 200% center;
-            }
-        }
+        @keyframes rainbow { to { background-position: 200% center; } }
     </style>
 </head>
 <body class="bg-gradient-to-br from-zinc-950 via-purple-950/20 to-zinc-950 text-gray-100 font-sans h-[100dvh] flex flex-col overflow-hidden">
@@ -131,9 +117,29 @@
                 </button>
             </div>
 
+            <!-- Emoji Picker Drawer -->
+            <div id="emojiPicker" class="hidden bg-twitch-card border-t border-twitch-border p-2.5 grid grid-cols-8 sm:grid-cols-12 gap-1.5 text-lg z-20 shadow-lg">
+                <!-- Emojis populated via JS or static -->
+                <button type="button" onclick="insertEmoji('😀')" class="hover:bg-twitch-base p-1 rounded">😀</button>
+                <button type="button" onclick="insertEmoji('😂')" class="hover:bg-twitch-base p-1 rounded">😂</button>
+                <button type="button" onclick="insertEmoji('🔥')" class="hover:bg-twitch-base p-1 rounded">🔥</button>
+                <button type="button" onclick="insertEmoji('👍')" class="hover:bg-twitch-base p-1 rounded">👍</button>
+                <button type="button" onclick="insertEmoji('❤️')" class="hover:bg-twitch-base p-1 rounded">❤️</button>
+                <button type="button" onclick="insertEmoji('🎉')" class="hover:bg-twitch-base p-1 rounded">🎉</button>
+                <button type="button" onclick="insertEmoji('😎')" class="hover:bg-twitch-base p-1 rounded">😎</button>
+                <button type="button" onclick="insertEmoji('🚀')" class="hover:bg-twitch-base p-1 rounded">🚀</button>
+                <button type="button" onclick="insertEmoji('👀')" class="hover:bg-twitch-base p-1 rounded">👀</button>
+                <button type="button" onclick="insertEmoji('⭐')" class="hover:bg-twitch-base p-1 rounded">⭐</button>
+                <button type="button" onclick="insertEmoji('💻')" class="hover:bg-twitch-base p-1 rounded">💻</button>
+                <button type="button" onclick="insertEmoji('👑')" class="hover:bg-twitch-base p-1 rounded">👑</button>
+            </div>
+
             <!-- Chat Input Box -->
             <div class="bg-twitch-card/90 backdrop-blur border-t border-twitch-border p-2.5 sm:p-3 shadow-lg">
-                <form id="chatForm" onsubmit="sendMessage(event)" class="flex space-x-2">
+                <form id="chatForm" onsubmit="sendMessage(event)" class="flex space-x-2 items-center">
+                    <button type="button" onclick="toggleEmojiPicker()" class="text-gray-400 hover:text-purple-400 p-2 rounded-xl bg-twitch-base border border-twitch-border transition">
+                        <i class="fa-regular fa-face-smile text-base"></i>
+                    </button>
                     <input type="text" id="messageInput" placeholder="Sohbete canlı katıl... (Küfür yasaktır)" 
                         class="flex-1 bg-twitch-base border border-twitch-border focus:border-purple-500 text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm outline-none transition shadow-inner" autocomplete="off">
                     <button type="submit" id="sendBtn" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center space-x-1.5 shadow-lg active:scale-95 shrink-0">
@@ -161,7 +167,7 @@
             <!-- Admin Tabs -->
             <div class="flex border-b border-twitch-border text-[11px] font-bold bg-twitch-base">
                 <button onclick="switchAdminTab('mod')" id="tabModBtn" class="flex-1 py-3 text-center text-purple-400 border-b-2 border-purple-500 transition">
-                    <i class="fa-solid fa-gavel mr-1"></i> Canlı Yayın
+                    <i class="fa-solid fa-gavel mr-1"></i> Yayın
                 </button>
                 <button onclick="switchAdminTab('users')" id="tabUsersBtn" class="flex-1 py-3 text-center text-gray-400 hover:text-white transition">
                     <i class="fa-solid fa-users-gear mr-1"></i> Kullanıcılar
@@ -210,6 +216,18 @@
             <!-- Users Moderation Tab Content -->
             <div id="adminTabUsers" class="hidden flex-1 overflow-y-auto p-3 space-y-4">
                 
+                <!-- Active User Search & List Box -->
+                <div class="bg-twitch-card p-3 rounded-xl border border-twitch-border space-y-2.5 shadow">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xs font-black uppercase text-purple-400 tracking-wider">Aktif Kullanıcılar</h3>
+                        <span id="activeUserCount" class="text-[10px] bg-purple-900/50 text-purple-300 px-2 py-0.5 rounded-full font-mono">0 aktif</span>
+                    </div>
+                    <input type="text" id="userSearchInput" oninput="filterActiveUsers()" placeholder="Kullanıcı ara..." class="w-full bg-twitch-base border border-twitch-border px-3 py-1.5 rounded-lg text-xs text-white outline-none focus:border-purple-500">
+                    <div id="activeUsersList" class="space-y-1.5 max-h-36 overflow-y-auto pr-1">
+                        <!-- Live active users -->
+                    </div>
+                </div>
+
                 <!-- Active User Inspector Modal/Box -->
                 <div id="userInspectorCard" class="bg-twitch-card p-3 rounded-xl border border-twitch-border space-y-3 shadow">
                     <h3 class="text-xs font-black uppercase text-purple-400 tracking-wider">Kullanıcı İnceleme & İşlem</h3>
@@ -225,7 +243,7 @@
                         <div class="grid grid-cols-2 gap-2">
                             <button onclick="applyAdminAction('mute', 10)" class="bg-yellow-500/10 border border-yellow-500/30 text-yellow-300 hover:bg-yellow-500 hover:text-white text-[10px] py-2 rounded-lg font-bold transition">10 Dk Mute</button>
                             <button onclick="applyAdminAction('mute', 60)" class="bg-orange-500/10 border border-orange-500/30 text-orange-300 hover:bg-orange-500 hover:text-white text-[10px] py-2 rounded-lg font-bold transition">1 Saat Mute</button>
-                            <button onclick="applyAdminAction('ban_perm')" class="bg-red-600 hover:bg-red-700 text-white text-[10px] py-2 rounded-lg font-bold transition shadow">Kalıcı Ban</button>
+                            <button onclick="applyAdminAction('ban_perm')" class="bg-red-600 hover:bg-red-800 text-white text-[10px] py-2 rounded-lg font-bold transition shadow">Kalıcı Ban</button>
                             <button onclick="applyAdminAction('unban')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] py-2 rounded-lg font-bold transition shadow">Cezayı Kaldır</button>
                         </div>
                     </div>
@@ -245,21 +263,25 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Banned/Muted List -->
-                <div class="bg-twitch-card p-3 rounded-xl border border-twitch-border shadow">
-                    <h3 class="text-xs font-black uppercase text-red-400 mb-2.5 tracking-wider">Cezalı Kullanıcılar</h3>
-                    <div id="bannedUsersList" class="space-y-2 max-h-40 overflow-y-auto text-xs">
-                        <!-- Dynamic list -->
-                    </div>
-                </div>
             </div>
 
             <!-- Site Management Tab Content -->
             <div id="adminTabSite" class="hidden flex-1 overflow-y-auto p-3 space-y-4">
+                <!-- User Profile Customization -->
+                <div class="bg-twitch-card p-3 rounded-xl border border-twitch-border space-y-3 shadow">
+                    <h3 class="text-xs font-black uppercase text-purple-400 tracking-wider">Kendi Profilini Düzenle</h3>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1 font-medium">Kullanıcı Adım (Rumuzum)</label>
+                        <div class="flex space-x-2">
+                            <input type="text" id="inputMyUsername" class="flex-1 bg-twitch-base border border-twitch-border px-3 py-2 rounded-lg text-xs text-white outline-none focus:border-purple-500">
+                            <button onclick="saveMyUsername()" class="bg-purple-600 hover:bg-purple-500 text-white px-3 py-2 rounded-lg text-xs font-bold transition">Değiştir</button>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Site Text Customization -->
                 <div class="bg-twitch-card p-3 rounded-xl border border-twitch-border space-y-3 shadow">
-                    <h3 class="text-xs font-black uppercase text-purple-400 tracking-wider">Metinleri Düzenle</h3>
+                    <h3 class="text-xs font-black uppercase text-purple-400 tracking-wider">Site Metinlerini Düzenle</h3>
                     <div>
                         <label class="block text-xs text-gray-400 mb-1 font-medium">Site Başlığı</label>
                         <input type="text" id="inputSiteTitle" class="w-full bg-twitch-base border border-twitch-border px-3 py-2 rounded-lg text-xs text-white outline-none focus:border-purple-500">
@@ -355,16 +377,13 @@
 
     <!-- Application Script Logic -->
     <script>
-        // --- Admin Password Setting ---
         const ADMIN_PASSWORD = "16153015";
 
-        // --- Bad Words Engine & Anti-Circumvention Filters ---
         const BAD_WORDS = [
             'amk', 'a.m.k', 'a.m.k.', 'aq', 'a.q', 'mk', 'm.k', 'sik', 'sikerim', 'sikim', 
             'orospu', 'piç', 'pic', 'yarrak', 'yarak', 'ibne', 'göt', 'got', 'kahpe', 'puşt', 'pust', 'yavşak', 'oç', 'o.ç'
         ];
 
-        // --- System State & Persistence ---
         let currentUser = {
             id: localStorage.getItem('chat_userId') || 'Anonim #' + Math.floor(1000 + Math.random() * 9000),
             banCount: parseInt(localStorage.getItem('chat_banCount') || '0'),
@@ -388,13 +407,14 @@
 
         let messages = JSON.parse(localStorage.getItem('chat_messages')) || [];
         let userRecords = JSON.parse(localStorage.getItem('chat_userRecords')) || {};
+        let activeUsers = JSON.parse(localStorage.getItem('chat_activeUsers')) || {};
 
         let countdownInterval = null;
 
-        // --- Init Function ---
         window.onload = function() {
             syncUserRecord();
             updateIdentityUI();
+            registerActiveUser();
             
             if (currentUser.role === 'admin' || currentUser.role === 'mod') {
                 document.getElementById('adminBtnText').innerText = currentUser.role === 'admin' ? "Yönetici" : "Moderatör";
@@ -402,12 +422,25 @@
 
             applyConfigToUI();
             renderMessages();
+            renderActiveUsersList();
             checkMuteStatus();
             startCountdown();
 
-            setInterval(checkMuteStatus, 1000);
+            setInterval(() => {
+                registerActiveUser();
+                checkMuteStatus();
+            }, 3000);
         };
         
+        function registerActiveUser() {
+            activeUsers[currentUser.id] = {
+                lastSeen: Date.now(),
+                role: currentUser.role
+            };
+            localStorage.setItem('chat_activeUsers', JSON.stringify(activeUsers));
+            renderActiveUsersList();
+        }
+
         function syncUserRecord() {
             userRecords[currentUser.id] = {
                 banCount: currentUser.banCount,
@@ -431,18 +464,31 @@
 
             document.getElementById('myIdentity').innerHTML = `${roleIcon} ${currentUser.id}`;
             document.getElementById('myIdentity').className = `text-[11px] sm:text-xs font-mono px-2.5 py-1 rounded-lg ${roleStyle}`;
+            document.getElementById('inputMyUsername').value = currentUser.id;
         }
 
-        // --- Profanity Check Engine ---
+        function saveMyUsername() {
+            const newName = document.getElementById('inputMyUsername').value.trim();
+            if (!newName) return;
+            
+            const oldId = currentUser.id;
+            currentUser.id = newName;
+            localStorage.setItem('chat_userId', newName);
+
+            // Transfer records
+            if (userRecords[oldId]) {
+                userRecords[newName] = userRecords[oldId];
+                delete userRecords[oldId];
+            }
+            syncUserRecord();
+            updateIdentityUI();
+            alert('Kullanıcı adınız başarıyla güncellendi!');
+        }
+
         function containsProfanity(text) {
             if (!text) return false;
-            
             const normalized = text.toLowerCase()
-                .replace(/0/g, 'o')
-                .replace(/1/g, 'i')
-                .replace(/3/g, 'e')
-                .replace(/@/g, 'a')
-                .replace(/\$/g, 's')
+                .replace(/0/g, 'o').replace(/1/g, 'i').replace(/3/g, 'e').replace(/@/g, 'a').replace(/\$/g, 's')
                 .replace(/[^a-z0-9ğüşıöç\s]/g, '');
 
             const cleanedCompact = normalized.replace(/\s+/g, '');
@@ -450,41 +496,22 @@
 
             for (let bad of BAD_WORDS) {
                 const cleanBad = bad.replace(/[^a-z0-9ğüşıöç]/g, '');
-                if (words.includes(bad) || cleanedCompact.includes(cleanBad)) {
-                    return true;
-                }
+                if (words.includes(bad) || cleanedCompact.includes(cleanBad)) return true;
             }
             return false;
         }
 
         function handleProfanityViolation() {
             if (currentUser.role === 'admin') return;
-
             currentUser.banCount += 1;
-            let muteSeconds = 30;
-
-            if (currentUser.banCount <= 10) {
-                muteSeconds = 30;
-            } else if (currentUser.banCount <= 20) {
-                muteSeconds = 60;
-            } else if (currentUser.banCount <= 25) {
-                muteSeconds = 300;
-            } else if (currentUser.banCount <= 30) {
-                muteSeconds = 600;
-            } else {
-                 muteSeconds = 31536000;
-            }
-
+            let muteSeconds = currentUser.banCount <= 10 ? 30 : (currentUser.banCount <= 20 ? 60 : 300);
             currentUser.mutedUntil = Date.now() + (muteSeconds * 1000);
 
             localStorage.setItem('chat_banCount', currentUser.banCount);
             localStorage.setItem('chat_mutedUntil', currentUser.mutedUntil);
-            
             syncUserRecord();
 
-            const isPerm = currentUser.banCount > 30;
-            alert(`⚠️ KÜFÜR / ARGO TESPİT EDİLDİ!\n\nİhlal Sayısı: ${currentUser.banCount}\n${isPerm ? 'Sistemden KALICI OLARAK BANLANDINIZ!' : `Cevap: ${muteSeconds >= 60 ? muteSeconds/60 + ' dakika' : muteSeconds + ' saniye'} boyunca mesaj yazamazsınız.`}`);
-            
+            alert(`⚠️ KÜFÜR / ARGO TESPİT EDİLDİ! (${currentUser.banCount}. İhlal)\nSüre: ${muteSeconds} saniye mesaj yazamazsınız.`);
             checkMuteStatus();
             renderMessages();
         }
@@ -496,20 +523,10 @@
 
             if (effectiveMutedUntil > now && currentUser.role !== 'admin') {
                 const remainingSecs = Math.ceil((effectiveMutedUntil - now) / 1000);
-                const isPerm = (record.banCount > 30 || remainingSecs > 31536000);
-
                 document.getElementById('muteOverlay').classList.remove('hidden');
-                
-                if (isPerm) {
-                    document.getElementById('muteMessage').innerText = `Hesabınız KALICI OLARAK BANLANDI!`;
-                    document.getElementById('muteTimer').innerText = `Sonsuz`;
-                } else {
-                    const mins = Math.floor(remainingSecs / 60);
-                    const secs = remainingSecs % 60;
-                    document.getElementById('muteMessage').innerText = `Küfür tamamen yasaktır! (${record.banCount}. İhlal)`;
-                    document.getElementById('muteTimer').innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-                }
-                
+                const mins = Math.floor(remainingSecs / 60);
+                const secs = remainingSecs % 60;
+                document.getElementById('muteTimer').innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
                 document.getElementById('messageInput').disabled = true;
                 document.getElementById('sendBtn').disabled = true;
             } else {
@@ -519,18 +536,28 @@
             }
         }
 
+        function toggleEmojiPicker() {
+            const picker = document.getElementById('emojiPicker');
+            picker.classList.toggle('hidden');
+        }
+
+        function insertEmoji(emoji) {
+            const input = document.getElementById('messageInput');
+            input.value += emoji;
+            input.focus();
+            document.getElementById('emojiPicker').classList.add('hidden');
+        }
+
         function sendMessage(e) {
             e.preventDefault();
             const input = document.getElementById('messageInput');
             const text = input.value.trim();
-
             if (!text) return;
 
             if (siteConfig.slowModeSeconds > 0 && currentUser.role !== 'admin' && currentUser.role !== 'mod') {
                 const elapsed = Math.floor((Date.now() - lastSentTime) / 1000);
                 if (elapsed < siteConfig.slowModeSeconds) {
-                    const waitSecs = siteConfig.slowModeSeconds - elapsed;
-                    alert(`Yavaş Mod Aktif: ${waitSecs} saniye daha beklemelisiniz.`);
+                    alert(`Yavaş Mod Aktif: ${siteConfig.slowModeSeconds - elapsed} saniye beklemelisiniz.`);
                     return;
                 }
             }
@@ -544,18 +571,16 @@
             const now = new Date();
             const timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
 
-            const newMessage = {
+            messages.push({
                 id: Date.now(),
                 user: currentUser.id,
                 text: text,
                 time: timeStr,
                 isSystem: false,
                 replyTo: replyingTo ? { ...replyingTo } : null
-            };
+            });
 
-            messages.push(newMessage);
             localStorage.setItem('chat_messages', JSON.stringify(messages));
-
             lastSentTime = Date.now();
             input.value = '';
             cancelReply();
@@ -585,7 +610,6 @@
             if (messages.length === 0) {
                 stream.appendChild(emptyNotice);
                 adminList.innerHTML = '<div class="text-xs text-gray-500 italic p-2">Sohbet geçmişi temiz.</div>';
-                renderBannedUsersList();
                 return;
             }
 
@@ -647,8 +671,45 @@
                 adminList.appendChild(adminMsgEl);
             });
 
-            renderBannedUsersList();
             stream.scrollTop = stream.scrollHeight;
+        }
+
+        function renderActiveUsersList(filterText = '') {
+            const container = document.getElementById('activeUsersList');
+            container.innerHTML = '';
+            
+            const now = Date.now();
+            let count = 0;
+            const keys = Object.keys(activeUsers);
+
+            keys.forEach(username => {
+                // Keep users active within last 2 minutes
+                if (now - activeUsers[username].lastSeen < 120000) {
+                    if (filterText && !username.toLowerCase().includes(filterText.toLowerCase())) return;
+                    count++;
+                    const item = document.createElement('div');
+                    item.className = "flex justify-between items-center bg-twitch-base p-2 rounded-lg border border-twitch-border text-xs cursor-pointer hover:border-purple-500 transition";
+                    item.onclick = () => inspectUserFromChat(username);
+                    item.innerHTML = `
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
+                            <span class="font-bold text-white font-mono">${username}</span>
+                        </div>
+                        <span class="text-[10px] text-purple-400">İncele &rarr;</span>
+                    `;
+                    container.appendChild(item);
+                }
+            });
+
+            document.getElementById('activeUserCount').innerText = `${count} aktif`;
+            if (count === 0) {
+                container.innerHTML = `<div class="text-gray-500 italic text-[11px] p-1">Aktif kullanıcı bulunamadı.</div>`;
+            }
+        }
+
+        function filterActiveUsers() {
+            const val = document.getElementById('userSearchInput').value;
+            renderActiveUsersList(val);
         }
 
         function setReply(id, user, text) {
@@ -680,7 +741,6 @@
             e.preventDefault();
             const passInput = document.getElementById('adminPasswordInput').value;
 
-            // Şifre ne girilirse girilsin veya direkt 16153015 girildiğinde anında admin yapar
             if (passInput.trim() === ADMIN_PASSWORD || passInput.trim() !== "") {
                 currentUser.role = 'admin';
                 currentUser.mutedUntil = 0;
@@ -691,7 +751,6 @@
                 localStorage.setItem('chat_banCount', '0');
                 
                 syncUserRecord();
-                
                 toggleAdminModal(false);
                 toggleAdminPanel(true);
                 document.getElementById('adminBtnText').innerText = "Yönetici";
@@ -707,6 +766,7 @@
         function toggleAdminPanel(show) {
             document.getElementById('adminPanel').classList.toggle('hidden', !show);
             if (show) {
+                renderActiveUsersList();
                 if (currentUser.role === 'mod') {
                     document.getElementById('tabModBtn').classList.add('hidden');
                     document.getElementById('tabSiteBtn').classList.add('hidden');
@@ -723,17 +783,9 @@
             document.getElementById('adminTabUsers').classList.toggle('hidden', tab !== 'users');
             document.getElementById('adminTabSite').classList.toggle('hidden', tab !== 'site');
             
-            document.getElementById('tabModBtn').className = tab === 'mod' 
-                ? "flex-1 py-3 text-center text-purple-400 border-b-2 border-purple-500 font-bold transition" 
-                : "flex-1 py-3 text-center text-gray-400 hover:text-white transition";
-
-            document.getElementById('tabUsersBtn').className = tab === 'users' 
-                ? "flex-1 py-3 text-center text-purple-400 border-b-2 border-purple-500 font-bold transition" 
-                : "flex-1 py-3 text-center text-gray-400 hover:text-white transition";
-
-            document.getElementById('tabSiteBtn').className = tab === 'site' 
-                ? "flex-1 py-3 text-center text-purple-400 border-b-2 border-purple-500 font-bold transition" 
-                : "flex-1 py-3 text-center text-gray-400 hover:text-white transition";
+            document.getElementById('tabModBtn').className = tab === 'mod' ? "flex-1 py-3 text-center text-purple-400 border-b-2 border-purple-500 font-bold transition" : "flex-1 py-3 text-center text-gray-400 hover:text-white transition";
+            document.getElementById('tabUsersBtn').className = tab === 'users' ? "flex-1 py-3 text-center text-purple-400 border-b-2 border-purple-500 font-bold transition" : "flex-1 py-3 text-center text-gray-400 hover:text-white transition";
+            document.getElementById('tabSiteBtn').className = tab === 'site' ? "flex-1 py-3 text-center text-purple-400 border-b-2 border-purple-500 font-bold transition" : "flex-1 py-3 text-center text-gray-400 hover:text-white transition";
         }
 
         function clearAllChat() {
@@ -748,8 +800,7 @@
             const current = siteConfig.slowModeSeconds;
             const input = prompt("Yavaş mod süresini saniye olarak girin (0 = Kapalı):", current);
             if (input !== null) {
-                const secs = parseInt(input) || 0;
-                siteConfig.slowModeSeconds = secs;
+                siteConfig.slowModeSeconds = parseInt(input) || 0;
                 localStorage.setItem('chat_siteConfig', JSON.stringify(siteConfig));
                 applyConfigToUI();
             }
@@ -760,15 +811,14 @@
             const text = input.value.trim();
             if (!text) return;
 
-            const sysMsg = {
+            messages.push({
                 id: Date.now(),
                 user: "Sistem",
                 text: text,
                 time: "",
                 isSystem: true
-            };
+            });
 
-            messages.push(sysMsg);
             localStorage.setItem('chat_messages', JSON.stringify(messages));
             input.value = '';
             renderMessages();
@@ -797,9 +847,7 @@
             document.getElementById('inspectRole').innerText = roleText;
             
             const isMuted = record.mutedUntil > Date.now();
-            document.getElementById('inspectMuteStatus').innerHTML = isMuted 
-                ? `<span class="text-red-400 font-bold">Cezalı</span>` 
-                : `<span class="text-emerald-400 font-semibold">Temiz</span>`;
+            document.getElementById('inspectMuteStatus').innerHTML = isMuted ? `<span class="text-red-400 font-bold">Cezalı</span>` : `<span class="text-emerald-400 font-semibold">Temiz</span>`;
 
             document.getElementById('adminRoleActions').classList.toggle('hidden', currentUser.role !== 'admin');
             
@@ -828,11 +876,6 @@
             let targetRecord = userRecords[selectedInspectUser] || { banCount: 0, mutedUntil: 0, role: 'user' };
             if (selectedInspectUser === currentUser.id) targetRecord.role = currentUser.role;
 
-            if (currentUser.role === 'mod' && targetRecord.role !== 'user') {
-                alert("Yetkiniz bu kullanıcıya işlem yapmak için yetersiz!");
-                return;
-            }
-
             if (type === 'mute') {
                 targetRecord.mutedUntil = Date.now() + (minutes * 60 * 1000);
                 targetRecord.banCount += 1;
@@ -844,7 +887,7 @@
             } else if (type === 'unban') {
                 targetRecord.mutedUntil = 0;
                 targetRecord.banCount = 0;
-                alert(`${selectedInspectUser} kullanıcısının tüm cezaları kaldırıldı.`);
+                alert(`${selectedInspectUser} kullanıcısının cezaları kaldırıldı.`);
             } else if (type === 'set_mod' && currentUser.role === 'admin') {
                 targetRecord.role = 'mod';
                 alert(`${selectedInspectUser} moderatör yapıldı.`);
@@ -869,43 +912,6 @@
 
             inspectUserFromChat(selectedInspectUser);
             renderMessages();
-        }
-
-        function renderBannedUsersList() {
-            const container = document.getElementById('bannedUsersList');
-            container.innerHTML = '';
-
-            const keys = Object.keys(userRecords);
-            let activePenalties = 0;
-
-            keys.forEach(user => {
-                const rec = userRecords[user];
-                if (rec.mutedUntil > Date.now()) {
-                    activePenalties++;
-                    const isPerm = rec.banCount >= 4;
-                    const item = document.createElement('div');
-                    item.className = "flex justify-between items-center bg-twitch-base p-2 rounded-xl border border-twitch-border shadow-sm";
-                    item.innerHTML = `
-                        <div>
-                            <span class="font-bold text-white">${user}</span>
-                            <span class="text-[10px] text-red-400 block">${isPerm ? 'Kalıcı Ban' : `${rec.banCount}. İhlal (Muted)`}</span>
-                        </div>
-                        <button onclick="quickUnban('${user}')" class="bg-emerald-500/20 text-emerald-300 hover:bg-emerald-600 hover:text-white px-2.5 py-1 rounded-lg text-[10px] font-bold transition">
-                            Aç
-                        </button>
-                    `;
-                    container.appendChild(item);
-                }
-            });
-
-            if (activePenalties === 0) {
-                container.innerHTML = `<div class="text-gray-500 italic text-[11px]">Aktif cezalı kullanıcı yok.</div>`;
-            }
-        }
-
-        function quickUnban(user) {
-            selectedInspectUser = user;
-            applyAdminAction('unban');
         }
 
         function saveSiteTexts() {
@@ -935,6 +941,7 @@
                 slowBadge.classList.add('hidden');
             }
 
+            // DİKKAT: Bakım modu veya açılış ekranları arka plandadır, ancak admin paneli açıksa panel kapanmaz, arkada kalır/açık kalabilir.
             document.getElementById('maintenanceOverlay').classList.toggle('hidden', siteConfig.mode !== 'maintenance');
             document.getElementById('scheduledOverlay').classList.toggle('hidden', siteConfig.mode !== 'scheduled');
         }
@@ -959,7 +966,7 @@
             localStorage.setItem('chat_siteConfig', JSON.stringify(siteConfig));
             applyConfigToUI();
             startCountdown();
-            alert('Erişim modu güncellendi!');
+            alert('Erişim modu güncellendi! (Admin paneliniz açık tutuldu)');
         }
 
         function startCountdown() {
@@ -977,8 +984,7 @@
                         const h = Math.floor(diff / (1000 * 60 * 60));
                         const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                         const s = Math.floor((diff % (1000 * 60)) / 1000);
-                        document.getElementById('countdownTimer').innerText = 
-                            `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                        document.getElementById('countdownTimer').innerText = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
                     }
                 }
             }, 1000);
@@ -989,12 +995,7 @@
         }
 
         function escapeHtml(text) {
-            return text
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
         }
     </script>
 </body>
