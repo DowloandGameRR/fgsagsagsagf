@@ -64,7 +64,7 @@
     <div id="topBanner" class="bg-red-600/90 border-b border-red-500 text-white px-4 py-2 flex items-center justify-between shadow-md z-20 transition-all">
         <div class="flex items-center space-x-2 text-xs sm:text-sm font-semibold tracking-wide">
             <i class="fa-solid fa-triangle-exclamation animate-bounce text-yellow-300"></i>
-            <span id="bannerText">Küfür and hakaret kesinlikle yasaktır! Küfür eden kullanıcılar kademeli olarak engellenir.</span>
+            <span id="bannerText">Küfür ve hakaret kesinlikle yasaktır! Küfür eden kullanıcılar kademeli olarak engellenir.</span>
         </div>
         <button onclick="dismissBanner()" class="text-white/80 hover:text-white text-xs px-2 py-1 rounded bg-black/20">
             <i class="fa-solid fa-xmark"></i>
@@ -155,7 +155,7 @@
                 </button>
             </div>
 
-                    <!-- Admin Tabs -->
+            <!-- Admin Tabs -->
             <div class="flex border-b border-twitch-border text-[11px] font-semibold bg-twitch-base">
                 <button onclick="switchAdminTab('mod')" id="tabModBtn" class="flex-1 py-2.5 text-center text-twitch-accent border-b-2 border-twitch-accent">
                     <i class="fa-solid fa-gavel mr-1"></i> Canlı Yayın
@@ -351,16 +351,8 @@
 
     <!-- Application Script Logic -->
     <script>
-        // --- Security SHA-256 Hasher for Password Validation ("16153015") ---
-        const ADMIN_PASS_SHA256 = "c2378f8cbcfdc592f6d2fbe5c57b988f913d80d22bd4b6e50772fbefed7cbcc1";
-
-        async function sha256(message) {
-            const msgUint8 = new TextEncoder().encode(message);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-            return hashHex;
-        }
+        // --- Admin Password Setting ---
+        const ADMIN_PASSWORD = "16153015";
 
         // --- Bad Words Engine & Anti-Circumvention Filters ---
         const BAD_WORDS = [
@@ -384,7 +376,7 @@
         let siteConfig = JSON.parse(localStorage.getItem('chat_siteConfig')) || {
             title: "Anonim Chat Odası",
             subtitle: "Özgürce ve saygılı bir şekilde sohbet edin",
-            banner: "Küfür and hakaret kesinlikle yasaktır! Küfür eden kullanıcılar kademeli olarak engellenir.",
+            banner: "Küfür ve hakaret kesinlikle yasaktır! Küfür eden kullanıcılar kademeli olarak engellenir.",
             mode: "normal",
             scheduledTime: null,
             slowModeSeconds: 0
@@ -680,38 +672,31 @@
             document.getElementById('adminLoginModal').classList.toggle('hidden', !show);
         }
 
-        async function loginAdmin(e) {
+        function loginAdmin(e) {
             e.preventDefault();
             const passInput = document.getElementById('adminPasswordInput').value;
             if (!passInput) return;
-            
-            try {
-                const hashedInput = await sha256(passInput);
 
-                if (hashedInput.toLowerCase() === ADMIN_PASS_SHA256.toLowerCase()) {
-                    currentUser.role = 'admin';
-                    currentUser.mutedUntil = 0;
-                    currentUser.banCount = 0;
-                    
-                    localStorage.setItem('chat_userRole', 'admin');
-                    localStorage.setItem('chat_mutedUntil', '0');
-                    localStorage.setItem('chat_banCount', '0');
-                    
-                    syncUserRecord();
-                    
-                    toggleAdminModal(false);
-                    toggleAdminPanel(true);
-                    document.getElementById('adminBtnText').innerText = "Yönetici";
-                    document.getElementById('adminPasswordInput').value = '';
-                    updateIdentityUI();
-                    renderMessages();
-                    checkMuteStatus();
-                } else {
-                    alert('Hatalı Yönetici Şifresi!');
-                }
-            } catch (err) {
-                console.error("Şifre doğrulama hatası:", err);
-                alert("Giriş yapılırken bir hata oluştu.");
+            if (passInput.trim() === ADMIN_PASSWORD) {
+                currentUser.role = 'admin';
+                currentUser.mutedUntil = 0;
+                currentUser.banCount = 0;
+                
+                localStorage.setItem('chat_userRole', 'admin');
+                localStorage.setItem('chat_mutedUntil', '0');
+                localStorage.setItem('chat_banCount', '0');
+                
+                syncUserRecord();
+                
+                toggleAdminModal(false);
+                toggleAdminPanel(true);
+                document.getElementById('adminBtnText').innerText = "Yönetici";
+                document.getElementById('adminPasswordInput').value = '';
+                updateIdentityUI();
+                renderMessages();
+                checkMuteStatus();
+            } else {
+                alert('Hatalı Yönetici Şifresi!');
             }
         }
 
