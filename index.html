@@ -54,7 +54,6 @@
         window.dbRemove = remove;
         window.dbUpdate = update;
         
-        // Dispatch custom event when firebase is ready
         window.dispatchEvent(new Event('firebase-ready'));
     </script>
     <style>
@@ -499,7 +498,6 @@
         };
 
         function initFirebaseListeners() {
-            // Messages sync
             const msgsRef = window.dbRef(window.db, 'messages');
             window.dbOnValue(msgsRef, (snapshot) => {
                 const data = snapshot.val();
@@ -507,7 +505,6 @@
                 renderMessages();
             });
 
-            // Users sync
             const usersRef = window.dbRef(window.db, 'users');
             window.dbOnValue(usersRef, (snapshot) => {
                 const data = snapshot.val();
@@ -515,7 +512,6 @@
                 renderActiveUsersList();
             });
 
-            // Config sync
             const configRef = window.dbRef(window.db, 'config');
             window.dbOnValue(configRef, (snapshot) => {
                 const data = snapshot.val();
