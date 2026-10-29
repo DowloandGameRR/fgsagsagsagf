@@ -64,7 +64,7 @@
     <div id="topBanner" class="bg-red-600/90 border-b border-red-500 text-white px-4 py-2 flex items-center justify-between shadow-md z-20 transition-all">
         <div class="flex items-center space-x-2 text-xs sm:text-sm font-semibold tracking-wide">
             <i class="fa-solid fa-triangle-exclamation animate-bounce text-yellow-300"></i>
-            <span id="bannerText">Küfür ve hakaret kesinlikle yasaktır! Küfür eden kullanıcılar kademeli olarak engellenir.</span>
+            <span id="bannerText">Küfür and hakaret kesinlikle yasaktır! Küfür eden kullanıcılar kademeli olarak engellenir.</span>
         </div>
         <button onclick="dismissBanner()" class="text-white/80 hover:text-white text-xs px-2 py-1 rounded bg-black/20">
             <i class="fa-solid fa-xmark"></i>
@@ -351,9 +351,7 @@
 
     <!-- Application Script Logic -->
     <script>
-        // --- Security SHA-256 Hasher for Password Validation ---
-        // Plain text password is NEVER stored or displayed in code or UI.
-        // SHA-256 hash for password "16153015"
+        // --- Security SHA-256 Hasher for Password Validation ("16153015") ---
         const ADMIN_PASS_SHA256 = "c2378f8cbcfdc592f6d2fbe5c57b988f913d80d22bd4b6e50772fbefed7cbcc1";
 
         async function sha256(message) {
@@ -386,15 +384,14 @@
         let siteConfig = JSON.parse(localStorage.getItem('chat_siteConfig')) || {
             title: "Anonim Chat Odası",
             subtitle: "Özgürce ve saygılı bir şekilde sohbet edin",
-            banner: "Küfür ve hakaret kesinlikle yasaktır! Küfür eden kullanıcılar kademeli olarak engellenir.",
+            banner: "Küfür and hakaret kesinlikle yasaktır! Küfür eden kullanıcılar kademeli olarak engellenir.",
             mode: "normal",
             scheduledTime: null,
             slowModeSeconds: 0
         };
 
-        // ZERO Fake Messages on start
         let messages = JSON.parse(localStorage.getItem('chat_messages')) || [];
-        let userRecords = JSON.parse(localStorage.getItem('chat_userRecords')) || {}; // Stores user punishment states
+        let userRecords = JSON.parse(localStorage.getItem('chat_userRecords')) || {};
 
         let countdownInterval = null;
 
@@ -444,22 +441,19 @@
         function containsProfanity(text) {
             if (!text) return false;
             
-            // Normalize text (lower case, replace leetspeak/symbols)
             const normalized = text.toLowerCase()
                 .replace(/0/g, 'o')
                 .replace(/1/g, 'i')
                 .replace(/3/g, 'e')
                 .replace(/@/g, 'a')
                 .replace(/\$/g, 's')
-                .replace(/[^a-z0-9ğüşıöç\s]/g, ''); // strip punctuation for strict check
+                .replace(/[^a-z0-9ğüşıöç\s]/g, '');
 
             const cleanedCompact = normalized.replace(/\s+/g, '');
             const words = text.toLowerCase().split(/\s+/);
 
             for (let bad of BAD_WORDS) {
                 const cleanBad = bad.replace(/[^a-z0-9ğüşıöç]/g, '');
-                
-                // Word match or compact string match
                 if (words.includes(bad) || cleanedCompact.includes(cleanBad)) {
                     return true;
                 }
@@ -467,7 +461,6 @@
             return false;
         }
 
-        // --- Progressive Mute/Ban Penalty System ---
         function handleProfanityViolation() {
             if (currentUser.role === 'admin') return;
 
@@ -479,16 +472,15 @@
             } else if (currentUser.banCount <= 20) {
                 muteSeconds = 60;
             } else if (currentUser.banCount <= 25) {
-                muteSeconds = 300; // 5 mins
+                muteSeconds = 300;
             } else if (currentUser.banCount <= 30) {
-                muteSeconds = 600; // 10 mins
+                muteSeconds = 600;
             } else {
-                 muteSeconds = 31536000; // Perm Ban
+                 muteSeconds = 31536000;
             }
 
             currentUser.mutedUntil = Date.now() + (muteSeconds * 1000);
 
-            // Record user state
             localStorage.setItem('chat_banCount', currentUser.banCount);
             localStorage.setItem('chat_mutedUntil', currentUser.mutedUntil);
             
@@ -531,7 +523,6 @@
             }
         }
 
-        // --- Chat Form & Operations ---
         function sendMessage(e) {
             e.preventDefault();
             const input = document.getElementById('messageInput');
@@ -539,7 +530,6 @@
 
             if (!text) return;
 
-            // Slow mode check
             if (siteConfig.slowModeSeconds > 0 && currentUser.role !== 'admin' && currentUser.role !== 'mod') {
                 const elapsed = Math.floor((Date.now() - lastSentTime) / 1000);
                 if (elapsed < siteConfig.slowModeSeconds) {
@@ -549,7 +539,6 @@
                 }
             }
 
-            // Profanity Filter Check
             if (currentUser.role !== 'admin' && containsProfanity(text)) {
                 input.value = '';
                 handleProfanityViolation();
@@ -608,7 +597,6 @@
                 const isMe = msg.user === currentUser.id;
                 
                 if (msg.isSystem) {
-                    // Render Official System Broadcast Message
                     const sysEl = document.createElement('div');
                     sysEl.className = "my-2 text-center";
                     sysEl.innerHTML = `
@@ -621,7 +609,6 @@
                     return;
                 }
 
-                // Construct Main Chat Message
                 const msgEl = document.createElement('div');
                 msgEl.className = `flex flex-col group ${isMe ? 'items-end' : 'items-start'}`;
 
@@ -650,7 +637,6 @@
                 `;
                 stream.appendChild(msgEl);
 
-                // Admin Feed Item
                 const adminMsgEl = document.createElement('div');
                 adminMsgEl.className = "p-2 bg-twitch-base rounded border border-twitch-border flex justify-between items-center text-xs";
                 adminMsgEl.innerHTML = `
@@ -666,12 +652,9 @@
             });
 
             renderBannedUsersList();
-
-            // Auto scroll stream to bottom
             stream.scrollTop = stream.scrollHeight;
         }
 
-        // --- Reply Functionality ---
         function setReply(id, user, text) {
             replyingTo = { id, user, text };
             document.getElementById('replyTargetUser').innerText = user;
@@ -685,7 +668,6 @@
             document.getElementById('replyBar').classList.add('hidden');
         }
 
-        // --- Admin Authentication (Secure Hash - Password Hidden) ---
         function handleAdminButtonClick() {
             if (currentUser.role === 'admin' || currentUser.role === 'mod') {
                 toggleAdminPanel(true);
@@ -708,7 +690,13 @@
 
                 if (hashedInput.toLowerCase() === ADMIN_PASS_SHA256.toLowerCase()) {
                     currentUser.role = 'admin';
+                    currentUser.mutedUntil = 0;
+                    currentUser.banCount = 0;
+                    
                     localStorage.setItem('chat_userRole', 'admin');
+                    localStorage.setItem('chat_mutedUntil', '0');
+                    localStorage.setItem('chat_banCount', '0');
+                    
                     syncUserRecord();
                     
                     toggleAdminModal(false);
@@ -717,6 +705,7 @@
                     document.getElementById('adminPasswordInput').value = '';
                     updateIdentityUI();
                     renderMessages();
+                    checkMuteStatus();
                 } else {
                     alert('Hatalı Yönetici Şifresi!');
                 }
@@ -758,7 +747,6 @@
                 : "flex-1 py-2.5 text-center text-gray-400 hover:text-white";
         }
 
-        // --- Admin Actions & Moderation Tools ---
         function clearAllChat() {
             if (confirm("Tüm sohbet geçmişini silmek istediğinize emin misiniz?")) {
                 messages = [];
@@ -824,10 +812,8 @@
                 ? `<span class="text-red-400 font-bold">Cezalı</span>` 
                 : `<span class="text-green-400">Temiz</span>`;
 
-            // Admin only actions visibility
             document.getElementById('adminRoleActions').classList.toggle('hidden', currentUser.role !== 'admin');
             
-            // Populate history
             const histContainer = document.getElementById('inspectHistory');
             histContainer.innerHTML = '';
             const userHistory = messages.filter(m => m.user === username);
@@ -853,7 +839,6 @@
             let targetRecord = userRecords[selectedInspectUser] || { banCount: 0, mutedUntil: 0, role: 'user' };
             if (selectedInspectUser === currentUser.id) targetRecord.role = currentUser.role;
 
-            // Mod restriction
             if (currentUser.role === 'mod' && targetRecord.role !== 'user') {
                 alert("Yetkiniz bu kullanıcıya işlem yapmak için yetersiz!");
                 return;
@@ -865,7 +850,7 @@
                 alert(`${selectedInspectUser} kullanıcısına ${minutes} dakika mute atıldı.`);
             } else if (type === 'ban_perm') {
                 targetRecord.mutedUntil = Date.now() + (52560000 * 60 * 1000);
-                targetRecord.banCount = 31; // Ensures it passes the 30 check for perm ban string
+                targetRecord.banCount = 31;
                 alert(`${selectedInspectUser} kullanıcısı kalıcı olarak BANLANDI.`);
             } else if (type === 'unban') {
                 targetRecord.mutedUntil = 0;
@@ -882,7 +867,6 @@
             userRecords[selectedInspectUser] = targetRecord;
             localStorage.setItem('chat_userRecords', JSON.stringify(userRecords));
 
-            // Sync if inspecting current self
             if (selectedInspectUser === currentUser.id) {
                 currentUser.banCount = targetRecord.banCount;
                 currentUser.mutedUntil = targetRecord.mutedUntil;
@@ -935,7 +919,6 @@
             applyAdminAction('unban');
         }
 
-        // --- Site Mode & Customization Engine ---
         function saveSiteTexts() {
             siteConfig.title = document.getElementById('inputSiteTitle').value || siteConfig.title;
             siteConfig.subtitle = document.getElementById('inputSiteSubtitle').value || siteConfig.subtitle;
@@ -955,7 +938,6 @@
             document.getElementById('inputSiteSubtitle').value = siteConfig.subtitle;
             document.getElementById('inputBannerText').value = siteConfig.banner;
 
-            // Slow mode badge
             const slowBadge = document.getElementById('slowModeBadge');
             if (siteConfig.slowModeSeconds > 0) {
                 slowBadge.classList.remove('hidden');
@@ -964,7 +946,6 @@
                 slowBadge.classList.add('hidden');
             }
 
-            // Site Mode Overlays
             document.getElementById('maintenanceOverlay').classList.toggle('hidden', siteConfig.mode !== 'maintenance');
             document.getElementById('scheduledOverlay').classList.toggle('hidden', siteConfig.mode !== 'scheduled');
         }
