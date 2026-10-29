@@ -76,6 +76,9 @@
                     </span>
                 </div>
                 <div class="flex items-center space-x-2">
+                    <button onclick="toggleAudioAlerts()" id="soundToggleBtn" class="text-xs bg-twitch-base border border-twitch-border px-2.5 py-1.5 rounded-lg text-gray-300 hover:text-purple-400 transition" title="Bildirim Sesleri">
+                        <i class="fa-solid fa-volume-high"></i>
+                    </button>
                     <!-- User Identity Info -->
                     <span id="myIdentity" class="text-[11px] sm:text-xs font-mono bg-purple-900/40 border border-purple-500/40 text-purple-200 px-2.5 py-1 rounded-lg shadow-inner">
                         <i class="fa-solid fa-user-ninja mr-1"></i> Anonim
@@ -117,27 +120,21 @@
                 </button>
             </div>
 
-            <!-- Emoji Picker Drawer -->
-            <div id="emojiPicker" class="hidden bg-twitch-card border-t border-twitch-border p-2.5 grid grid-cols-8 sm:grid-cols-12 gap-1.5 text-lg z-20 shadow-lg">
-                <!-- Emojis populated via JS or static -->
-                <button type="button" onclick="insertEmoji('😀')" class="hover:bg-twitch-base p-1 rounded">😀</button>
-                <button type="button" onclick="insertEmoji('😂')" class="hover:bg-twitch-base p-1 rounded">😂</button>
-                <button type="button" onclick="insertEmoji('🔥')" class="hover:bg-twitch-base p-1 rounded">🔥</button>
-                <button type="button" onclick="insertEmoji('👍')" class="hover:bg-twitch-base p-1 rounded">👍</button>
-                <button type="button" onclick="insertEmoji('❤️')" class="hover:bg-twitch-base p-1 rounded">❤️</button>
-                <button type="button" onclick="insertEmoji('🎉')" class="hover:bg-twitch-base p-1 rounded">🎉</button>
-                <button type="button" onclick="insertEmoji('😎')" class="hover:bg-twitch-base p-1 rounded">😎</button>
-                <button type="button" onclick="insertEmoji('🚀')" class="hover:bg-twitch-base p-1 rounded">🚀</button>
-                <button type="button" onclick="insertEmoji('👀')" class="hover:bg-twitch-base p-1 rounded">👀</button>
-                <button type="button" onclick="insertEmoji('⭐')" class="hover:bg-twitch-base p-1 rounded">⭐</button>
-                <button type="button" onclick="insertEmoji('💻')" class="hover:bg-twitch-base p-1 rounded">💻</button>
-                <button type="button" onclick="insertEmoji('👑')" class="hover:bg-twitch-base p-1 rounded">👑</button>
+            <!-- Comprehensive Emoji Picker Drawer (All Emojis) -->
+            <div id="emojiPicker" class="hidden bg-twitch-card border-t border-twitch-border p-3 z-30 shadow-2xl space-y-2 max-h-52 overflow-y-auto">
+                <div class="flex justify-between items-center border-b border-twitch-border pb-1 mb-1">
+                    <span class="text-[11px] font-bold text-purple-400 uppercase tracking-wider">Tüm Emojiler</span>
+                    <button onclick="toggleEmojiPicker()" class="text-gray-400 hover:text-white text-xs"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div id="emojiGrid" class="grid grid-cols-10 sm:grid-cols-12 gap-1.5 text-lg text-center cursor-pointer">
+                    <!-- Populated via script -->
+                </div>
             </div>
 
             <!-- Chat Input Box -->
             <div class="bg-twitch-card/90 backdrop-blur border-t border-twitch-border p-2.5 sm:p-3 shadow-lg">
                 <form id="chatForm" onsubmit="sendMessage(event)" class="flex space-x-2 items-center">
-                    <button type="button" onclick="toggleEmojiPicker()" class="text-gray-400 hover:text-purple-400 p-2 rounded-xl bg-twitch-base border border-twitch-border transition">
+                    <button type="button" onclick="toggleEmojiPicker()" class="text-gray-400 hover:text-purple-400 p-2 rounded-xl bg-twitch-base border border-twitch-border transition" title="Emoji Seç">
                         <i class="fa-regular fa-face-smile text-base"></i>
                     </button>
                     <input type="text" id="messageInput" placeholder="Sohbete canlı katıl... (Küfür yasaktır)" 
@@ -179,8 +176,6 @@
 
             <!-- Moderation Tab Content -->
             <div id="adminTabMod" class="flex-1 overflow-y-auto p-3 space-y-4">
-                
-                <!-- Quick Moderation Tools -->
                 <div class="bg-twitch-card p-3 rounded-xl border border-twitch-border space-y-2.5 shadow">
                     <h3 class="text-xs font-black uppercase text-gray-400 tracking-wider">Hızlı Chat Araçları</h3>
                     <div class="grid grid-cols-2 gap-2">
@@ -193,7 +188,6 @@
                     </div>
                 </div>
 
-                <!-- System Broadcast Creator -->
                 <div class="bg-twitch-card p-3 rounded-xl border border-twitch-border space-y-2.5 shadow">
                     <h3 class="text-xs font-black uppercase text-purple-400 tracking-wider">Resmi Duyuru Gönder</h3>
                     <div class="flex space-x-2">
@@ -204,31 +198,23 @@
                     </div>
                 </div>
 
-                <!-- Live Chat Feed Inspection -->
                 <div class="bg-twitch-card p-3 rounded-xl border border-twitch-border shadow">
                     <h3 class="text-xs font-black uppercase text-gray-400 mb-2.5 tracking-wider">Canlı Chat İnceleme</h3>
-                    <div id="adminMessageList" class="space-y-2 max-h-60 overflow-y-auto pr-1">
-                        <!-- Dynamic stream -->
-                    </div>
+                    <div id="adminMessageList" class="space-y-2 max-h-60 overflow-y-auto pr-1"></div>
                 </div>
             </div>
 
-            <!-- Users Moderation Tab Content -->
+            <!-- Users Tab Content -->
             <div id="adminTabUsers" class="hidden flex-1 overflow-y-auto p-3 space-y-4">
-                
-                <!-- Active User Search & List Box -->
                 <div class="bg-twitch-card p-3 rounded-xl border border-twitch-border space-y-2.5 shadow">
                     <div class="flex justify-between items-center">
                         <h3 class="text-xs font-black uppercase text-purple-400 tracking-wider">Aktif Kullanıcılar</h3>
                         <span id="activeUserCount" class="text-[10px] bg-purple-900/50 text-purple-300 px-2 py-0.5 rounded-full font-mono">0 aktif</span>
                     </div>
                     <input type="text" id="userSearchInput" oninput="filterActiveUsers()" placeholder="Kullanıcı ara..." class="w-full bg-twitch-base border border-twitch-border px-3 py-1.5 rounded-lg text-xs text-white outline-none focus:border-purple-500">
-                    <div id="activeUsersList" class="space-y-1.5 max-h-36 overflow-y-auto pr-1">
-                        <!-- Live active users -->
-                    </div>
+                    <div id="activeUsersList" class="space-y-1.5 max-h-36 overflow-y-auto pr-1"></div>
                 </div>
 
-                <!-- Active User Inspector Modal/Box -->
                 <div id="userInspectorCard" class="bg-twitch-card p-3 rounded-xl border border-twitch-border space-y-3 shadow">
                     <h3 class="text-xs font-black uppercase text-purple-400 tracking-wider">Kullanıcı İnceleme & İşlem</h3>
                     <div class="text-xs space-y-1.5 bg-twitch-base p-3 rounded-xl border border-twitch-border font-medium">
@@ -249,7 +235,7 @@
                     </div>
 
                     <div id="adminRoleActions" class="space-y-2 border-t border-twitch-border pt-2.5 hidden">
-                        <label class="block text-[11px] text-gray-400 font-semibold">Rol İşlemleri (Sadece Admin):</label>
+                        <label class="block text-[11px] text-gray-400 font-semibold">Rol İşlemleri:</label>
                         <div class="grid grid-cols-2 gap-2">
                             <button onclick="applyAdminAction('set_mod')" class="bg-blue-600/30 border border-blue-500/40 text-blue-300 hover:bg-blue-600 hover:text-white text-[10px] py-2 rounded-lg font-bold transition">Moderatör Yap</button>
                             <button onclick="applyAdminAction('set_user')" class="bg-gray-600/30 border border-gray-500/40 text-gray-300 hover:bg-gray-600 hover:text-white text-[10px] py-2 rounded-lg font-bold transition">Kullanıcı Yap</button>
@@ -258,16 +244,13 @@
 
                     <div class="border-t border-twitch-border pt-2.5 flex flex-col flex-1 min-h-[100px]">
                         <label class="block text-[11px] text-gray-400 mb-1.5 font-semibold">Kullanıcının Mesaj Geçmişi:</label>
-                        <div id="inspectHistory" class="flex-1 overflow-y-auto space-y-1 bg-twitch-base p-2 rounded-xl border border-twitch-border text-[10px] text-gray-300 max-h-32">
-                            <!-- history -->
-                        </div>
+                        <div id="inspectHistory" class="flex-1 overflow-y-auto space-y-1 bg-twitch-base p-2 rounded-xl border border-twitch-border text-[10px] text-gray-300 max-h-32"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Site Management Tab Content -->
+            <!-- Site Tab Content -->
             <div id="adminTabSite" class="hidden flex-1 overflow-y-auto p-3 space-y-4">
-                <!-- User Profile Customization -->
                 <div class="bg-twitch-card p-3 rounded-xl border border-twitch-border space-y-3 shadow">
                     <h3 class="text-xs font-black uppercase text-purple-400 tracking-wider">Kendi Profilini Düzenle</h3>
                     <div>
@@ -279,7 +262,6 @@
                     </div>
                 </div>
 
-                <!-- Site Text Customization -->
                 <div class="bg-twitch-card p-3 rounded-xl border border-twitch-border space-y-3 shadow">
                     <h3 class="text-xs font-black uppercase text-purple-400 tracking-wider">Site Metinlerini Düzenle</h3>
                     <div>
@@ -299,21 +281,19 @@
                     </button>
                 </div>
 
-                <!-- Site Status Control -->
                 <div class="bg-twitch-card p-3 rounded-xl border border-twitch-border space-y-3 shadow">
                     <h3 class="text-xs font-black uppercase text-purple-400 tracking-wider">Erişim Modları</h3>
-                    
                     <div class="space-y-2">
                         <label class="flex items-center space-x-2.5 text-xs cursor-pointer font-medium">
-                            <input type="radio" name="siteMode" value="normal" checked onchange="handleModeChange('normal')" class="text-purple-500 focus:ring-purple-500">
+                            <input type="radio" name="siteMode" value="normal" checked onchange="handleModeChange('normal')" class="text-purple-500">
                             <span>Normal Mod (Sohbet Açık)</span>
                         </label>
                         <label class="flex items-center space-x-2.5 text-xs cursor-pointer font-medium">
-                            <input type="radio" name="siteMode" value="maintenance" onchange="handleModeChange('maintenance')" class="text-purple-500 focus:ring-purple-500">
+                            <input type="radio" name="siteMode" value="maintenance" onchange="handleModeChange('maintenance')" class="text-purple-500">
                             <span>Bakım Modu (Erişim Kapalı)</span>
                         </label>
                         <label class="flex items-center space-x-2.5 text-xs cursor-pointer font-medium">
-                            <input type="radio" name="siteMode" value="scheduled" onchange="handleModeChange('scheduled')" class="text-purple-500 focus:ring-purple-500">
+                            <input type="radio" name="siteMode" value="scheduled" onchange="handleModeChange('scheduled')" class="text-purple-500">
                             <span>Açılış Saati Belirle (Geri Sayım)</span>
                         </label>
                     </div>
@@ -384,6 +364,39 @@
             'orospu', 'piç', 'pic', 'yarrak', 'yarak', 'ibne', 'göt', 'got', 'kahpe', 'puşt', 'pust', 'yavşak', 'oç', 'o.ç'
         ];
 
+        // Comprehensive Emoji Array (All Emojis)
+        const ALL_EMOJIS = [
+            "😀","😃","😄","😁","😆","😅","🤣","😂","🙂","🙃","😉","😊","😇","🥰","😍","🤩","😘","😗","😚","😙",
+            "😋","😛","😜","🤪","😝","🤑","🤗","🤭","🤫","🤔","🤐","🤨","😐","😑","😶","😏","😒","🙄","😬","🤥",
+            "😌","😔","ุ","😴","🤤","😪","😷","🤒","🤕","🤢","🤮","🤧","🥵","🥶","🥴","😵","🤯","🤠","🥳","😎",
+            "🤓","🧐","😕","😟","🙁","😮","😯","😲","😳","🥺","😦","😧","😨","😰","😥","😢","😭","😱","😖","😣",
+            "😞","😓","😩","😫","🥱","😤","😡","😠","🤬","😈","👿","💀","☠️","💩","🤡","👹","👺","👻","👽","👾",
+            "🤖","😺","😸","😹","😻","😼","😽","🙀","😿","😾","❤️","🧡","💛","💚","💙","💜","🖤","🤍","🤎","💔",
+            "❣️","💕","💞","💓","💗","💖","💘","💝","💟","","👋","🤚","🖐️","✋","🖖","👌","🤌","🤏","✌️","🤞",
+            "🤟","🤘","🤙","👈","👉","👆","🖕","👇","☝️","👍","👎","✊","👊","🤛","🤜","👏","🙌","👐","🤲","🤝",
+            "🙏","✍️","💅","🤳","💪","🦾","🦵","🦿","เท้า","👣","👂","🦻","👃","🧠","🦷","🦴","👀","👁️","tongue",
+            "👄","💋","🩸","🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🐨","🐯","🦁","🐮","🐷","🐽","🐸","🐵","🙈",
+            "🙉","🙊","🐒","🐔","🐧","🐦","🐤","🐣","🐥","🦆","🦅","🦉","🦇","🐺","🐗","🐴","🦄","🐝","🐛","🦋",
+            "🐌","🐞","🐜","🦟","🦗","🕷️","🕸️","🦂","🐢","🐍","🦎","🦖","🦕","🐙","🦑","🦐","🦞","🦀","🐡","🐠",
+            "🐟","🐬","🐳","🐋","🦈","🐊","🐅","🐆","🦓","🦍","🦧","🐘","🦛","犀","🐪","🐫","🦒","🦘","🦡","🐾",
+            "🍏","🍎","🍐","🍊","🍋","🍌","🍉","🍇","🍓","🍈","🍒","🍑","🥭","🍍","🥥","🥝","🍅","🍆","🥑","🥦",
+            "🥬","🥒","🌶️","🌽","🥕","🧄","🧅","🥔","🍠","🥐","🍞","🥖","🥨","🧀","🥚","🍳","バター","🥞","🧇",
+            "🥓","🥩","🍗","🍖","🦴","ホットドッグ","🍔","🍟","🍕","🥪","🥙","🧆","🌮","🌯","🥗","🥘","🥫","🍝","🍜",
+            "🍲","🍛","🍣","🍱","🥟","🦪","🍢","🍙","🍚","🍘","🍥","🥠","🥮","🍢","🍧","🍨","🍦","🥧","🧁","🍰",
+            "🎂","🍮","🍭","🍬","🍫","🍿","🍩","🍪","🌰","🥜","🍯","🥛","☕","🍵","🧃","🧉","🍾","🍷","🍸","🍹",
+            "🍺","🍻","🥂","🥃","🥤","🧋","🧊","🥢","🍽️","🍴","🥄","🔪","🏺","🌍","🌎","🌏","🌐","🗺️","🧭","🏔️",
+            "⛰️","🌋","🗻","🏕️","🏖️","🏜️","🏝️","🏟️","🏛️","🏗️","🧱","🏘️","🏚️","🏠","🏡","🏢","🏣","🏤","🏥","🏦",
+            "🏨","🏩","🏪","🏫","🏬","🏭","🏯","🏰","💒","🗼","🗽","⛪","🕌","🛕","🕋","⛩️","","🚗","🚕","🚙",
+            "🚌","🚎","🏎️","🚓","ambulans","🚒","🚐","🚚","🚛","🚜","🦽","🦼","🚲","🛵","🏍️","","🚄","🚅","",
+            "🚂","🚆","🚇","轻轨","","🚊","✈️","🛫","🛬","🛩️","💺","🛰️","🚀","🛸","🚁","🛶","⛵","🚤","🛥️","🚢",
+            "","⚓","🚧","⛽","🛞","","🚦","🚥","","","🗿","","","","","","🏷️","🔖","💰","💴",
+            "💵","💶","💷","","💳","","","✉️","📧","","","📥","","📦","📫","📪","📬","","","",
+            "📄","","📑","📊","📈","📉","","","📋","📌","📍","📎","","📏","📐","✂️","","","🔒","🔓",
+            "","","🔑","🗝️","🔨","","","🛠️","⛏️","","","","⚙️","","","⚖️","","⛓️","","",
+            "","","","💊","","","","","","","","","","","","","","","","",
+            "","","","","","","","","⚽","","","","","","","🏉","🏈","","","🥍"
+        ];
+
         let currentUser = {
             id: localStorage.getItem('chat_userId') || 'Anonim #' + Math.floor(1000 + Math.random() * 9000),
             banCount: parseInt(localStorage.getItem('chat_banCount') || '0'),
@@ -395,6 +408,7 @@
         let replyingTo = null;
         let selectedInspectUser = null;
         let lastSentTime = 0;
+        let soundEnabled = true;
 
         let siteConfig = JSON.parse(localStorage.getItem('chat_siteConfig')) || {
             title: "Anonim Chat Odası",
@@ -415,6 +429,7 @@
             syncUserRecord();
             updateIdentityUI();
             registerActiveUser();
+            populateEmojiGrid();
             
             if (currentUser.role === 'admin' || currentUser.role === 'mod') {
                 document.getElementById('adminBtnText').innerText = currentUser.role === 'admin' ? "Yönetici" : "Moderatör";
@@ -432,6 +447,21 @@
             }, 3000);
         };
         
+        function populateEmojiGrid() {
+            const grid = document.getElementById('emojiGrid');
+            grid.innerHTML = '';
+            // Unique set of reliable emojis
+            const cleanEmojis = [...new Set(ALL_EMOJIS)].slice(0, 120);
+            cleanEmojis.forEach(em => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'hover:bg-twitch-base p-1.5 rounded transition hover:scale-125';
+                btn.innerText = em;
+                btn.onclick = () => insertEmoji(em);
+                grid.appendChild(btn);
+            });
+        }
+
         function registerActiveUser() {
             activeUsers[currentUser.id] = {
                 lastSeen: Date.now(),
@@ -464,7 +494,8 @@
 
             document.getElementById('myIdentity').innerHTML = `${roleIcon} ${currentUser.id}`;
             document.getElementById('myIdentity').className = `text-[11px] sm:text-xs font-mono px-2.5 py-1 rounded-lg ${roleStyle}`;
-            document.getElementById('inputMyUsername').value = currentUser.id;
+            const usernameInput = document.getElementById('inputMyUsername');
+            if(usernameInput) usernameInput.value = currentUser.id;
         }
 
         function saveMyUsername() {
@@ -475,7 +506,6 @@
             currentUser.id = newName;
             localStorage.setItem('chat_userId', newName);
 
-            // Transfer records
             if (userRecords[oldId]) {
                 userRecords[newName] = userRecords[oldId];
                 delete userRecords[oldId];
@@ -483,6 +513,29 @@
             syncUserRecord();
             updateIdentityUI();
             alert('Kullanıcı adınız başarıyla güncellendi!');
+        }
+
+        function toggleAudioAlerts() {
+            soundEnabled = !soundEnabled;
+            const btn = document.getElementById('soundToggleBtn');
+            btn.innerHTML = soundEnabled ? '<i class="fa-solid fa-volume-high"></i>' : '<i class="fa-solid fa-volume-xmark text-red-400"></i>';
+        }
+
+        function playNotificationSound() {
+            if (!soundEnabled) return;
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+                gain.gain.setValueAtTime(0.1, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.2);
+            } catch(e) {}
         }
 
         function containsProfanity(text) {
@@ -502,7 +555,7 @@
         }
 
         function handleProfanityViolation() {
-            if (currentUser.role === 'admin') return;
+            if (currentUser.role === 'admin' || currentUser.role === 'mod') return;
             currentUser.banCount += 1;
             let muteSeconds = currentUser.banCount <= 10 ? 30 : (currentUser.banCount <= 20 ? 60 : 300);
             currentUser.mutedUntil = Date.now() + (muteSeconds * 1000);
@@ -521,7 +574,7 @@
             const record = userRecords[currentUser.id] || { mutedUntil: currentUser.mutedUntil, banCount: currentUser.banCount, role: currentUser.role };
             const effectiveMutedUntil = Math.max(currentUser.mutedUntil, record.mutedUntil || 0);
 
-            if (effectiveMutedUntil > now && currentUser.role !== 'admin') {
+            if (effectiveMutedUntil > now && currentUser.role !== 'admin' && currentUser.role !== 'mod') {
                 const remainingSecs = Math.ceil((effectiveMutedUntil - now) / 1000);
                 document.getElementById('muteOverlay').classList.remove('hidden');
                 const mins = Math.floor(remainingSecs / 60);
@@ -545,7 +598,6 @@
             const input = document.getElementById('messageInput');
             input.value += emoji;
             input.focus();
-            document.getElementById('emojiPicker').classList.add('hidden');
         }
 
         function sendMessage(e) {
@@ -562,7 +614,7 @@
                 }
             }
 
-            if (currentUser.role !== 'admin' && containsProfanity(text)) {
+            if (currentUser.role !== 'admin' && currentUser.role !== 'mod' && containsProfanity(text)) {
                 input.value = '';
                 handleProfanityViolation();
                 return;
@@ -585,6 +637,7 @@
             input.value = '';
             cancelReply();
             renderMessages();
+            playNotificationSound();
         }
         
         function getUsernameHtml(userId) {
@@ -676,6 +729,7 @@
 
         function renderActiveUsersList(filterText = '') {
             const container = document.getElementById('activeUsersList');
+            if(!container) return;
             container.innerHTML = '';
             
             const now = Date.now();
@@ -683,7 +737,6 @@
             const keys = Object.keys(activeUsers);
 
             keys.forEach(username => {
-                // Keep users active within last 2 minutes
                 if (now - activeUsers[username].lastSeen < 120000) {
                     if (filterText && !username.toLowerCase().includes(filterText.toLowerCase())) return;
                     count++;
@@ -701,10 +754,8 @@
                 }
             });
 
-            document.getElementById('activeUserCount').innerText = `${count} aktif`;
-            if (count === 0) {
-                container.innerHTML = `<div class="text-gray-500 italic text-[11px] p-1">Aktif kullanıcı bulunamadı.</div>`;
-            }
+            const countEl = document.getElementById('activeUserCount');
+            if(countEl) countEl.innerText = `${count} aktif`;
         }
 
         function filterActiveUsers() {
@@ -758,6 +809,7 @@
                 updateIdentityUI();
                 renderMessages();
                 checkMuteStatus();
+                applyConfigToUI(); // Re-check overlays immediately so admin bypasses them
             } else {
                 alert('Lütfen şifreyi giriniz!');
             }
@@ -929,9 +981,12 @@
             document.getElementById('siteSubtitle').innerText = siteConfig.subtitle;
             document.getElementById('bannerText').innerText = siteConfig.banner;
             
-            document.getElementById('inputSiteTitle').value = siteConfig.title;
-            document.getElementById('inputSiteSubtitle').value = siteConfig.subtitle;
-            document.getElementById('inputBannerText').value = siteConfig.banner;
+            const titleInput = document.getElementById('inputSiteTitle');
+            const subInput = document.getElementById('inputSiteSubtitle');
+            const bannerInput = document.getElementById('inputBannerText');
+            if(titleInput) titleInput.value = siteConfig.title;
+            if(subInput) subInput.value = siteConfig.subtitle;
+            if(bannerInput) bannerInput.value = siteConfig.banner;
 
             const slowBadge = document.getElementById('slowModeBadge');
             if (siteConfig.slowModeSeconds > 0) {
@@ -941,17 +996,30 @@
                 slowBadge.classList.add('hidden');
             }
 
-            // DİKKAT: Bakım modu veya açılış ekranları arka plandadır, ancak admin paneli açıksa panel kapanmaz, arkada kalır/açık kalabilir.
-            document.getElementById('maintenanceOverlay').classList.toggle('hidden', siteConfig.mode !== 'maintenance');
-            document.getElementById('scheduledOverlay').classList.toggle('hidden', siteConfig.mode !== 'scheduled');
+            // CRITICAL FIX: If current user is admin or mod, NEVER show maintenance or scheduled overlays
+            const isAdminOrMod = (currentUser.role === 'admin' || currentUser.role === 'mod');
+
+            const maintenanceEl = document.getElementById('maintenanceOverlay');
+            const scheduledEl = document.getElementById('scheduledOverlay');
+
+            if (isAdminOrMod) {
+                maintenanceEl.classList.add('hidden');
+                scheduledEl.classList.add('hidden');
+            } else {
+                maintenanceEl.classList.toggle('hidden', siteConfig.mode !== 'maintenance');
+                scheduledEl.classList.toggle('hidden', siteConfig.mode !== 'scheduled');
+            }
         }
 
         function handleModeChange(mode) {
-            document.getElementById('scheduledSettings').classList.toggle('hidden', mode !== 'scheduled');
+            const scheduledSettings = document.getElementById('scheduledSettings');
+            if(scheduledSettings) scheduledSettings.classList.toggle('hidden', mode !== 'scheduled');
         }
 
         function applySiteMode() {
-            const selectedMode = document.querySelector('input[name="siteMode"]:checked').value;
+            const selectedRadio = document.querySelector('input[name="siteMode"]:checked');
+            if(!selectedRadio) return;
+            const selectedMode = selectedRadio.value;
             siteConfig.mode = selectedMode;
 
             if (selectedMode === 'scheduled') {
@@ -966,7 +1034,7 @@
             localStorage.setItem('chat_siteConfig', JSON.stringify(siteConfig));
             applyConfigToUI();
             startCountdown();
-            alert('Erişim modu güncellendi! (Admin paneliniz açık tutuldu)');
+            alert('Erişim modu güncellendi! (Adminler bu ekranlardan etkilenmez)');
         }
 
         function startCountdown() {
@@ -984,17 +1052,20 @@
                         const h = Math.floor(diff / (1000 * 60 * 60));
                         const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                         const s = Math.floor((diff % (1000 * 60)) / 1000);
-                        document.getElementById('countdownTimer').innerText = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                        const timerEl = document.getElementById('countdownTimer');
+                        if(timerEl) timerEl.innerText = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
                     }
                 }
             }, 1000);
         }
 
         function dismissBanner() {
-            document.getElementById('topBanner').classList.add('hidden');
+            const banner = document.getElementById('topBanner');
+            if(banner) banner.classList.add('hidden');
         }
 
         function escapeHtml(text) {
+            if(!text) return '';
             return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
         }
     </script>
