@@ -34,6 +34,7 @@
         ::-webkit-scrollbar-thumb { background: #a855f7; border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: #9333ea; }
         
+        /* Rainbow Animation for Admins */
         .rainbow-text {
             background-image: linear-gradient(90deg, #ff007f, #ff7f00, #ffff00, #00ff7f, #00ffff, #7f00ff, #ff007f);
             -webkit-background-clip: text;
@@ -42,6 +43,26 @@
             animation: rainbow 3s linear infinite;
         }
         @keyframes rainbow { to { background-position: 200% center; } }
+
+        .rainbow-bubble {
+            background: linear-gradient(135deg, rgba(255, 0, 127, 0.15), rgba(127, 0, 255, 0.15));
+            border: 2px solid transparent;
+            border-image: linear-gradient(90deg, #ff007f, #ff7f00, #00ff7f, #00ffff, #7f00ff) 1;
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.2);
+        }
+
+        /* Gold Styling for Moderators */
+        .gold-text {
+            color: #fbbf24;
+            font-weight: 800;
+            text-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
+        }
+
+        .gold-bubble {
+            background: rgba(251, 191, 36, 0.08);
+            border: 1px solid rgba(251, 191, 36, 0.4);
+            box-shadow: 0 0 12px rgba(251, 191, 36, 0.15);
+        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-zinc-950 via-purple-950/20 to-zinc-950 text-gray-100 font-sans h-[100dvh] flex flex-col overflow-hidden">
@@ -120,15 +141,13 @@
                 </button>
             </div>
 
-            <!-- Comprehensive Emoji Picker Drawer (All Emojis) -->
+            <!-- Comprehensive Emoji Picker Drawer -->
             <div id="emojiPicker" class="hidden bg-twitch-card border-t border-twitch-border p-3 z-30 shadow-2xl space-y-2 max-h-52 overflow-y-auto">
                 <div class="flex justify-between items-center border-b border-twitch-border pb-1 mb-1">
                     <span class="text-[11px] font-bold text-purple-400 uppercase tracking-wider">Tüm Emojiler</span>
                     <button onclick="toggleEmojiPicker()" class="text-gray-400 hover:text-white text-xs"><i class="fa-solid fa-xmark"></i></button>
                 </div>
-                <div id="emojiGrid" class="grid grid-cols-10 sm:grid-cols-12 gap-1.5 text-lg text-center cursor-pointer">
-                    <!-- Populated via script -->
-                </div>
+                <div id="emojiGrid" class="grid grid-cols-10 sm:grid-cols-12 gap-1.5 text-lg text-center cursor-pointer"></div>
             </div>
 
             <!-- Chat Input Box -->
@@ -364,37 +383,22 @@
             'orospu', 'piç', 'pic', 'yarrak', 'yarak', 'ibne', 'göt', 'got', 'kahpe', 'puşt', 'pust', 'yavşak', 'oç', 'o.ç'
         ];
 
-        // Comprehensive Emoji Array (All Emojis)
         const ALL_EMOJIS = [
             "😀","😃","😄","😁","😆","😅","🤣","😂","🙂","🙃","😉","😊","😇","🥰","😍","🤩","😘","😗","😚","😙",
             "😋","😛","😜","🤪","😝","🤑","🤗","🤭","🤫","🤔","🤐","🤨","😐","😑","😶","😏","😒","🙄","😬","🤥",
-            "😌","😔","ุ","😴","🤤","😪","😷","🤒","🤕","🤢","🤮","🤧","🥵","🥶","🥴","😵","🤯","🤠","🥳","😎",
+            "😌","😔","😴","🤤","😪","😷","🤒","🤕","🤢","🤮","🤧","🥵","🥶","🥴","😵","🤯","🤠","🥳","😎",
             "🤓","🧐","😕","😟","🙁","😮","😯","😲","😳","🥺","😦","😧","😨","😰","😥","😢","😭","😱","😖","😣",
             "😞","😓","😩","😫","🥱","😤","😡","😠","🤬","😈","👿","💀","☠️","💩","🤡","👹","👺","👻","👽","👾",
             "🤖","😺","😸","😹","😻","😼","😽","🙀","😿","😾","❤️","🧡","💛","💚","💙","💜","🖤","🤍","🤎","💔",
-            "❣️","💕","💞","💓","💗","💖","💘","💝","💟","","👋","🤚","🖐️","✋","🖖","👌","🤌","🤏","✌️","🤞",
+            "❣️","💕","💞","💓","💗","💖","💘","💝","💟","👋","🤚","🖐️","✋","🖖","👌","🤌","🤏","✌️","🤞",
             "🤟","🤘","🤙","👈","👉","👆","🖕","👇","☝️","👍","👎","✊","👊","🤛","🤜","👏","🙌","👐","🤲","🤝",
-            "🙏","✍️","💅","🤳","💪","🦾","🦵","🦿","เท้า","👣","👂","🦻","👃","🧠","🦷","🦴","👀","👁️","tongue",
-            "👄","💋","🩸","🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🐨","🐯","🦁","🐮","🐷","🐽","🐸","🐵","🙈",
-            "🙉","🙊","🐒","🐔","🐧","🐦","🐤","🐣","🐥","🦆","🦅","🦉","🦇","🐺","🐗","🐴","🦄","🐝","🐛","🦋",
-            "🐌","🐞","🐜","🦟","🦗","🕷️","🕸️","🦂","🐢","🐍","🦎","🦖","🦕","🐙","🦑","🦐","🦞","🦀","🐡","🐠",
-            "🐟","🐬","🐳","🐋","🦈","🐊","🐅","🐆","🦓","🦍","🦧","🐘","🦛","犀","🐪","🐫","🦒","🦘","🦡","🐾",
+            "🙏","✍️","💅","🤳","💪","🦾","🦵","🦿","👣","👂","🦻","👃","🧠","🦷","🦴","👀","👁️","👄","💋","🩸",
+            "🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🐨","🐯","🦁","🐮","🐷","🐽","🐸","🐵","🙈","🙉","🙊","🐒",
+            "🐔","🐧","🐦","🐤","🐣","🐥","🦆","🦅","🦉","🦇","🐺","🐗","🐴","🦄","🐝","🐛","🦋","🐌","🐞","🐜",
             "🍏","🍎","🍐","🍊","🍋","🍌","🍉","🍇","🍓","🍈","🍒","🍑","🥭","🍍","🥥","🥝","🍅","🍆","🥑","🥦",
-            "🥬","🥒","🌶️","🌽","🥕","🧄","🧅","🥔","🍠","🥐","🍞","🥖","🥨","🧀","🥚","🍳","バター","🥞","🧇",
-            "🥓","🥩","🍗","🍖","🦴","ホットドッグ","🍔","🍟","🍕","🥪","🥙","🧆","🌮","🌯","🥗","🥘","🥫","🍝","🍜",
-            "🍲","🍛","🍣","🍱","🥟","🦪","🍢","🍙","🍚","🍘","🍥","🥠","🥮","🍢","🍧","🍨","🍦","🥧","🧁","🍰",
-            "🎂","🍮","🍭","🍬","🍫","🍿","🍩","🍪","🌰","🥜","🍯","🥛","☕","🍵","🧃","🧉","🍾","🍷","🍸","🍹",
-            "🍺","🍻","🥂","🥃","🥤","🧋","🧊","🥢","🍽️","🍴","🥄","🔪","🏺","🌍","🌎","🌏","🌐","🗺️","🧭","🏔️",
-            "⛰️","🌋","🗻","🏕️","🏖️","🏜️","🏝️","🏟️","🏛️","🏗️","🧱","🏘️","🏚️","🏠","🏡","🏢","🏣","🏤","🏥","🏦",
-            "🏨","🏩","🏪","🏫","🏬","🏭","🏯","🏰","💒","🗼","🗽","⛪","🕌","🛕","🕋","⛩️","","🚗","🚕","🚙",
-            "🚌","🚎","🏎️","🚓","ambulans","🚒","🚐","🚚","🚛","🚜","🦽","🦼","🚲","🛵","🏍️","","🚄","🚅","",
-            "🚂","🚆","🚇","轻轨","","🚊","✈️","🛫","🛬","🛩️","💺","🛰️","🚀","🛸","🚁","🛶","⛵","🚤","🛥️","🚢",
-            "","⚓","🚧","⛽","🛞","","🚦","🚥","","","🗿","","","","","","🏷️","🔖","💰","💴",
-            "💵","💶","💷","","💳","","","✉️","📧","","","📥","","📦","📫","📪","📬","","","",
-            "📄","","📑","📊","📈","📉","","","📋","📌","📍","📎","","📏","📐","✂️","","","🔒","🔓",
-            "","","🔑","🗝️","🔨","","","🛠️","⛏️","","","","⚙️","","","⚖️","","⛓️","","",
-            "","","","💊","","","","","","","","","","","","","","","","",
-            "","","","","","","","","⚽","","","","","","","🏉","🏈","","","🥍"
+            "🥐","🍞","🥖","🥨","🧀","🥚","🍳","🥞","🧇","🥓","🥩","🍗","🍖","🍔","🍟","🍕","🥪","🥙","🌮","🌯",
+            "🥗","🥘","🥫","🍝","🍜","🍲","🍛","🍣","🍱","🥟","🍢","🍙","🍚","🍘","🍥","🍧","🍨","🍦","🧁","🍰",
+            "🎂","🍮","🍭","🍬","🍫","🍿","🍩","🍪","🌰","🥜","🍯","🥛","☕","🍵","🍾","🍷","🍸","🍹","🍺","🍻"
         ];
 
         let currentUser = {
@@ -413,7 +417,7 @@
         let siteConfig = JSON.parse(localStorage.getItem('chat_siteConfig')) || {
             title: "Anonim Chat Odası",
             subtitle: "Özgürce ve canlı bir şekilde sohbet edin",
-            banner: "Canlı Sohbet Odasına Hoş Geldiniz! Küfür ve hakaret kesinlikle yasaktır.",
+            banner: "Canlı Sohbet Odasına Hoş Geldiniz! Küfür and hakaret kesinlikle yasaktır.",
             mode: "normal",
             scheduledTime: null,
             slowModeSeconds: 0
@@ -449,9 +453,9 @@
         
         function populateEmojiGrid() {
             const grid = document.getElementById('emojiGrid');
+            if(!grid) return;
             grid.innerHTML = '';
-            // Unique set of reliable emojis
-            const cleanEmojis = [...new Set(ALL_EMOJIS)].slice(0, 120);
+            const cleanEmojis = [...new Set(ALL_EMOJIS)];
             cleanEmojis.forEach(em => {
                 const btn = document.createElement('button');
                 btn.type = 'button';
@@ -478,6 +482,13 @@
                 role: currentUser.role
             };
             localStorage.setItem('chat_userRecords', JSON.stringify(userRecords));
+        }
+
+        function getUserRole(userId) {
+            const rec = userRecords[userId];
+            if (rec && rec.role) return rec.role;
+            if (userId === currentUser.id) return currentUser.role;
+            return 'user';
         }
 
         function updateIdentityUI() {
@@ -528,7 +539,7 @@
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+                osc.frequency.setValueAtTime(587.33, ctx.currentTime);
                 gain.gain.setValueAtTime(0.1, ctx.currentTime);
                 gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
                 osc.connect(gain);
@@ -641,13 +652,12 @@
         }
         
         function getUsernameHtml(userId) {
-            const record = userRecords[userId] || {};
-            const role = record.role || (userId === currentUser.id ? currentUser.role : 'user');
+            const role = getUserRole(userId);
             
             if (role === 'admin') {
                 return `<span class="rainbow-text font-extrabold cursor-pointer" onclick="inspectUserFromChat('${userId}')">${userId}</span>`;
             } else if (role === 'mod') {
-                return `<span class="text-yellow-400 font-bold cursor-pointer" onclick="inspectUserFromChat('${userId}')">${userId}</span>`;
+                return `<span class="gold-text cursor-pointer" onclick="inspectUserFromChat('${userId}')">${userId}</span>`;
             }
             return `<span class="font-bold text-gray-300 cursor-pointer hover:underline" onclick="inspectUserFromChat('${userId}')">${userId}</span>`;
         }
@@ -668,6 +678,7 @@
 
             messages.forEach(msg => {
                 const isMe = msg.user === currentUser.id;
+                const role = getUserRole(msg.user);
                 
                 if (msg.isSystem) {
                     const sysEl = document.createElement('div');
@@ -680,6 +691,14 @@
                     `;
                     stream.appendChild(sysEl);
                     return;
+                }
+
+                // Bubble styling based on role
+                let bubbleClass = "bg-twitch-card border border-twitch-border";
+                if (role === 'admin') {
+                    bubbleClass = "rainbow-bubble";
+                } else if (role === 'mod') {
+                    bubbleClass = "gold-bubble";
                 }
 
                 const msgEl = document.createElement('div');
@@ -700,7 +719,7 @@
                         <span class="text-[10px] text-gray-500">${msg.time}</span>
                     </div>
                     ${replyBlock}
-                    <div class="relative group/msg max-w-[85%] sm:max-w-md bg-twitch-card border border-twitch-border p-3 rounded-2xl text-xs sm:text-sm text-gray-100 shadow-md">
+                    <div class="relative group/msg max-w-[85%] sm:max-w-md ${bubbleClass} p-3 rounded-2xl text-xs sm:text-sm text-gray-100 shadow-md">
                         ${escapeHtml(msg.text)}
                         <button onclick="setReply(${msg.id}, '${msg.user}', '${escapeHtml(msg.text)}')" 
                             class="opacity-0 group-hover/msg:opacity-100 transition-opacity absolute right-2 -top-3 bg-twitch-sidebar border border-twitch-border hover:bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs shadow-lg">
@@ -740,13 +759,16 @@
                 if (now - activeUsers[username].lastSeen < 120000) {
                     if (filterText && !username.toLowerCase().includes(filterText.toLowerCase())) return;
                     count++;
+                    const role = getUserRole(username);
+                    let badgeText = role === 'admin' ? '<span class="text-[10px] text-pink-400 font-bold ml-1">(Admin)</span>' : (role === 'mod' ? '<span class="text-[10px] text-yellow-400 font-bold ml-1">(Mod)</span>' : '');
+
                     const item = document.createElement('div');
                     item.className = "flex justify-between items-center bg-twitch-base p-2 rounded-lg border border-twitch-border text-xs cursor-pointer hover:border-purple-500 transition";
                     item.onclick = () => inspectUserFromChat(username);
                     item.innerHTML = `
                         <div class="flex items-center space-x-2">
                             <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
-                            <span class="font-bold text-white font-mono">${username}</span>
+                            <span class="font-bold text-white font-mono">${username} ${badgeText}</span>
                         </div>
                         <span class="text-[10px] text-purple-400">İncele &rarr;</span>
                     `;
@@ -809,7 +831,7 @@
                 updateIdentityUI();
                 renderMessages();
                 checkMuteStatus();
-                applyConfigToUI(); // Re-check overlays immediately so admin bypasses them
+                applyConfigToUI();
             } else {
                 alert('Lütfen şifreyi giriniz!');
             }
@@ -964,6 +986,7 @@
 
             inspectUserFromChat(selectedInspectUser);
             renderMessages();
+            renderActiveUsersList();
         }
 
         function saveSiteTexts() {
@@ -996,9 +1019,7 @@
                 slowBadge.classList.add('hidden');
             }
 
-            // CRITICAL FIX: If current user is admin or mod, NEVER show maintenance or scheduled overlays
             const isAdminOrMod = (currentUser.role === 'admin' || currentUser.role === 'mod');
-
             const maintenanceEl = document.getElementById('maintenanceOverlay');
             const scheduledEl = document.getElementById('scheduledOverlay');
 
