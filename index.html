@@ -353,7 +353,8 @@
     <script>
         // --- Security SHA-256 Hasher for Password Validation ---
         // Plain text password is NEVER stored or displayed in code or UI.
-        const ADMIN_PASS_SHA256 = "9d375bb6912bcff1d2f7a9344ed7ff74ef82e705b060d4dbeab296cc379e4ea2";
+        // SHA-256 hash for password "16153015"
+        const ADMIN_PASS_SHA256 = "c2378f8cbcfdc592f6d2fbe5c57b988f913d80d22bd4b6e50772fbefed7cbcc1";
 
         async function sha256(message) {
             const msgUint8 = new TextEncoder().encode(message);
