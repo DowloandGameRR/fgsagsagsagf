@@ -193,13 +193,28 @@ body.noreact .tools [data-x],body.noreact .rx{display:none}
 .hw{display:flex;gap:6px}.hw s{width:10px;height:10px;border-radius:50%;background:#fff;animation:bk 1s infinite}.hw s:nth-child(2){animation-delay:.2s}.hw s:nth-child(3){animation-delay:.4s}
 .hbar{position:fixed;left:50%;top:calc(10px + env(safe-area-inset-top));transform:translateX(-50%);z-index:95;display:flex;gap:10px;align-items:center;background:#7d0d0d;border:1px solid var(--rd);color:#fff;border-radius:99px;padding:6px 8px 6px 14px;font-size:14px;font-weight:600;box-shadow:0 8px 24px #000a;animation:pop .3s;white-space:nowrap}
 body.lite .halt::before{animation:none;opacity:.5}body.lite .hin>i{animation:none}
+/* ===== v6 ===== */
+.av .ai,.pav .ai{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;border-radius:inherit}
+.pav{overflow:hidden}
+.pst{grid-template-columns:repeat(6,1fr)}.pst>div{grid-column:span 2}.pst>div:nth-child(n+4){grid-column:span 3}.pst>div[data-fl]{cursor:pointer;transition:outline-color .2s;outline:1px solid transparent}.pst>div[data-fl]:hover{outline-color:var(--ac)}
+.pfl{display:flex;gap:6px;flex-wrap:wrap;max-height:90px;overflow:auto}
+.badge{position:absolute;top:-4px;right:-4px;min-width:17px;height:17px;border-radius:9px;background:var(--rd);color:#fff;font:700 11px/17px var(--b);text-align:center;padding:0 4px;animation:pop .3s}.badge.st{position:static;flex:none}
+.tabs button{font-size:13px;padding:11px 2px}
+.dmc{width:min(100%,400px);height:min(76vh,600px);display:flex;flex-direction:column;background:var(--sf);border:1px solid var(--ln);border-radius:20px;animation:pop .3s;overflow:hidden}.dmc .ph{gap:8px}.dmc .ph h3{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dml{flex:1;overflow:auto;padding:10px;display:flex;flex-direction:column;gap:6px}.dmh{font:800 13px var(--h);color:var(--mu);margin-top:8px}
+.dmi{display:flex;gap:10px;align-items:center;width:100%;text-align:left}.dmi .av{width:32px;height:32px;position:relative;flex:none}.dmt{flex:1;min-width:0;display:flex;flex-direction:column}.dmt small{color:var(--mu);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dmch{flex:1;display:flex;flex-direction:column;min-height:0}.dmm{flex:1;overflow:auto;padding:10px;display:flex;flex-direction:column;gap:6px}.dmm.adm{flex:none;max-height:280px;min-height:90px;background:var(--bg);border-radius:10px}
+.dmb{display:flex;flex-direction:column;max-width:82%;align-self:flex-start;gap:1px;animation:up .25s both}.dmb time,.dmb small{font-size:11px;color:var(--mu)}.dmb.mine,.dmb.r{align-self:flex-end;align-items:flex-end}.dmb.mine .bub,.dmb.r .bub{background:#2a4d3f;border-color:#3b7a62;border-radius:14px 3px 14px 14px}
+.dmf{display:flex;gap:8px;padding:10px;border-top:1px solid var(--ln)}.dmf input{flex:1}
+.dmn{padding:6px 12px;text-align:center;border-top:1px solid var(--ln)}
+#dmAdmList .li.on{outline:1px solid var(--ac)}
 </style>
 </head>
 <body>
 <div id="banner" class="banner info" hidden><i id="bnBar" class="bnbar"></i><i class="fa-solid fa-bullhorn"></i><span id="bnT"></span><button class="ib sm" id="bnX" aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button></div>
 <header class="top in">
  <div class="brand"><span id="dot" class="dot off"></span><div><h1 id="tTitle">Anonim Chat</h1><p id="tSub"></p></div></div>
- <div class="acts"><span id="onP" class="pill" hidden></span><span id="slowB" class="pill" hidden></span><button id="snd" class="ib" aria-label="Ses"><i class="fa-solid fa-volume-high"></i></button><button id="updB" class="ib" aria-label="Güncelleme notları"><i class="fa-solid fa-clipboard-list"></i><b id="updDot" class="udot" hidden></b></button><button id="me" class="pill me" title="Rumuzu değiştir"></button><button id="adm" class="btn"><i class="fa-solid fa-shield-halved"></i><span id="admT">Yönetici</span></button></div>
+ <div class="acts"><span id="onP" class="pill" hidden></span><span id="slowB" class="pill" hidden></span><button id="snd" class="ib" aria-label="Ses"><i class="fa-solid fa-volume-high"></i></button><button id="updB" class="ib" aria-label="Güncelleme notları"><i class="fa-solid fa-clipboard-list"></i><b id="updDot" class="udot" hidden></b></button><button id="dmB" class="ib" aria-label="Özel mesajlar"><i class="fa-solid fa-envelope"></i><b id="dmDot" class="badge" hidden></b></button><button id="me" class="pill me" title="Rumuzu değiştir"></button><button id="adm" class="btn"><i class="fa-solid fa-shield-halved"></i><span id="admT">Yönetici</span></button></div>
 </header>
 <div id="pin" class="pin" hidden><i class="fa-solid fa-thumbtack"></i><span id="pinT"></span><button id="unpin" class="ib sm" hidden aria-label="Sabiti kaldır"><i class="fa-solid fa-xmark"></i></button></div>
 <div id="mus" class="mus" hidden><i class="fa-solid fa-music"></i><span id="musT">Müzik</span><button id="musGo" class="btn sm pri" hidden>▶ Dinle</button><input id="musV" type="range" min="0" max="100" aria-label="Ses"><button id="musM" class="ib sm" aria-label="Sustur"><i class="fa-solid fa-volume-high"></i></button></div>
@@ -228,7 +243,7 @@ body.lite .halt::before{animation:none;opacity:.5}body.lite .hin>i{animation:non
 
 <aside id="panel" class="panel" aria-label="Yönetici paneli">
  <div class="ph"><h3>Yönetim</h3><button class="ib" id="pX" aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button></div>
- <div class="tabs"><button data-tab="ov" class="on">Özet</button><button data-tab="ch">Sohbet</button><button data-tab="us">Kişiler</button><button data-tab="ev" id="tabEv">Etkinlik</button><button data-tab="si" id="tabSi">Site</button></div>
+ <div class="tabs"><button data-tab="ov" class="on">Özet</button><button data-tab="ch">Sohbet</button><button data-tab="us">Kişiler</button><button data-tab="ev" id="tabEv">Etkinlik</button><button data-tab="si" id="tabSi">Site</button><button data-tab="dm" id="tabDm" hidden>DM</button></div>
  <div class="tab on" id="t-ov">
   <div class="grid"><div class="st"><b id="sOn">0</b><span>çevrimiçi</span></div><div class="st"><b id="sMs">0</b><span>yüklü mesaj</span></div><div class="st"><b id="sPn">0</b><span>cezalı kişi</span></div><div class="st"><b id="sMd" style="font-size:18px;padding:5px 0">-</b><span>site durumu</span></div></div>
   <div class="card"><h4>Hızlı işlemler</h4><div class="grid"><button class="btn" id="qLock"></button><button class="btn" id="qExp"><i class="fa-solid fa-download"></i>Sohbeti indir</button><button class="btn" id="qFx">🎉 Konfeti</button><button class="btn" id="qUn"><i class="fa-solid fa-unlock"></i>Cezaları kaldır</button><button class="btn red" id="qClr" style="grid-column:span 2"><i class="fa-solid fa-trash"></i>Sohbeti temizle</button></div></div>
@@ -241,7 +256,7 @@ body.lite .halt::before{animation:none;opacity:.5}body.lite .hin>i{animation:non
   <div class="card"><h4>Sistem duyurusu</h4><input id="bcIn" maxlength="200" placeholder="Herkese görünür duyuru…"><div class="row"><input id="bcDur" type="number" min="3" max="600" value="10" style="width:84px;flex:none"><span class="small">saniye görünsün</span><select id="bcTone" style="width:auto;margin-left:auto"><option value="info">Bilgi</option><option value="warn">Uyarı</option><option value="ok">Olumlu</option></select></div><div class="row" id="bcChips"></div><div class="row"><button class="btn pri" id="bcB" style="flex:1"><i class="fa-solid fa-bullhorn"></i>Yayınla</button><button class="btn" id="bcOff">Şimdi kaldır</button></div><button class="btn red sm" id="bcClean"><i class="fa-solid fa-broom"></i>Eski duyuruları sil</button></div>
   <div class="card"><h4>Mesaj ara</h4><input id="mSearch" placeholder="Kelime ya da kişi…"><div id="mRes" style="display:flex;flex-direction:column;gap:6px;max-height:200px;overflow:auto"></div></div>
   <div class="card"><h4>📣 Herkese uyarı ekranı</h4><textarea id="waIn" rows="2" maxlength="300" placeholder="Herkesin ekranında çıkacak uyarı…"></textarea><button class="btn pri" id="waB">Herkese gönder</button></div>
-  <div class="card"><h4>Toplu temizlik</h4><div class="row" id="lastN"><button class="btn sm" data-n="10">Son 10</button><button class="btn sm" data-n="25">Son 25</button><button class="btn sm" data-n="50">Son 50</button></div><p class="small">Son mesajları siler.</p><button class="btn sm" id="vClean"><i class="fa-solid fa-broom"></i>Sahipsiz ses kayıtlarını temizle</button></div>
+  <div class="card"><h4>Toplu temizlik</h4><div class="row" id="lastN"><button class="btn sm" data-n="10">Son 10</button><button class="btn sm" data-n="25">Son 25</button><button class="btn sm" data-n="50">Son 50</button></div><p class="small">Son mesajları siler.</p><button class="btn sm red" id="wipeAll"><i class="fa-solid fa-trash"></i>Tüm mesajları sil</button><button class="btn sm" id="vClean"><i class="fa-solid fa-broom"></i>Sahipsiz ses kayıtlarını temizle</button></div>
   <div class="card"><h4>Sabit mesaj</h4><p class="small">Bir mesajın üzerine gelip <i class="fa-solid fa-thumbtack"></i> simgesine bas.</p><button class="btn" id="unpin2">Sabiti kaldır</button></div>
  </div>
  <div class="tab" id="t-us">
@@ -260,6 +275,10 @@ body.lite .halt::before{animation:none;opacity:.5}body.lite .hin>i{animation:non
   <div class="card"><h4>🎰 Çekiliş</h4><button class="btn" id="raf">Çevrimiçi birini seç</button></div>
   <div class="card"><h4>❤️ En beğenilen profiller</h4><div id="topLike" style="display:flex;flex-direction:column;gap:6px"></div><button class="btn sm" id="tlB">Yenile</button></div>
   <div class="card"><h4>🏅 En aktifler</h4><div id="topAct" style="display:flex;flex-direction:column;gap:6px"></div></div>
+ </div>
+ <div class="tab" id="t-dm">
+  <div class="card"><h4>💬 Tüm özel sohbetler (canlı)</h4><input id="dmSearch" placeholder="Kişi ara…"><div id="dmAdmList" style="display:flex;flex-direction:column;gap:6px;max-height:220px;overflow:auto"></div></div>
+  <div class="card"><h4 id="dmAdmT">Sohbet seç</h4><div id="dmAdmMsgs" class="dmm adm"></div><div class="row"><button class="btn red sm" id="dmDel" hidden>Bu sohbeti sil</button><button class="btn red sm" id="dmDelAll">Tüm DM'leri sil</button></div></div>
  </div>
  <div class="tab" id="t-si">
   <div class="card"><h4>Erişim</h4>
@@ -282,6 +301,7 @@ body.lite .halt::before{animation:none;opacity:.5}body.lite .hin>i{animation:non
    <label class="t"><input type="checkbox" id="aCaps">BÜYÜK HARF filtresi</label>
    <label class="t"><input type="checkbox" id="aRep">Aynı mesajı tekrar atmayı engelle</label>
    <label class="t"><input type="checkbox" id="aDel">Herkes kendi mesajını silebilsin (2 dk)</label>
+   <label class="t"><input type="checkbox" id="aDM">Özel mesajlar (DM) açık</label>
    <p class="small">Hazır vurgu renkleri (anında herkese uygulanır)</p><div class="row" id="accChips"></div>
    <button class="btn" id="saveAdv">Kaydet</button></div>
   <button class="btn red" id="logout"><i class="fa-solid fa-right-from-bracket"></i>Yönetici oturumunu kapat</button>
@@ -292,8 +312,12 @@ body.lite .halt::before{animation:none;opacity:.5}body.lite .hin>i{animation:non
 <div id="mNick" class="modal" hidden><form id="fNick"><h3>Rumuzunu değiştir</h3><div class="row"><input id="nick" maxlength="20" placeholder="2-20 karakter"><button type="button" class="ib" id="dice" aria-label="Rastgele rumuz">🎲</button></div><div class="row"><button type="button" class="btn" id="nickX" data-x>Vazgeç</button><button class="btn pri" style="flex:1">Kaydet</button></div></form></div>
 <div id="mWarn" class="modal" hidden><form id="fWarn"><h3>Uyarı at: <span id="wFor"></span></h3><p class="small">Kullanıcıda “Bu mesaj sadece sizde gözükür” başlığıyla çıkar. Aşağıya yazdığın açıklama altında görünür.</p><textarea id="wIn" rows="3" maxlength="300" placeholder="Açıklama yaz…"></textarea><div class="row" id="wChips"><button type="button" class="chip">Küfür etme.</button><button type="button" class="chip">Spam yapma.</button><button type="button" class="chip">Kurallara uy.</button><button type="button" class="chip">Son uyarı!</button></div><div class="row"><button type="button" class="btn" data-x>Vazgeç</button><button class="btn pri" style="flex:1"><i class="fa-solid fa-paper-plane"></i>Uyarıyı gönder</button></div></form></div>
 <div id="warn" class="warn" hidden><div class="wbox"><div class="wic"><i class="fa-solid fa-triangle-exclamation"></i></div><h3>Yönetici uyarısı</h3><div class="wonly" id="wOnly"><i class="fa-solid fa-eye"></i>Bu mesaj sadece sizde gözükür</div><div class="wtxt" id="wTxt"></div><small id="wBy"></small><button class="btn pri" id="wOk" disabled>Oku</button></div></div>
-<div id="mProf" class="modal" hidden><div class="pcard"><div class="pbn" id="pBn"><button type="button" class="ib sm pcl" aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button></div><div class="pmid"><div class="pav" id="pAv"></div></div><div class="pbody"><h3 id="pNm"></h3><div class="ptags" id="pTg"></div><div class="pst"><div><b id="pMsg">0</b><span>mesaj</span></div><div id="pLkW"><b id="pLk">0</b><span>beğeni</span></div><div id="pVsW"><b id="pVs">0</b><span>ziyaretçi</span></div></div><div class="row" id="pBtns"></div><p class="small" id="pHint"></p></div></div></div>
+<div id="mProf" class="modal" hidden><div class="pcard"><div class="pbn" id="pBn"><button type="button" class="ib sm pcl" aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button></div><div class="pmid"><div class="pav" id="pAv"></div></div><div class="pbody"><h3 id="pNm"></h3><div class="ptags" id="pTg"></div><div class="pst"><div><b id="pMsg">0</b><span>mesaj</span></div><div data-fl="fo"><b id="pFo">0</b><span>takipçi</span></div><div data-fl="fg"><b id="pFg">0</b><span>takip</span></div><div id="pLkW"><b id="pLk">0</b><span>beğeni</span></div><div id="pVsW"><b id="pVs">0</b><span>ziyaretçi</span></div></div><div id="pFl" class="pfl" hidden></div><div class="row" id="pBtns"></div><p class="small" id="pHint"></p></div></div></div>
 <div id="mUpd" class="modal" hidden><div class="ucard"><div class="ph"><h3><i class="fa-solid fa-clipboard-list"></i>Güncelleme notları</h3><button class="ib" data-x aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button></div><div id="uBody" class="ubody"></div></div></div>
+<div id="mDm" class="modal" hidden><div class="dmc"><div class="ph"><button class="ib sm" id="dmBack" hidden aria-label="Geri"><i class="fa-solid fa-arrow-left"></i></button><h3 id="dmTitle">Mesajlar</h3><button class="ib" data-x aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button></div>
+ <div id="dmList" class="dml"></div>
+ <div id="dmChat" class="dmch" hidden><div id="dmMsgs" class="dmm"></div><form id="dmForm" class="dmf" autocomplete="off"><input id="dmIn" maxlength="300" placeholder="Mesaj yaz…"><button class="btn pri" aria-label="Gönder"><i class="fa-solid fa-paper-plane"></i></button></form></div>
+ <div class="small dmn">ℹ️ Özel mesajlar yönetim tarafından görülebilir.</div></div></div>
 <input type="file" id="fAv" accept="image/*" hidden><input type="file" id="fBn" accept="image/*" hidden>
 <section id="halt" class="halt" hidden role="alert"><i class="hs"></i><i class="hs b"></i><div class="hin"><i class="fa-solid fa-hand"></i><h2>ACİL DURAKLAMA</h2><p id="hTxt"></p><div class="hw"><s></s><s></s><s></s></div><small id="hBy"></small></div></section>
 <div id="haltBar" class="hbar" hidden><i class="fa-solid fa-triangle-exclamation"></i><span>Acil duraklama aktif</span><button class="btn sm" id="hbOff">Kaldır</button></div>
@@ -320,7 +344,7 @@ function beep(){if(!snd)return;try{actx=actx||new(window.AudioContext||window.we
 const nameOf=u=>users[u]?.name||pres[u]?.name||u;
 const roleOf=u=>u===me.uid?me.role:(users[u]?.role||'user');
 function hue(s){let h=0;for(const c of s)h=(h*31+c.charCodeAt(0))%360;return h}
-function paintMe(){const b=$('#me');b.className='pill me '+(me.role==='user'?'':me.role);b.innerHTML=(me.role==='admin'?'<i class="fa-solid fa-crown"></i> ':me.role==='mod'?'<i class="fa-solid fa-shield"></i> ':'')+esc(me.name);$('#admT').textContent=staff()?(me.role==='admin'?'Yönetici':'Moderatör'):'Giriş';$('#tabSi').hidden=$('#tabEv').hidden=me.role!=='admin';$('#dock').hidden=!staff();$('#gLogin').hidden=staff();$$('.tools [data-del],.tools [data-pin],.tools [data-star]').forEach(b=>b.hidden=!staff());document.body.classList.toggle('st',staff());restyleSoon()}
+function paintMe(){const b=$('#me');b.className='pill me '+(me.role==='user'?'':me.role);b.innerHTML=(me.role==='admin'?'<i class="fa-solid fa-crown"></i> ':me.role==='mod'?'<i class="fa-solid fa-shield"></i> ':'')+esc(me.name);$('#admT').textContent=staff()?(me.role==='admin'?'Yönetici':'Moderatör'):'Giriş';$('#tabSi').hidden=$('#tabEv').hidden=$('#tabDm').hidden=me.role!=='admin';$('#dock').hidden=!staff();$('#gLogin').hidden=staff();$$('.tools [data-del],.tools [data-pin],.tools [data-star]').forEach(b=>b.hidden=!staff());document.body.classList.toggle('st',staff());restyleSoon()}
 /* ---------- firebase ---------- */
 function start(){
  const f=F();
@@ -367,7 +391,7 @@ function setGate(){
 function fmt(ts){return new Date(ts).toLocaleString('tr-TR',{weekday:'long',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'})}
 function muteLeft(){return Math.max(0,(users[me.uid]?.mutedUntil||0)-now())}
 function tick(){
- setGate();gameTick();showTyp();haltSync();
+ setGate();gameTick();showTyp();haltSync();dmAdmSync();
  if(annEnd&&!$('#ann').hidden&&now()>=annEnd)hideAnn();
  try{const n=onl().length;$('#onP').hidden=!n;sh('#onP','<i class="fa-solid fa-circle" style="color:var(--gn);font-size:8px"></i> '+n)}catch(e){}
  $('#empty').style.display=Object.keys(msgs).length?'none':'';
@@ -444,11 +468,11 @@ $('#bnX').onclick=()=>{sessionStorage.c_bd=bnKey;hideBanner()};
 /* ---------- identity / login ---------- */
 const open=id=>{$(id).hidden=false;setTimeout(()=>$(id).querySelector('input')?.focus(),50)};
 $$('[data-x]').forEach(b=>b.onclick=()=>b.closest('.modal').hidden=true);
-$('#me').onclick=()=>openProfile(me.uid);const renameMe=()=>{nickFirst=0;$('#nick').value=me.name;$('#mNick h3').textContent='Rumuzunu değiştir';$('#nickX').hidden=false;open('#mNick')};
-function setNick(n,first){n=n.trim().replace(/\s+/g,' ');if(n.length<2||n.length>20)return toast('2-20 karakter');if(!first&&me.role!=='admin')return toast('Rumuz değiştirilemez');
+$('#me').onclick=()=>openProfile(me.uid);const renameMe=()=>{nickFirst=0;$('#nick').value=me.name;$('#mNick h3').textContent='Rumuzunu değiştir (haftada 1)';$('#nickX').hidden=false;open('#mNick')};
+function setNick(n,first){n=n.trim().replace(/\s+/g,' ');if(n.length<2||n.length>20)return toast('2-20 karakter');if(!first&&me.role!=='admin'){const w=(users[me.uid]?.nameAt||0)+6048e5-now();if(w>0)return toast(`Rumuzu ${Math.ceil(w/864e5)} gün sonra değiştirebilirsin`)}
  const taken=Object.entries(users).some(([u,r])=>u!==me.uid&&(r.name||'').toLowerCase()===n.toLowerCase());
  if(taken||(me.role!=='admin'&&(/^(sistem|admin|yönetici|yonetici|moderatör)$/i.test(n)||bad(n))))return toast('Bu rumuz kullanılamaz');
- me.name=n;localStorage.c_name=n;localStorage.removeItem('c_new');F().update(R('users/'+me.uid),{name:n,named:true});beat();paintMe();$('#mNick').hidden=true;$('#pNick').value=n;toast(first?'Hoş geldin '+n:'Rumuz güncellendi')}
+ me.name=n;localStorage.c_name=n;localStorage.removeItem('c_new');F().update(R('users/'+me.uid),{name:n,named:true,...(first||me.role==='admin'?{}:{nameAt:now()})});beat();paintMe();$('#mNick').hidden=true;$('#pNick').value=n;toast(first?'Hoş geldin '+n:'Rumuz güncellendi')}
 $('#fNick').onsubmit=e=>{e.preventDefault();setNick($('#nick').value,nickFirst)};
 $('#pNickB').onclick=()=>setNick($('#pNick').value);$('#pNick').onkeydown=e=>{if(e.key==='Enter')setNick(e.target.value)};
 const adminClick=()=>staff()?openPanel():open('#mLogin');
@@ -548,7 +572,7 @@ $('#whenChips').onclick=e=>{if(e.target.tagName==='BUTTON'){$('#when').value=e.t
 /* ---------- v2 ek özellikler ---------- */
 function rc(r){return r==='admin'?' adm':r==='mod'?' mdr':''}
 function tagH(r,u){const k=RK[users[u]?.rank],L=lvl(u);return (r==='admin'?'<span class="tag">Yönetici</span>':r==='mod'?'<span class="tag mod">Mod</span>':'')+(k?`<span class="tag rkt" style="background:${k[3]}">${k[2]} ${k[1]}</span>`:'')+(L.i?`<span class="lv" title="${esc(L.n)} · ${L.p} puan">${L.e}</span>`:'')}
-function restyle(){$$('.m[data-uid]:not(.wh)').forEach(el=>{const u=el.dataset.uid,r=roleOf(u),n=users[u]?.name;el.classList.toggle('adm',r==='admin');el.classList.toggle('mdr',r==='mod');const rk=users[u]?.rank||'';if(el.dataset.rk!==rk)el.dataset.rk=rk;
+function restyle(){syncAv();$$('.m[data-uid]:not(.wh)').forEach(el=>{const u=el.dataset.uid,r=roleOf(u),n=users[u]?.name;el.classList.toggle('adm',r==='admin');el.classList.toggle('mdr',r==='mod');const rk=users[u]?.rank||'';if(el.dataset.rk!==rk)el.dataset.rk=rk;
  const b=el.querySelector('b[data-u]');if(n&&b&&b.textContent!==n){b.textContent=n;{const av=el.querySelector('.av');if(av&&av.firstChild)av.firstChild.nodeValue=([...n][0]||'?').toUpperCase()}}
  const t=el.querySelector('.rt'),h=tagH(r,u);if(t&&t._h!==h){t._h=h;t.innerHTML=h}})}
 function fly(){const b=$('#sendB');b.classList.remove('fly');void b.offsetWidth;b.classList.add('fly')}
@@ -622,7 +646,7 @@ function renderTop(){if(!staff()||!$('#topAct'))return;sh('#topAct',Object.keys(
 const NA=['Siber','Gece','Gölge','Kor','Buz','Rüzgar','Neon','Çılgın','Sessiz','Tatlı','Yıldız','Fırtına'],NB=['Korsan','Kuşu','Kurt','Ejder','Panda','Ninja','Baykuş','Tilki','Hayalet','Yunus','Şahin','Kedi'];
 const gen=()=>NA[Math.random()*NA.length|0]+NB[Math.random()*NB.length|0]+'#'+(10+(Math.random()*90|0));
 $('#dice').onclick=()=>$('#nick').value=gen();
-function askNick(){nickFirst=1;$('#nick').value=gen();$('#mNick h3').textContent='Rumuzunu seç (sonra değişmez)';$('#nickX').hidden=true;open('#mNick')}
+function askNick(){nickFirst=1;$('#nick').value=gen();$('#mNick h3').textContent='Rumuzunu seç (haftada bir değişebilir)';$('#nickX').hidden=true;open('#mNick')}
 /* fısıltı */
 function startWhisper(u){if(u===me.uid)return;wto={uid:u,name:nameOf(u)};reply=null;$('#rT').textContent='🔒 Fısıltı → '+wto.name;$('#rbar').hidden=false;$('#msg').focus()}
 function showW(w){const el=document.createElement('div');el.className='m wh'+(w.mine?' me':'');el.dataset.uid=w.uid;el.innerHTML=`<div class="av" style="--c:hsl(${hue(w.uid)} 70% 70%)">${esc([...w.name][0]||'?').toUpperCase()}</div><div class="mb"><div class="mh"><b data-u="${esc(w.uid)}">${esc(w.name)}</b><time>fısıltı</time></div><div class="bub">${esc(w.text)}</div></div>`;stream.append(el);const l=stream.querySelectorAll('.wh');if(l.length>20)l[0].remove();toBot()}
@@ -703,22 +727,22 @@ let avs={},bns={},avp=new Set(),profU=null,profOff=[],pl={},pv={},ups=[],upTop='
 const okImg=d=>typeof d==='string'&&d.length<90000&&/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+\/=]+$/.test(d);
 const avH=(u,n,style='',tag='div')=>`<${tag} class="av" data-av="${esc(u)}" style="--c:hsl(${hue(u)} 70% 70%);${style}">${esc([...n][0]||'?').toUpperCase()}${okImg(avs[u])?`<img class="ai" alt="" src="${avs[u]}">`:''}</${tag}>`;
 function paintAv(u){const d=avs[u];$$(`[data-av="${CSS.escape(u)}"]`).forEach(a=>{a.querySelector('.ai')?.remove();if(okImg(d)){const i=document.createElement('img');i.className='ai';i.alt='';i.src=d;a.append(i)}})}
-function needAv(u){if(!u||!window.FB||u in avs||avp.has(u))return;avp.add(u);F().get(R('avatars/'+u)).then(s=>{avs[u]=s.val()||'';avp.delete(u);if(avs[u])paintAv(u)}).catch(()=>{avp.delete(u)})}
+function needAv(u){if(!u||!window.FB||u in avs||avp.has(u))return;avp.add(u);F().get(R('avatars/'+u)).then(s=>{avs[u]=s.val()||'';avp.delete(u);paintAv(u)}).catch(()=>{avp.delete(u)})}
 function bulkDel(ks){const o={};ks.forEach(k=>{o['messages/'+k]=null;const v=msgs[k]?.vid;if(v){o['voices/'+v]=null;o['vidx/'+v]=null}});if(Object.keys(o).length)F().update(F().ref(F().db),o)}
 /* ---- profil ---- */
 function img2(file,w,h,q){return new Promise((res,rej)=>{if(!file||!/^image\//.test(file.type))return rej('Bir resim seç');if(file.size>8e6)return rej('Resim çok büyük (en fazla 8 MB)');const u=URL.createObjectURL(file),i=new Image();i.onload=()=>{const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d'),r=Math.max(w/i.width,h/i.height),dw=i.width*r,dh=i.height*r;x.fillStyle='#11303C';x.fillRect(0,0,w,h);x.drawImage(i,(w-dw)/2,(h-dh)/2,dw,dh);URL.revokeObjectURL(u);res(c.toDataURL('image/jpeg',q))};i.onerror=()=>{URL.revokeObjectURL(u);rej('Resim açılamadı')};i.src=u})}
 async function setImg(kind,file){const u=me.uid;if(!staff()&&cfg.fProf===false)return toast('Profil düzenleme kapalı');
- if(file===null){F().set(R(kind+'/'+u),null);if(kind==='avatars'){avs[u]='';paintAv(u)}else bns[u]='';renderProf();return}
+ if(file===null){F().set(R(kind+'/'+u),null);if(kind==='avatars')F().update(R('users/'+u),{av:0});if(kind==='avatars'){avs[u]='';paintAv(u)}else bns[u]='';renderProf();return}
  if(now()-profAt<4000)return toast('Biraz bekle');const av=kind==='avatars';
- try{const d=await img2(file,av?128:480,av?128:160,av?.82:.75);if(d.length>80000)return toast('Resim çok büyük, daha sade bir resim dene');profAt=now();await F().set(R(kind+'/'+u),d);if(av){avs[u]=d;paintAv(u)}else bns[u]=d;renderProf();toast('Profil güncellendi')}catch(e){toast(typeof e==='string'?e:'Yüklenemedi')}}
+ try{const d=await img2(file,av?128:480,av?128:160,av?.82:.75);if(d.length>80000)return toast('Resim çok büyük, daha sade bir resim dene');profAt=now();await F().set(R(kind+'/'+u),d);if(av)F().update(R('users/'+u),{av:now()});if(av){avs[u]=d;paintAv(u)}else bns[u]=d;renderProf();toast('Profil güncellendi')}catch(e){toast(typeof e==='string'?e:'Yüklenemedi')}}
 $('#fAv').onchange=e=>{const f=e.target.files[0];e.target.value='';if(f)setImg('avatars',f)};
 $('#fBn').onchange=e=>{const f=e.target.files[0];e.target.value='';if(f)setImg('banners',f)};
-function resetProf(u){F().update(F().ref(F().db),{['avatars/'+u]:null,['banners/'+u]:null});avs[u]='';bns[u]='';paintAv(u);if(profU===u)renderProf()}
+function resetProf(u){F().update(F().ref(F().db),{['avatars/'+u]:null,['banners/'+u]:null,['users/'+u+'/av']:0});avs[u]='';bns[u]='';paintAv(u);if(profU===u)renderProf()}
 function profListen(u){profOff.forEach(f=>f());profOff=[];const f=F();
- profOff.push(f.onValue(R('plikes/'+u),s=>{pl=s.val()||{};renderProf()}),f.onValue(R('pvis/'+u),s=>{pv=s.val()||{};renderProf()}));
+ profOff.push(f.onValue(R('plikes/'+u),s=>{pl=s.val()||{};renderProf()}),f.onValue(R('pvis/'+u),s=>{pv=s.val()||{};renderProf()}),f.onValue(R('fol/'+u),s=>{fo=s.val()||{};renderProf()}),f.onValue(R('fing/'+u),s=>{fg=s.val()||{};renderProf()}));
  f.get(R('banners/'+u)).then(s=>{bns[u]=s.val()||'';renderProf()}).catch(()=>{});
  f.get(R('avatars/'+u)).then(s=>{avs[u]=s.val()||'';paintAv(u);renderProf()}).catch(()=>{})}
-function openProfile(u){if(!u||!window.FB)return;profU=u;pl={};pv={};profListen(u);if(u!==me.uid&&cfg.fLike!==false)F().set(R(`pvis/${u}/${me.uid}`),now());$('#mProf').hidden=false;renderProf()}
+function openProfile(u){if(!u||!window.FB)return;profU=u;pl={};pv={};fo={};fg={};flMode=null;profListen(u);if(u!==me.uid&&cfg.fLike!==false)F().set(R(`pvis/${u}/${me.uid}`),now());$('#mProf').hidden=false;renderProf()}
 function closeProf(){$('#mProf').hidden=true;profU=null;profOff.forEach(f=>f());profOff=[]}
 $('#mProf').addEventListener('click',e=>{if(e.target.id==='mProf'||e.target.closest('.pcl'))closeProf()});
 addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#mProf').hidden)closeProf()});
@@ -727,19 +751,22 @@ function renderProf(){const u=profU;if(!u)return;const r=users[u]||{},own=u===me
  const av=$('#pAv');av.dataset.av=u;av.style.setProperty('--c',`hsl(${hu} 70% 70%)`);av.innerHTML=esc([...n][0]||'?').toUpperCase()+(okImg(avs[u])?`<img class="ai" alt="" src="${avs[u]}">`:'');
  $('#pNm').textContent=n;
  $('#pTg').innerHTML=(role==='admin'?'<span class="tag">Yönetici</span>':role==='mod'?'<span class="tag mod">Mod</span>':'')+(rk?`<span class="tag rkt" style="background:${rk[3]}">${rk[2]} ${rk[1]}</span>`:'')+`<span class="tag lvt">${L.e} ${esc(L.n)}</span>`;
- $('#pMsg').textContent=a.n||0;$('#pLk').textContent=Object.keys(pl).length;$('#pVs').textContent=Object.keys(pv).length;$('#pLkW').hidden=$('#pVsW').hidden=!likeOn;
+ $('#pMsg').textContent=a.n||0;$('#pFo').textContent=Object.keys(fo).length;$('#pFg').textContent=Object.keys(fg).length;$('#pLk').textContent=Object.keys(pl).length;$('#pVs').textContent=Object.keys(pv).length;$('#pLkW').hidden=$('#pVsW').hidden=!likeOn;
  let b='';
  if(own){if(can){b+='<button class="btn sm pri" data-pa="av"><i class="fa-solid fa-camera"></i>Fotoğraf</button><button class="btn sm" data-pa="bn"><i class="fa-solid fa-image"></i>Banner</button>';if(okImg(avs[u])||okImg(bn))b+='<button class="btn sm ghost" data-pa="rav">Fotoğrafı kaldır</button><button class="btn sm ghost" data-pa="rbn">Banner\'ı kaldır</button>'}
-  if(me.role==='admin')b+='<button class="btn sm" data-pa="nick"><i class="fa-solid fa-pen"></i>Rumuz</button>'}
- else{if(likeOn)b+=`<button class="btn sm ${pl[me.uid]?'pri':''}" data-pa="like"><i class="fa-${pl[me.uid]?'solid':'regular'} fa-heart"></i>${pl[me.uid]?'Beğenildi':'Beğen'}</button>`;
+  b+='<button class="btn sm" data-pa="nick"><i class="fa-solid fa-pen"></i>Rumuz</button><button class="btn sm ghost" data-pa="mine">Mesajlarımı sil</button>'}
+ else{b+=followBtn()+(cfg.fDM!==false||staff()?'<button class="btn sm" data-pa="dm"><i class="fa-solid fa-envelope"></i>Mesaj at</button>':'');if(likeOn)b+=`<button class="btn sm ${pl[me.uid]?'pri':''}" data-pa="like"><i class="fa-${pl[me.uid]?'solid':'regular'} fa-heart"></i>${pl[me.uid]?'Beğenildi':'Beğen'}</button>`;
   if(cfg.fWhisper!==false)b+='<button class="btn sm" data-pa="wh"><i class="fa-solid fa-user-secret"></i>Fısılda</button>';
   if(staff())b+='<button class="btn sm" data-pa="mgr"><i class="fa-solid fa-gear"></i>Yönet</button><button class="btn sm red" data-pa="rst">Profili sıfırla</button>'}
- sh('#pBtns',b);$('#pHint').textContent=own?(can?'Fotoğraf 128×128, banner 480×160 olarak küçültülür.':'Profil düzenleme şu an kapalı.'):''}
+ sh('#pBtns',b);renderFl();$('#pHint').textContent=own?(can?'Fotoğraf 128×128, banner 480×160 olarak küçültülür.':'Profil düzenleme şu an kapalı.'):''}
 $('#pBtns').onclick=e=>{const a=e.target.closest('[data-pa]')?.dataset.pa,u=profU;if(!a||!u)return;
  if(a==='av')$('#fAv').click();else if(a==='bn')$('#fBn').click();
  else if(a==='rav')setImg('avatars',null);else if(a==='rbn')setImg('banners',null);
  else if(a==='nick'){closeProf();renameMe()}
  else if(a==='like')likeP(u);
+ else if(a==='fol')followP(u);
+ else if(a==='dm'){closeProf();openDM(u)}
+ else if(a==='mine')delMine();
  else if(a==='wh'){closeProf();startWhisper(u)}
  else if(a==='mgr'){closeProf();openPanel('us');pick(u)}
  else if(a==='rst'){if(confirm('Bu kişinin profil resmi ve banner\'ı silinsin mi?'))doAct(u,'pr')}};
@@ -782,7 +809,7 @@ function paintUpd(){const seen=localStorage.c_upd||'';$('#updDot').hidden=!(ups[
 function renderUpAdm(){const e=$('#uAdmList');if(!e)return;e.innerHTML=ups.slice(0,10).map(([k,v])=>`<div class="li" style="cursor:default"><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(v.ver?v.ver+' · ':'')}${esc(v.title||'(başlıksız)')}</span><button class="ib sm" data-ud="${esc(k)}" aria-label="Sil"><i class="fa-solid fa-trash"></i></button></div>`).join('')||'<div class="small">Not yok.</div>'}
 function startY(f){
  f.onValue(f.query(R('updates'),f.orderByKey(),f.limitToLast(30)),s=>{ups=Object.entries(s.val()||{}).sort((a,b)=>a[0]<b[0]?1:-1);const top=ups[0]?.[0]||'';if(upTop&&top&&top>upTop&&ups[0][1].by!==me.name)toast('🆕 Güncelleme notu: '+(ups[0][1].title||'Yeni'));upTop=top;paintUpd();renderUpAdm()});
- f.onValue(R('act'),()=>{if(profU)renderProf()})}
+ f.onValue(R('act'),()=>{if(profU)renderProf()});startZ(f)}
 $('#updB').onclick=()=>{paintUpd();$('#mUpd').hidden=false;const k=ups[0]?.[0];if(k)localStorage.c_upd=k;$('#updDot').hidden=true};
 $('#mUpd').addEventListener('click',e=>{if(e.target.id==='mUpd'){e.target.hidden=true;paintUpd()}});
 $('#uPub').onclick=()=>{if(me.role!=='admin')return;const t=$('#uText').value.trim(),ti=$('#uTitle').value.trim();if(!t&&!ti)return toast('Bir not yaz');
@@ -802,13 +829,64 @@ function warnAllSync(){const w=cfg.warnAll;if(!w||!w.id||w.id<=(+localStorage.c_
 $('#waB').onclick=()=>{const t=$('#waIn').value.trim();if(!t)return toast('Uyarı yaz');F().update(R('config'),{warnAll:{id:now(),text:t.slice(0,300),by:me.name}});$('#waIn').value='';toast('Herkese gönderildi');log('Herkese uyarı: '+t.slice(0,50))};
 const _cw=checkWarn;checkWarn=function(){const w=users[me.uid]?.warn;if(w&&w.id>(+localStorage.c_warn||0))$('#wOnly').innerHTML='<i class="fa-solid fa-eye"></i>Bu mesaj sadece sizde gözükür';_cw()};
 /* ---- gelişmiş admin kontrolleri ---- */
-function fillAdv(){$('#aGif').checked=cfg.fGif!==false;$('#aGap').value=cfg.gifGap??20;$('#aVoice').checked=cfg.fVoice!==false;$('#aVmax').value=cfg.voiceMax||15;$('#aProf').checked=cfg.fProf!==false;$('#aLike').checked=cfg.fLike!==false;$('#aCaps').checked=!!cfg.noCaps;$('#aRep').checked=!!cfg.noRepeat;$('#aDel').checked=cfg.fOwnDel!==false}
-$('#saveAdv').onclick=()=>{F().update(R('config'),{fGif:$('#aGif').checked,gifGap:+$('#aGap').value,fVoice:$('#aVoice').checked,voiceMax:+$('#aVmax').value,fProf:$('#aProf').checked,fLike:$('#aLike').checked,noCaps:$('#aCaps').checked,noRepeat:$('#aRep').checked,fOwnDel:$('#aDel').checked});toast('Kaydedildi');log('Gelişmiş kontroller güncellendi')};
+function fillAdv(){$('#aGif').checked=cfg.fGif!==false;$('#aGap').value=cfg.gifGap??20;$('#aVoice').checked=cfg.fVoice!==false;$('#aVmax').value=cfg.voiceMax||15;$('#aProf').checked=cfg.fProf!==false;$('#aLike').checked=cfg.fLike!==false;$('#aCaps').checked=!!cfg.noCaps;$('#aRep').checked=!!cfg.noRepeat;$('#aDel').checked=cfg.fOwnDel!==false;$('#aDM').checked=cfg.fDM!==false}
+$('#saveAdv').onclick=()=>{F().update(R('config'),{fGif:$('#aGif').checked,gifGap:+$('#aGap').value,fVoice:$('#aVoice').checked,voiceMax:+$('#aVmax').value,fProf:$('#aProf').checked,fLike:$('#aLike').checked,noCaps:$('#aCaps').checked,noRepeat:$('#aRep').checked,fOwnDel:$('#aDel').checked,fDM:$('#aDM').checked});toast('Kaydedildi');log('Gelişmiş kontroller güncellendi')};
 $('#accChips').innerHTML=['#FFC233','#FF6B5E','#5FD3A5','#4DD2FF','#B57BFF','#FF5C9A'].map(c=>`<button type="button" class="chip" data-c="${c}" style="border-color:${c};color:${c}">●</button>`).join('');
 $('#accChips').onclick=e=>{const c=e.target.dataset.c;if(c){F().update(R('config'),{accent:c});$('#iAcc').value=c}};
 $('#tlB').onclick=async()=>{const s=await F().get(R('plikes')),a=[];s.forEach(c=>{a.push([c.key,Object.keys(c.val()||{}).length])});a.sort((x,y)=>y[1]-x[1]);$('#topLike').innerHTML=a.slice(0,8).map(([u,n])=>`<div class="li" data-pfo="${esc(u)}"><span>❤️ ${esc(nameOf(u))}</span><span class="small">${n} beğeni</span></div>`).join('')||'<div class="small">Henüz beğeni yok.</div>'};
 $('#topLike').onclick=e=>{const u=e.target.closest('[data-pfo]')?.dataset.pfo;if(u)openProfile(u)};
 $('#vClean').onclick=async()=>{if(!confirm('Sohbette karşılığı olmayan ses kayıtları silinsin mi?'))return;const [m,v]=await Promise.all([F().get(R('messages')),F().get(R('vidx'))]),used=new Set(),o={};let n=0;m.forEach(c=>{const x=c.val();if(x&&x.vid)used.add(x.vid)});v.forEach(c=>{if(!used.has(c.key)){o['voices/'+c.key]=null;o['vidx/'+c.key]=null;n++}});if(!n)return toast('Temizlenecek ses yok');F().update(F().ref(F().db),o);toast(n+' ses kaydı silindi');log(n+' ses kaydı temizlendi')};
+
+/* ================= v6 ================= */
+let fo={},fg={},flMode=null,dmx={},dmSeen={},dmInit=0,dmOpen=null,dmOff=null,dmLast=0,dmMeta={},dmMetaOn=0,dmAdmK=null,dmAdmOff=null;const avVer={};
+const hm=t=>{const d=new Date(t||0);return pad(d.getHours())+':'+pad(d.getMinutes())};
+/* avatar canlı eşitleme */
+function reAv(u){if(!window.FB)return;avp.delete(u);delete avs[u];needAv(u)}
+function syncAv(){for(const u in users){const v=users[u]?.av||0;if(avVer[u]===undefined){avVer[u]=v;if(v&&avs[u]==='')reAv(u);continue}if(v!==avVer[u]){avVer[u]=v;if(!(u in avs)&&!avp.has(u))continue;if(u===me.uid&&v&&okImg(avs[u]))continue;reAv(u)}}}
+/* takip */
+const followBtn=()=>{const f=fo[me.uid];return `<button class="btn sm ${f?'pri':''}" data-pa="fol"><i class="fa-solid fa-user-${f?'check':'plus'}"></i>${f?'Takiptesin':'Takip et'}</button>`};
+function followP(u){if(u===me.uid)return;const has=fo[me.uid],o={};o[`fol/${u}/${me.uid}`]=has?null:true;o[`fing/${me.uid}/${u}`]=has?null:true;F().update(F().ref(F().db),o)}
+function renderFl(){const e=$('#pFl');if(!flMode){e.hidden=true;return}const l=Object.keys(flMode==='fo'?fo:fg);e.hidden=false;e.innerHTML=l.length?l.map(u=>`<button class="chip" data-pfo2="${esc(u)}">${esc(nameOf(u))}</button>`).join(''):'<span class="small">Kimse yok.</span>'}
+$('#mProf').addEventListener('click',e=>{const f=e.target.closest('[data-fl]');if(f){flMode=flMode===f.dataset.fl?null:f.dataset.fl;renderFl();return}const p=e.target.closest('[data-pfo2]');if(p)openProfile(p.dataset.pfo2)});
+/* mesajlarım / tüm mesajlar */
+function delMine(){const ks=Object.entries(msgs).filter(([,m])=>m.uid===me.uid).map(([k])=>k);if(!ks.length)return toast('Silinecek mesajın yok');if(!confirm(ks.length+' mesajın silinsin mi?'))return;bulkDel(ks);toast('Mesajların silindi')}
+$('#wipeAll').onclick=()=>{if(!staff())return;if(!confirm('TÜM sohbet mesajları silinecek. Emin misin?'))return;F().remove(R('messages')).then(()=>{F().remove(R('voices'));F().remove(R('vidx'));toast('Tüm mesajlar silindi');log('Tüm mesajlar silindi')})};
+/* özel mesajlar */
+const dmKey=(a,b)=>a<b?a+'_'+b:b+'_'+a;
+function startZ(f){f.onValue(R('dmx/'+me.uid),s=>{const o=s.val()||{},first=!dmInit;dmInit=1;let tot=0;
+ for(const u in o){const v=o[u];tot+=v.un||0;if(first)dmSeen[u]=v.ts||0;else if(v.f&&v.f!==me.uid&&(v.ts||0)>(dmSeen[u]||0)){dmSeen[u]=v.ts;if(dmOpen!==u||$('#mDm').hidden){toast('✉ '+nameOf(u)+': '+(v.last||''));beep()}}}
+ dmx=o;$('#dmDot').hidden=!tot;$('#dmDot').textContent=tot>99?'99+':tot;if(!$('#mDm').hidden&&!dmOpen)renderDmList()})}
+function renderDmList(){const cv=Object.entries(dmx).sort((a,b)=>(b[1].ts||0)-(a[1].ts||0)),on=onl().filter(([u])=>u!==me.uid&&!dmx[u]).slice(0,30),row=(u,sub,un)=>`<button class="li dmi" data-dm="${esc(u)}">${avH(u,nameOf(u),'','span')}<span class="dmt"><b>${esc(nameOf(u))}</b>${sub?`<small>${esc(sub)}</small>`:''}</span>${un?`<span class="badge st">${un}</span>`:''}</button>`;
+ $('#dmList').innerHTML=(cv.length?cv.map(([u,v])=>row(u,v.last||'',v.un)).join(''):'<div class="small" style="padding:12px;text-align:center">Henüz mesajın yok. Birine tıkla ya da bir profilden "Mesaj at" de.</div>')+(on.length?'<div class="dmh">Çevrimiçi</div>'+on.map(([u])=>row(u,'',0)).join(''):'');
+ cv.forEach(([u])=>needAv(u));on.forEach(([u])=>needAv(u))}
+function addDm(m){const el=document.createElement('div');el.className='dmb'+(m.f===me.uid?' mine':'');el.innerHTML=`<div class="bub">${esc(m.t)}</div><time>${hm(m.ts)}</time>`;const b=$('#dmMsgs');b.append(el);while(b.children.length>120)b.firstChild.remove();b.scrollTop=b.scrollHeight}
+function dmStop(){if(dmOff)dmOff();dmOff=null;dmOpen=null}
+function showDmList(){dmStop();$('#dmChat').hidden=true;$('#dmList').hidden=false;$('#dmBack').hidden=true;$('#dmTitle').textContent='Mesajlar';renderDmList()}
+function openDM(u){if(!window.FB)return;if(cfg.fDM===false&&!staff())return toast('Özel mesajlar kapalı');$('#mDm').hidden=false;if(!u||u===me.uid){showDmList();return}
+ dmStop();dmOpen=u;$('#dmMsgs').innerHTML='';$('#dmList').hidden=true;$('#dmChat').hidden=false;$('#dmBack').hidden=false;$('#dmTitle').textContent=nameOf(u);
+ if(dmx[u]?.un)F().update(R(`dmx/${me.uid}/${u}`),{un:0});
+ dmOff=F().onChildAdded(F().query(R('dms/'+dmKey(me.uid,u)),F().orderByKey(),F().limitToLast(80)),s=>{const m=s.val();if(!m||dmOpen!==u)return;addDm(m);if(m.f!==me.uid&&!$('#mDm').hidden)F().update(R(`dmx/${me.uid}/${u}`),{un:0})});
+ setTimeout(()=>$('#dmIn').focus(),60)}
+$('#dmB').onclick=()=>openDM();$('#dmBack').onclick=showDmList;
+$('#dmList').onclick=e=>{const u=e.target.closest('[data-dm]')?.dataset.dm;if(u)openDM(u)};
+$('#mDm').addEventListener('click',e=>{if(e.target.id==='mDm'||e.target.closest('[data-x]'))dmStop()});
+$('#dmForm').onsubmit=e=>{e.preventDefault();const i=$('#dmIn'),t=i.value.trim(),u=dmOpen;if(!t||!u)return;
+ if(cfg.fDM===false&&!staff())return toast('Özel mesajlar kapalı');
+ if(!staff()){if(cfg.pause?.on)return toast('Acil duraklama aktif');if(muteLeft()>0)return toast('Şu an mesaj atamazsın');if(now()-dmLast<1500)return toast('Biraz yavaş');if(bad(t)){i.value='';violate();return}if(cfg.noLinks&&LINKRE.test(t))return toast('Link paylaşımı kapalı')}
+ const ts=now(),k=dmKey(me.uid,u),id=F().push(R('dms/'+k)).key,last=t.slice(0,40),o={};
+ o[`dms/${k}/${id}`]={f:me.uid,t:t.slice(0,300),ts};o[`dmmeta/${k}`]={a:me.uid<u?me.uid:u,b:me.uid<u?u:me.uid,ts,last,f:me.uid};
+ o[`dmx/${me.uid}/${u}`]={ts,last,f:me.uid,un:0};o[`dmx/${u}/${me.uid}/ts`]=ts;o[`dmx/${u}/${me.uid}/last`]=last;o[`dmx/${u}/${me.uid}/f`]=me.uid;o[`dmx/${u}/${me.uid}/un`]=F().increment(1);
+ F().update(F().ref(F().db),o).catch(()=>toast('Gönderilemedi'));dmLast=now();i.value=''};
+/* admin: tüm DM'leri canlı oku */
+function dmAdmSync(){$('#dmB').hidden=cfg.fDM===false&&!staff();if(me.role!=='admin'||dmMetaOn||!window.FB)return;dmMetaOn=1;F().onValue(R('dmmeta'),s=>{dmMeta=s.val()||{};renderDmAdm()})}
+function renderDmAdm(){const q=($('#dmSearch').value||'').toLowerCase(),l=Object.entries(dmMeta).filter(([,v])=>!q||(nameOf(v.a)+' '+nameOf(v.b)).toLowerCase().includes(q)).sort((a,b)=>(b[1].ts||0)-(a[1].ts||0));
+ $('#dmAdmList').innerHTML=l.map(([k,v])=>`<div class="li${k===dmAdmK?' on':''}" data-dmk="${esc(k)}"><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><b>${esc(nameOf(v.a))}</b> ⇄ <b>${esc(nameOf(v.b))}</b><br><span class="small">${esc(v.last||'')}</span></span><span class="small">${hm(v.ts)}</span></div>`).join('')||'<div class="small">Henüz özel mesaj yok.</div>'}
+function dmAdmOpen(k){dmAdmK=k;if(dmAdmOff)dmAdmOff();const v=dmMeta[k]||{};$('#dmAdmT').textContent=nameOf(v.a)+' ⇄ '+nameOf(v.b);$('#dmAdmMsgs').innerHTML='';$('#dmDel').hidden=false;
+ dmAdmOff=F().onChildAdded(F().query(R('dms/'+k),F().orderByKey(),F().limitToLast(150)),s=>{if(dmAdmK!==k)return;const m=s.val();if(!m)return;const el=document.createElement('div');el.className='dmb'+(m.f===v.a?'':' r');el.innerHTML=`<small>${esc(nameOf(m.f))} · ${hm(m.ts)}</small><div class="bub">${esc(m.t)}</div>`;const b=$('#dmAdmMsgs');b.append(el);b.scrollTop=b.scrollHeight});renderDmAdm()}
+$('#dmAdmList').onclick=e=>{const k=e.target.closest('[data-dmk]')?.dataset.dmk;if(k&&me.role==='admin')dmAdmOpen(k)};
+$('#dmSearch').oninput=renderDmAdm;
+$('#dmDel').onclick=()=>{const k=dmAdmK,v=dmMeta[k];if(!k||!v||me.role!=='admin'||!confirm('Bu sohbet silinsin mi?'))return;if(dmAdmOff)dmAdmOff();dmAdmOff=null;dmAdmK=null;F().update(F().ref(F().db),{['dms/'+k]:null,['dmmeta/'+k]:null,[`dmx/${v.a}/${v.b}`]:null,[`dmx/${v.b}/${v.a}`]:null});$('#dmAdmMsgs').innerHTML='';$('#dmAdmT').textContent='Sohbet seç';$('#dmDel').hidden=true;log('DM sohbeti silindi')};
+$('#dmDelAll').onclick=()=>{if(me.role!=='admin'||!confirm('TÜM özel mesajlar silinsin mi?'))return;['dms','dmmeta','dmx'].forEach(p=>F().remove(R(p)));if(dmAdmOff)dmAdmOff();dmAdmOff=null;dmAdmK=null;$('#dmAdmMsgs').innerHTML='';$('#dmDel').hidden=true;toast('Tüm DM\'ler silindi');log('Tüm DM\'ler silindi')};
 
 paintMe();
 </script>
