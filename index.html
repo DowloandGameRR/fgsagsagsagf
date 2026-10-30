@@ -124,13 +124,26 @@ input:focus,textarea:focus{box-shadow:0 0 0 4px #FFC23322}input,textarea,select{
 .wic{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:#ff6b5e22;color:var(--rd);font-size:28px;animation:wp 1.4s infinite}
 .wonly{font-weight:600;color:var(--ac);font-size:14px;display:flex;gap:8px;align-items:center}.wbox h3{font:800 24px var(--h)}
 .wtxt{background:var(--bg);border-radius:12px;padding:12px 14px;width:100%;white-space:pre-wrap;word-break:break-word;animation:up .5s .3s both}.wbox small{color:var(--mu)}
+
+/* ===== v3 ===== */
+.stream{gap:9px}.m{gap:8px;max-width:min(80%,440px)}.av{width:28px;height:28px;border-radius:9px;font-size:13px}
+.bub{padding:6px 11px;font-size:14px;line-height:1.35;border-radius:3px 14px 14px 14px}.m.me .bub{border-radius:14px 3px 14px 14px}
+.mh{font-size:12px;margin-bottom:2px}.mh time{font-size:11px}.tag{font-size:10px;padding:0 6px}.rp{font-size:11px}
+.m.adm .bub,.m.adm .av,.m.mdr .bub,.m.mdr .av{border-width:1.5px}
+@media(max-width:560px){.m{max-width:90%}#onP{display:none}}
+.ann{position:fixed;top:14px;left:50%;translate:-50% 0;z-index:100;width:min(92vw,460px);display:flex;gap:12px;align-items:center;padding:13px 16px;border-radius:16px;background:var(--sf);border:1px solid var(--ac);box-shadow:0 14px 40px #000a,0 0 30px #FFC23333;overflow:hidden;animation:annIn .6s cubic-bezier(.2,1.4,.4,1)}
+.ann.warn{border-color:var(--rd);box-shadow:0 14px 40px #000a,0 0 30px #FF6B5E44}.ann.ok{border-color:var(--gn)}
+.ann.out{animation:annOut .45s forwards}.ann>div{flex:1;min-width:0}.ann span{display:block;font-weight:600;word-break:break-word}.ann small{color:var(--mu)}
+.ann>i:first-child{font-size:20px;color:var(--ac);animation:wig .5s 3}.ann.warn>i:first-child{color:var(--rd)}.ann.ok>i:first-child{color:var(--gn)}
+@keyframes annIn{from{opacity:0;transform:translateY(-70px) scale(.85)}}@keyframes annOut{to{opacity:0;transform:translateY(-70px) scale(.9)}}@keyframes wig{25%{rotate:-18deg}75%{rotate:18deg}}
+.cf{position:fixed;top:-40px;z-index:130;pointer-events:none;animation:cf var(--d) linear forwards}@keyframes cf{to{transform:translate(var(--x),110vh) rotate(540deg)}}
 </style>
 </head>
 <body>
 <div id="banner" class="banner info" hidden><i id="bnBar" class="bnbar"></i><i class="fa-solid fa-bullhorn"></i><span id="bnT"></span><button class="ib sm" id="bnX" aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button></div>
 <header class="top in">
  <div class="brand"><span id="dot" class="dot off"></span><div><h1 id="tTitle">Anonim Chat</h1><p id="tSub"></p></div></div>
- <div class="acts"><span id="slowB" class="pill" hidden></span><button id="snd" class="ib" aria-label="Ses"><i class="fa-solid fa-volume-high"></i></button><button id="me" class="pill me" title="Rumuzu değiştir"></button><button id="adm" class="btn"><i class="fa-solid fa-shield-halved"></i><span id="admT">Yönetici</span></button></div>
+ <div class="acts"><span id="onP" class="pill" hidden></span><span id="slowB" class="pill" hidden></span><button id="snd" class="ib" aria-label="Ses"><i class="fa-solid fa-volume-high"></i></button><button id="me" class="pill me" title="Rumuzu değiştir"></button><button id="adm" class="btn"><i class="fa-solid fa-shield-halved"></i><span id="admT">Yönetici</span></button></div>
 </header>
 <div id="pin" class="pin" hidden><i class="fa-solid fa-thumbtack"></i><span id="pinT"></span><button id="unpin" class="ib sm" hidden aria-label="Sabiti kaldır"><i class="fa-solid fa-xmark"></i></button></div>
 <div class="wrap">
@@ -159,20 +172,22 @@ input:focus,textarea:focus{box-shadow:0 0 0 4px #FFC23322}input,textarea,select{
  <div class="tabs"><button data-tab="ov" class="on">Özet</button><button data-tab="ch">Sohbet</button><button data-tab="us">Kişiler</button><button data-tab="si" id="tabSi">Site</button></div>
  <div class="tab on" id="t-ov">
   <div class="grid"><div class="st"><b id="sOn">0</b><span>çevrimiçi</span></div><div class="st"><b id="sMs">0</b><span>yüklü mesaj</span></div><div class="st"><b id="sPn">0</b><span>cezalı kişi</span></div><div class="st"><b id="sMd" style="font-size:18px;padding:5px 0">-</b><span>site durumu</span></div></div>
-  <div class="card"><h4>Hızlı işlemler</h4><div class="grid"><button class="btn" id="qLock"></button><button class="btn" id="qExp"><i class="fa-solid fa-download"></i>Sohbeti indir</button><button class="btn red" id="qClr" style="grid-column:span 2"><i class="fa-solid fa-trash"></i>Sohbeti temizle</button></div></div>
+  <div class="card"><h4>Hızlı işlemler</h4><div class="grid"><button class="btn" id="qLock"></button><button class="btn" id="qExp"><i class="fa-solid fa-download"></i>Sohbeti indir</button><button class="btn" id="qFx">🎉 Konfeti</button><button class="btn" id="qUn"><i class="fa-solid fa-unlock"></i>Cezaları kaldır</button><button class="btn red" id="qClr" style="grid-column:span 2"><i class="fa-solid fa-trash"></i>Sohbeti temizle</button></div></div>
   <div class="card"><h4>Rumuzum</h4><div class="row"><input id="pNick" maxlength="20" placeholder="Yeni rumuz"><button class="btn pri" id="pNickB">Değiştir</button></div></div>
   <div class="card"><h4>Moderasyon günlüğü</h4><div id="logList" style="display:flex;flex-direction:column;gap:6px;max-height:190px;overflow:auto"></div></div>
  </div>
  <div class="tab" id="t-ch">
   <div class="card"><h4>Yavaş mod</h4><div class="row" id="slowChips"></div></div>
-  <div class="card"><h4>Sistem duyurusu</h4><div class="row"><input id="bcIn" maxlength="200" placeholder="Herkese görünür duyuru…"><button class="btn pri" id="bcB">Yayınla</button></div></div>
+  <div class="card"><h4>Sistem duyurusu</h4><input id="bcIn" maxlength="200" placeholder="Herkese görünür duyuru…"><div class="row"><input id="bcDur" type="number" min="3" max="600" value="10" style="width:84px;flex:none"><span class="small">saniye görünsün</span><select id="bcTone" style="width:auto;margin-left:auto"><option value="info">Bilgi</option><option value="warn">Uyarı</option><option value="ok">Olumlu</option></select></div><div class="row" id="bcChips"></div><div class="row"><button class="btn pri" id="bcB" style="flex:1"><i class="fa-solid fa-bullhorn"></i>Yayınla</button><button class="btn" id="bcOff">Şimdi kaldır</button></div><button class="btn red sm" id="bcClean"><i class="fa-solid fa-broom"></i>Eski duyuruları sil</button></div>
+  <div class="card"><h4>Mesaj ara</h4><input id="mSearch" placeholder="Kelime ya da kişi…"><div id="mRes" style="display:flex;flex-direction:column;gap:6px;max-height:200px;overflow:auto"></div></div>
+  <div class="card"><h4>Toplu temizlik</h4><div class="row" id="lastN"><button class="btn sm" data-n="10">Son 10</button><button class="btn sm" data-n="25">Son 25</button><button class="btn sm" data-n="50">Son 50</button></div><p class="small">Son mesajları siler.</p></div>
   <div class="card"><h4>Sabit mesaj</h4><p class="small">Bir mesajın üzerine gelip <i class="fa-solid fa-thumbtack"></i> simgesine bas.</p><button class="btn" id="unpin2">Sabiti kaldır</button></div>
  </div>
  <div class="tab" id="t-us">
   <div class="card"><h4>Çevrimiçi</h4><input id="uSearch" placeholder="Ara…"><div id="uList" style="display:flex;flex-direction:column;gap:6px;max-height:170px;overflow:auto"></div></div>
   <div class="card" id="insp"><h4 id="iName">Kişi seç</h4><div class="small" id="iInfo">Listeden ya da sohbetteki bir isme tıkla.</div>
    <div class="grid"><button class="btn sm" data-a="m10">10 dk mute</button><button class="btn sm" data-a="m60">1 saat mute</button><button class="btn sm" data-a="m1440">1 gün mute</button><button class="btn sm red" data-a="ban">Kalıcı ban</button><button class="btn sm" data-a="warn"><i class="fa-solid fa-triangle-exclamation"></i>Uyarı at</button><button class="btn sm" data-a="wipe">Mesajları sil</button><button class="btn sm pri" data-a="un" style="grid-column:span 2">Cezayı kaldır</button></div>
-   <div class="grid" id="roleBtns"><button class="btn sm" data-a="mod">Moderatör yap</button><button class="btn sm" data-a="usr">Kullanıcı yap</button></div></div>
+   <div class="row"><input id="cMin" type="number" min="1" placeholder="Özel mute (dk)"><button class="btn sm" data-a="mc">Uygula</button></div><div class="grid" id="roleBtns"><button class="btn sm" data-a="mod">Moderatör yap</button><button class="btn sm" data-a="usr">Kullanıcı yap</button></div></div>
   <div class="card"><h4>Cezalılar</h4><div id="pList" style="display:flex;flex-direction:column;gap:6px"></div></div>
  </div>
  <div class="tab" id="t-si">
@@ -182,7 +197,7 @@ input:focus,textarea:focus{box-shadow:0 0 0 4px #FFC23322}input,textarea,select{
    <div id="mSched" hidden><input id="when" placeholder="2 gün sonra saat 20.00"><div class="row" id="whenChips"></div><div id="prev" class="prev"></div></div>
    <button class="btn pri" id="saveMode">Kaydet ve uygula</button></div>
   <div class="card"><h4>Metinler</h4><input id="iTitle" placeholder="Başlık"><input id="iSub" placeholder="Alt başlık"><input id="iBn" placeholder="Üst duyuru"><div class="row"><label class="t"><input type="checkbox" id="iBnOn">Duyuru açık</label><select id="iTone" style="width:auto"><option value="info">Bilgi</option><option value="warn">Uyarı</option><option value="ok">Olumlu</option></select></div><p class="small">Duyuru kaç saniye sonra kapansın?</p><div class="row"><input id="iBnDur" type="number" min="0" max="3600" placeholder="sn (0 = kapanmasın)"></div><div class="row" id="durChips"></div><button class="btn pri" id="saveTxt">Kaydet ve yayınla</button></div>
-  <div class="card"><h4>Görünüm ve kurallar</h4><div class="row"><label class="t">Vurgu rengi <input type="color" id="iAcc" style="width:56px;height:36px;padding:2px"></label><select id="iMax" style="width:auto"><option value="150">150 karakter</option><option value="300">300 karakter</option><option value="500">500 karakter</option></select></div><label class="t"><input type="checkbox" id="iNoLink">Link paylaşımını engelle</label><label class="t"><input type="checkbox" id="iFx">Parlama efektleri</label><button class="btn" id="saveLook">Kaydet</button></div>
+  <div class="card"><h4>Görünüm ve kurallar</h4><div class="row"><label class="t">Vurgu rengi <input type="color" id="iAcc" style="width:56px;height:36px;padding:2px"></label><select id="iMax" style="width:auto"><option value="150">150 karakter</option><option value="300">300 karakter</option><option value="500">500 karakter</option></select></div><label class="t"><input type="checkbox" id="iNoLink">Link paylaşımını engelle</label><label class="t"><input type="checkbox" id="iFx">Parlama efektleri</label><label class="t"><input type="checkbox" id="iNoEmo">Emoji panelini kapat</label><input id="iWel" maxlength="120" placeholder="Hoş geldin mesajı (girişte kısa görünür)"><button class="btn" id="saveLook">Kaydet</button></div>
   <div class="card"><h4>Yasaklı kelimeler</h4><div class="row"><input id="bwIn" placeholder="Kelime ekle"><button class="btn" id="bwAdd">Ekle</button></div><div class="row" id="bwList"></div></div>
   <button class="btn red" id="logout"><i class="fa-solid fa-right-from-bracket"></i>Yönetici oturumunu kapat</button>
  </div>
@@ -193,11 +208,12 @@ input:focus,textarea:focus{box-shadow:0 0 0 4px #FFC23322}input,textarea,select{
 <div id="mWarn" class="modal" hidden><form id="fWarn"><h3>Uyarı at: <span id="wFor"></span></h3><p class="small">Kullanıcıda “Bu mesaj sadece sizde gözükür” başlığıyla çıkar. Aşağıya yazdığın açıklama altında görünür.</p><textarea id="wIn" rows="3" maxlength="300" placeholder="Açıklama yaz…"></textarea><div class="row" id="wChips"><button type="button" class="chip">Küfür etme.</button><button type="button" class="chip">Spam yapma.</button><button type="button" class="chip">Kurallara uy.</button><button type="button" class="chip">Son uyarı!</button></div><div class="row"><button type="button" class="btn" data-x>Vazgeç</button><button class="btn pri" style="flex:1"><i class="fa-solid fa-paper-plane"></i>Uyarıyı gönder</button></div></form></div>
 <div id="warn" class="warn" hidden><div class="wbox"><div class="wic"><i class="fa-solid fa-triangle-exclamation"></i></div><h3>Yönetici uyarısı</h3><div class="wonly"><i class="fa-solid fa-eye"></i>Bu mesaj sadece sizde gözükür</div><div class="wtxt" id="wTxt"></div><small id="wBy"></small><button class="btn pri" id="wOk" disabled>Oku</button></div></div>
 <div id="pop" class="pop" hidden></div>
+<div id="ann" class="ann" hidden><i class="fa-solid fa-bullhorn"></i><div><span id="annT"></span><small id="annBy"></small></div><button class="ib sm" id="annX" aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button><i id="annBar" class="bnbar"></i></div>
 <div id="toasts"></div>
 
 <script>
 const ADMIN_PASSWORD="16153015";
-const DEF={title:"Anonim Chat",subtitle:"Özgürce ve canlı sohbet et",banner:"Küfür ve hakaret yasaktır.",bannerOn:true,tone:"info",mode:"normal",openAt:0,maintMsg:"",slow:0,locked:false,pinned:null,bannerDur:0,bannerAt:0,accent:"#FFC233",maxLen:300,noLinks:false,fx:true,
+const DEF={title:"Anonim Chat",subtitle:"Özgürce ve canlı sohbet et",banner:"Küfür ve hakaret yasaktır.",bannerOn:true,tone:"info",mode:"normal",openAt:0,maintMsg:"",slow:0,locked:false,pinned:null,bannerDur:0,ann:null,welcome:"",noEmoji:false,fxEvent:null,bannerAt:0,accent:"#FFC233",maxLen:300,noLinks:false,fx:true,
 badWords:['amk','aq','mk','sik','sikerim','sikim','orospu','piç','yarrak','yarak','ibne','göt','kahpe','puşt','yavşak','oç']};
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -207,7 +223,7 @@ const me={uid:localStorage.c_uid||(localStorage.c_uid='u'+Math.random().toString
 localStorage.c_name=me.name;
 let cfg={...DEF},users={},pres={},msgs={},boot=Date.now(),lastSent=0,reply=null,sel=null,gateSt='',selMode='normal',pend=0,snd=true,atBot=true,unseen=0,fails=0,lockT=0,actx;
 const staff=()=>me.role==='admin'||me.role==='mod';
-let logs=[],popU=null,warnTo=null,bnEnd=0,bnKey='';
+let logs=[],popU=null,warnTo=null,bnEnd=0,bnKey='',annKey=null,annEnd=0,fxKey=null;
 const F=()=>window.FB,R=p=>F().ref(F().db,p);
 function toast(t){const e=document.createElement('div');e.className='toast';e.textContent=t;$('#toasts').append(e);setTimeout(()=>{e.classList.add('out');setTimeout(()=>e.remove(),300)},2600)}
 function beep(){if(!snd)return;try{actx=actx||new(window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();o.frequency.value=660;g.gain.setValueAtTime(.08,actx.currentTime);g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+.18);o.connect(g);g.connect(actx.destination);o.start();o.stop(actx.currentTime+.18)}catch(e){}}
@@ -234,14 +250,14 @@ function beat(){F().set(R('presence/'+me.uid),{name:me.name,role:me.role,t:now()
 if(window.FB)start();else addEventListener('fb',start);
 /* ---------- config / gate ---------- */
 function applyCfg(){
- document.documentElement.style.setProperty('--ac',cfg.accent||'#FFC233');document.body.classList.toggle('nofx',cfg.fx===false);$('#msg').maxLength=cfg.maxLen||300;
+ document.documentElement.style.setProperty('--ac',cfg.accent||'#FFC233');document.body.classList.toggle('nofx',cfg.fx===false);$('#msg').maxLength=cfg.maxLen||300;$('#emoB').hidden=!!cfg.noEmoji;if(cfg.noEmoji)$('#emo').hidden=true;if(cfg.welcome&&!sessionStorage.c_wel){sessionStorage.c_wel=1;toast(cfg.welcome)}
  $('#tTitle').textContent=cfg.title;document.title=cfg.title;$('#tSub').textContent=cfg.subtitle;
  const dur=+cfg.bannerDur||0,key=cfg.banner+'|'+cfg.bannerAt,left=dur?cfg.bannerAt+dur*1000-now():1e12,b=$('#banner');bnEnd=dur?cfg.bannerAt+dur*1000:0;
  const show=cfg.bannerOn&&cfg.banner&&sessionStorage.c_bd!==key&&left>0;b.className='banner '+cfg.tone;$('#bnT').textContent=cfg.banner;
  if(show&&(b.hidden||bnKey!==key)){bnKey=key;b.hidden=false;const bar=$('#bnBar');bar.hidden=!dur;bar.style.animation='none';void bar.offsetWidth;if(dur)bar.style.animation=`drain ${left}ms linear forwards`}else if(!show)b.hidden=true;
  $('#pin').hidden=!cfg.pinned;if(cfg.pinned)$('#pinT').innerHTML=`<b>${esc(cfg.pinned.by)}:</b> ${esc(cfg.pinned.text)}`;$('#unpin').hidden=!staff();
  $('#slowB').hidden=!cfg.slow;$('#slowB').innerHTML=`<i class="fa-solid fa-gauge-simple-high"></i> Yavaş mod ${cfg.slow} sn`;
- tick();renderPanel();
+ annSync();fxSync();tick();renderPanel();
 }
 function setGate(){
  const w=cfg.mode==='scheduled'&&cfg.openAt>now(),m=cfg.mode==='maintenance',st=m?'m':w?'w':'';
@@ -259,6 +275,9 @@ function fmt(ts){return new Date(ts).toLocaleString('tr-TR',{weekday:'long',day:
 function muteLeft(){return Math.max(0,(users[me.uid]?.mutedUntil||0)-now())}
 function tick(){
  setGate();
+ if(annEnd&&!$('#ann').hidden&&now()>=annEnd)hideAnn();
+ try{const n=onl().length;$('#onP').hidden=!n;$('#onP').innerHTML='<i class="fa-solid fa-circle" style="color:var(--gn);font-size:8px"></i> '+n}catch(e){}
+ $('#empty').style.display=Object.keys(msgs).length?'none':'';
  if(bnEnd&&!$('#banner').hidden&&!$('#banner').classList.contains('out')&&now()>=bnEnd)hideBanner();
  const ml=muteLeft(),blocked=!staff()&&(ml>0||cfg.locked||!!gateSt);
  const mb=$('#muteBar');mb.hidden=!(ml>0&&!staff());
@@ -271,7 +290,7 @@ setInterval(tick,1000);setInterval(()=>{if($('#panel').classList.contains('open'
 /* ---------- messages ---------- */
 const stream=$('#stream');
 function addMsg(k,m){
- if(!m||msgs[k])return;msgs[k]=m;$('#empty').style.display='none';
+ if(!m||msgs[k])return;if(m.sys){if(me.role==='admin')F().remove(R('messages/'+k));return}msgs[k]=m;$('#empty').style.display='none';
  const isNew=m.ts>boot-1500,mine=m.uid===me.uid,el=document.createElement('div');el.dataset.k=k;
  if(m.sys){el.className='sys'+(isNew?' new':'');el.innerHTML=`<i class="fa-solid fa-bullhorn"></i> ${esc(m.text)}`}
  else{
@@ -363,15 +382,16 @@ function doAct(u,a){
  else if(me.role==='admin'&&(a==='mod'||a==='usr')){F().update(U,{role:a==='mod'?'mod':'user'});log(`${n} ${a==='mod'?'moderatör yapıldı':'kullanıcı yapıldı'}`)}
  else return;
  toast('Uygulandı')}
-$('#insp').addEventListener('click',e=>{const a=e.target.closest('[data-a]')?.dataset.a;if(a&&sel)doAct(sel,a)});
+$('#insp').addEventListener('click',e=>{const a=e.target.closest('[data-a]')?.dataset.a;if(!a||!sel)return;if(a==='mc'){const v=Math.floor(+$('#cMin').value);if(!(v>0))return toast('Dakika yaz');return doAct(sel,'m'+v)}doAct(sel,a)});
 $('#slowChips').onclick=e=>{if(e.target.dataset.s!=null)F().update(R('config'),{slow:+e.target.dataset.s})};
-$('#bcB').onclick=()=>{const t=$('#bcIn').value.trim();if(!t)return;const d=new Date(now());F().push(R('messages'),{sys:true,text:t,ts:now()});$('#bcIn').value='';toast('Duyuru yayınlandı')};
+$('#bcB').onclick=()=>{const t=$('#bcIn').value.trim();if(!t)return toast('Duyuru yaz');const d=Math.max(3,Math.min(600,+$('#bcDur').value||10));
+ F().update(R('config'),{ann:{id:now(),text:t.slice(0,200),at:now(),dur:d,by:me.name,tone:$('#bcTone').value}});$('#bcIn').value='';toast(`Duyuru ${d} sn görünecek`);log(`Duyuru (${d} sn): ${t.slice(0,50)}`)};
 $('#unpin').onclick=$('#unpin2').onclick=()=>F().update(R('config'),{pinned:null});
 $('#qLock').onclick=()=>F().update(R('config'),{locked:!cfg.locked});
 $('#qClr').onclick=()=>{if(confirm('Tüm sohbet silinsin mi?'))F().remove(R('messages')).then(()=>{$('#empty').style.display=''})};
 $('#qExp').onclick=()=>{const t=Object.entries(msgs).map(([,m])=>`[${m.time||''}] ${m.sys?'SİSTEM':nameOf(m.uid)}: ${m.text}`).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/plain'}));a.download='sohbet-'+new Date().toISOString().slice(0,10)+'.txt';a.click()};
 /* site tab */
-function fillSite(){$('#iBnDur').value=cfg.bannerDur||0;$('#iAcc').value=cfg.accent||'#FFC233';$('#iMax').value=cfg.maxLen||300;$('#iNoLink').checked=!!cfg.noLinks;$('#iFx').checked=cfg.fx!==false;$('#pNick').value=me.name;$('#iTitle').value=cfg.title;$('#iSub').value=cfg.subtitle;$('#iBn').value=cfg.banner;$('#iBnOn').checked=cfg.bannerOn;$('#iTone').value=cfg.tone;$('#mMsg').value=cfg.maintMsg;setMode(cfg.mode);if(cfg.mode==='scheduled'&&cfg.openAt>now()){$('#when').value='';$('#prev').textContent='Şu an kayıtlı: '+fmt(cfg.openAt)}}
+function fillSite(){$('#iNoEmo').checked=!!cfg.noEmoji;$('#iWel').value=cfg.welcome||'';$('#iBnDur').value=cfg.bannerDur||0;$('#iAcc').value=cfg.accent||'#FFC233';$('#iMax').value=cfg.maxLen||300;$('#iNoLink').checked=!!cfg.noLinks;$('#iFx').checked=cfg.fx!==false;$('#pNick').value=me.name;$('#iTitle').value=cfg.title;$('#iSub').value=cfg.subtitle;$('#iBn').value=cfg.banner;$('#iBnOn').checked=cfg.bannerOn;$('#iTone').value=cfg.tone;$('#mMsg').value=cfg.maintMsg;setMode(cfg.mode);if(cfg.mode==='scheduled'&&cfg.openAt>now()){$('#when').value='';$('#prev').textContent='Şu an kayıtlı: '+fmt(cfg.openAt)}}
 function setMode(m){selMode=m;$$('#modeSeg button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));$('#mMaint').hidden=m!=='maintenance';$('#mSched').hidden=m!=='scheduled'}
 $('#modeSeg').onclick=e=>{if(e.target.dataset.m)setMode(e.target.dataset.m)};
 $('#saveTxt').onclick=()=>{F().update(R('config'),{title:$('#iTitle').value.trim()||DEF.title,subtitle:$('#iSub').value.trim(),banner:$('#iBn').value.trim(),bannerOn:$('#iBnOn').checked,tone:$('#iTone').value,bannerDur:Math.max(0,Math.min(3600,+$('#iBnDur').value||0)),bannerAt:now()});toast('Yayınlandı');log('Duyuru/metinler güncellendi')};
@@ -445,7 +465,26 @@ addEventListener('pointerdown',e=>{if(!e.target.closest('#pop'))$('#pop').hidden
 /* site ayarları */
 $('#durChips').innerHTML=[5,10,30,60,0].map(v=>`<button class="chip" type="button" data-d="${v}">${v?v+' sn':'Hep açık'}</button>`).join('');
 $('#durChips').onclick=e=>{if(e.target.dataset.d!=null)$('#iBnDur').value=e.target.dataset.d};
-$('#saveLook').onclick=()=>{F().update(R('config'),{accent:$('#iAcc').value,maxLen:+$('#iMax').value,noLinks:$('#iNoLink').checked,fx:$('#iFx').checked});toast('Kaydedildi');log('Görünüm/kurallar güncellendi')};
+$('#saveLook').onclick=()=>{F().update(R('config'),{accent:$('#iAcc').value,maxLen:+$('#iMax').value,noLinks:$('#iNoLink').checked,fx:$('#iFx').checked,noEmoji:$('#iNoEmo').checked,welcome:$('#iWel').value.trim()});toast('Kaydedildi');log('Görünüm/kurallar güncellendi')};
+/* ---------- v3: süreli duyuru, temizlik, ekstra araçlar ---------- */
+function annSync(){const a=cfg.ann,e=$('#ann');if(!a||!a.text||now()>=a.at+a.dur*1000){if(!e.hidden)hideAnn();return}
+ if(annKey===a.id)return;annKey=a.id;annEnd=a.at+a.dur*1000;$('#annT').textContent=a.text;$('#annBy').textContent=a.by?'— '+a.by:'';e.className='ann '+(a.tone||'info');e.hidden=false;
+ const b=$('#annBar');b.style.animation='none';void b.offsetWidth;b.style.animation=`drain ${annEnd-now()}ms linear forwards`;beep()}
+function hideAnn(){const e=$('#ann');if(e.classList.contains('out'))return;e.classList.add('out');setTimeout(()=>{e.hidden=true;e.classList.remove('out')},450)}
+$('#annX').onclick=hideAnn;
+$('#bcChips').innerHTML=[5,10,15,30,60].map(v=>`<button class="chip" type="button" data-d="${v}">${v} sn</button>`).join('');
+$('#bcChips').onclick=e=>{if(e.target.dataset.d)$('#bcDur').value=e.target.dataset.d};
+$('#bcOff').onclick=()=>{F().update(R('config'),{ann:null});toast('Duyuru kaldırıldı')};
+$('#bcClean').onclick=()=>{if(!confirm('Sohbetteki tüm eski duyuru mesajları silinsin mi?'))return;F().get(R('messages')).then(s=>{const o={};s.forEach(c=>{if(c.val()&&c.val().sys)o[c.key]=null});const n=Object.keys(o).length;if(!n)return toast('Eski duyuru yok');F().update(R('messages'),o);toast(n+' eski duyuru silindi');log(n+' eski duyuru silindi')})};
+function fxSync(){const e=cfg.fxEvent;if(e&&e.id!==fxKey){fxKey=e.id;if(now()-e.id<8000)confetti()}}
+function confetti(){const E=['🎉','✨','🎊','⭐','💛','🔥'];for(let i=0;i<46;i++){const x=document.createElement('span');x.className='cf';x.textContent=E[i%E.length];x.style.cssText=`left:${Math.random()*100}vw;--d:${2.5+Math.random()*2.5}s;--x:${Math.random()*160-80}px;font-size:${16+Math.random()*16}px;animation-delay:${Math.random()*.8}s`;document.body.append(x);setTimeout(()=>x.remove(),6500)}}
+$('#qFx').onclick=()=>{F().update(R('config'),{fxEvent:{id:now(),t:'confetti'}});log('Konfeti patlatıldı')};
+$('#qUn').onclick=()=>{const o={};Object.entries(users).forEach(([u,r])=>{if(r.mutedUntil>now()){o[u+'/mutedUntil']=0;o[u+'/bans']=0}});const n=Object.keys(o).length/2;if(!n)return toast('Cezalı kimse yok');if(!confirm(n+' kişinin cezası kaldırılsın mı?'))return;F().update(R('users'),o);toast('Cezalar kaldırıldı');log(n+' kişinin cezası kaldırıldı')};
+$('#lastN').onclick=e=>{const n=+e.target.dataset.n;if(!n)return;const ks=Object.keys(msgs).sort().slice(-n);if(!ks.length)return toast('Silinecek mesaj yok');if(!confirm('Son '+ks.length+' mesaj silinsin mi?'))return;const o={};ks.forEach(k=>o[k]=null);F().update(R('messages'),o);log('Son '+ks.length+' mesaj silindi')};
+$('#mSearch').oninput=e=>{const q=e.target.value.trim().toLowerCase(),r=$('#mRes');if(!q){r.innerHTML='';return}
+ const l=Object.entries(msgs).filter(([,m])=>(m.text||'').toLowerCase().includes(q)||nameOf(m.uid).toLowerCase().includes(q)).slice(-20).reverse();
+ r.innerHTML=l.map(([k,m])=>`<div class="li" data-mk="${esc(k)}" style="cursor:default"><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><b>${esc(nameOf(m.uid))}:</b> ${esc(m.text)}</span><button class="ib sm" data-dk aria-label="Sil"><i class="fa-solid fa-trash"></i></button></div>`).join('')||'<div class="small">Sonuç yok.</div>'};
+$('#mRes').onclick=e=>{if(!e.target.closest('[data-dk]'))return;const row=e.target.closest('[data-mk]');F().remove(R('messages/'+row.dataset.mk));row.remove();log('Mesaj silindi (arama)')};
 paintMe();
 </script>
 </body>
