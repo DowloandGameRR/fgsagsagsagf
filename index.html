@@ -137,28 +137,6 @@ input:focus,textarea:focus{box-shadow:0 0 0 4px #FFC23322}input,textarea,select{
 .ann>i:first-child{font-size:20px;color:var(--ac);animation:wig .5s 3}.ann.warn>i:first-child{color:var(--rd)}.ann.ok>i:first-child{color:var(--gn)}
 @keyframes annIn{from{opacity:0;transform:translateY(-70px) scale(.85)}}@keyframes annOut{to{opacity:0;transform:translateY(-70px) scale(.9)}}@keyframes wig{25%{rotate:-18deg}75%{rotate:18deg}}
 .cf{position:fixed;top:-40px;z-index:130;pointer-events:none;animation:cf var(--d) linear forwards}@keyframes cf{to{transform:translate(var(--x),110vh) rotate(540deg)}}
-
-/* Feature pack: compact rank treatments and media controls */
-.rank-chip{display:inline-flex;align-items:center;gap:4px;padding:1px 7px;border-radius:99px;font-size:10px;font-weight:800;margin-left:4px;border:1px solid currentColor}
-.rank-newbie{--rank:#a9b4bd;color:#d8e0e8}.rank-active{--rank:#55d6a5;color:#55d6a5}
-.rank-chatty{--rank:#53c8ff;color:#53c8ff}.rank-veteran{--rank:#b7a1ff;color:#c6b4ff}
-.rank-elite{--rank:#ff9b55;color:#ffad70}.rank-legend{--rank:#ffd34f;color:#ffe27a}
-.rank-vip{--rank:#ff76c8;color:#ff9cda}.rank-artist{--rank:#65e6df;color:#65e6df}
-.rank-supporter{--rank:#9bdc78;color:#a9ed87}.rank-champion{--rank:#ff6565;color:#ff8585}
-.rank-mythic{--rank:#c18aff;color:#d3a8ff}.rank-cosmic{--rank:#7da7ff;color:#a3bdff}
-.m[data-rank] .bub{border-color:var(--rank)!important;box-shadow:inset 3px 0 0 var(--rank),0 0 12px color-mix(in srgb,var(--rank) 18%,transparent)}
-.rank-chip{background:color-mix(in srgb,var(--rank) 14%,transparent)}
-#musicDock{display:none;align-items:center;gap:8px;padding:7px 12px;background:var(--sf);border-bottom:1px solid var(--ln);font-size:13px}
-#musicDock.active{display:flex}#musicDock span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
-#musicDock button{white-space:nowrap}#ytFrameWrap{position:fixed;width:1px;height:1px;left:-10px;bottom:-10px;overflow:hidden;opacity:.01;pointer-events:none}
-.poll-live{padding:12px;background:var(--sf);border:1px solid var(--ac);border-radius:14px;margin:8px 12px}
-.poll-live h4{margin-bottom:8px}.poll-choice{display:block;width:100%;text-align:left;padding:8px 10px;margin:5px 0;border:1px solid var(--ln);border-radius:9px;background:var(--bg)}
-.poll-choice:disabled{opacity:.7}.poll-meter{height:7px;border-radius:9px;background:var(--ln);overflow:hidden;margin-top:5px}.poll-meter i{display:block;height:100%;background:var(--ac)}
-.msg-reactions{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}.msg-reactions button{font-size:12px;border:1px solid var(--ln);border-radius:99px;padding:2px 7px;background:var(--sf2)}
-.msg-reactions button.mine{border-color:var(--ac);color:var(--ac)}
-#musicEnable{display:none}#musicEnable.show{display:inline-flex}
-@media(prefers-reduced-motion:reduce){#musicDock,.poll-live{scroll-behavior:auto}}
-
 </style>
 </head>
 <body>
@@ -167,9 +145,7 @@ input:focus,textarea:focus{box-shadow:0 0 0 4px #FFC23322}input,textarea,select{
  <div class="brand"><span id="dot" class="dot off"></span><div><h1 id="tTitle">Anonim Chat</h1><p id="tSub"></p></div></div>
  <div class="acts"><span id="onP" class="pill" hidden></span><span id="slowB" class="pill" hidden></span><button id="snd" class="ib" aria-label="Ses"><i class="fa-solid fa-volume-high"></i></button><button id="me" class="pill me" title="Rumuzu değiştir"></button><button id="adm" class="btn"><i class="fa-solid fa-shield-halved"></i><span id="admT">Yönetici</span></button></div>
 </header>
-<div id="musicDock"><i class="fa-brands fa-youtube"></i><span id="musicTitle">Yönetici müzik yayını</span><button class="btn sm" id="musicEnable">Sesi etkinleştir</button></div>
- <div id="pollHost"></div>
- <div id="pin" class="pin" hidden><i class="fa-solid fa-thumbtack"></i><span id="pinT"></span><button id="unpin" class="ib sm" hidden aria-label="Sabiti kaldır"><i class="fa-solid fa-xmark"></i></button></div>
+<div id="pin" class="pin" hidden><i class="fa-solid fa-thumbtack"></i><span id="pinT"></span><button id="unpin" class="ib sm" hidden aria-label="Sabiti kaldır"><i class="fa-solid fa-xmark"></i></button></div>
 <div class="wrap">
  <main id="stream" class="stream"><div id="empty" class="empty"><b>Sessiz.</b>İlk mesajı sen yaz.</div></main>
  <button id="down" class="down" hidden></button>
@@ -193,7 +169,7 @@ input:focus,textarea:focus{box-shadow:0 0 0 4px #FFC23322}input,textarea,select{
 
 <aside id="panel" class="panel" aria-label="Yönetici paneli">
  <div class="ph"><h3>Yönetim</h3><button class="ib" id="pX" aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button></div>
- <div class="tabs"><button data-tab="ov" class="on">Özet</button><button data-tab="ch">Sohbet</button><button data-tab="us">Kişiler</button><button data-tab="fx">Eğlence</button><button data-tab="si" id="tabSi">Site</button></div>
+ <div class="tabs"><button data-tab="ov" class="on">Özet</button><button data-tab="ch">Sohbet</button><button data-tab="us">Kişiler</button><button data-tab="si" id="tabSi">Site</button></div>
  <div class="tab on" id="t-ov">
   <div class="grid"><div class="st"><b id="sOn">0</b><span>çevrimiçi</span></div><div class="st"><b id="sMs">0</b><span>yüklü mesaj</span></div><div class="st"><b id="sPn">0</b><span>cezalı kişi</span></div><div class="st"><b id="sMd" style="font-size:18px;padding:5px 0">-</b><span>site durumu</span></div></div>
   <div class="card"><h4>Hızlı işlemler</h4><div class="grid"><button class="btn" id="qLock"></button><button class="btn" id="qExp"><i class="fa-solid fa-download"></i>Sohbeti indir</button><button class="btn" id="qFx">🎉 Konfeti</button><button class="btn" id="qUn"><i class="fa-solid fa-unlock"></i>Cezaları kaldır</button><button class="btn red" id="qClr" style="grid-column:span 2"><i class="fa-solid fa-trash"></i>Sohbeti temizle</button></div></div>
@@ -228,7 +204,7 @@ input:focus,textarea:focus{box-shadow:0 0 0 4px #FFC23322}input,textarea,select{
 </aside>
 
 <div id="mLogin" class="modal" hidden><form id="fLogin"><h3>Yönetici girişi</h3><input id="pw" type="password" placeholder="Şifre" autocomplete="current-password"><div class="row"><button type="button" class="btn" data-x>Vazgeç</button><button class="btn pri" style="flex:1">Giriş yap</button></div></form></div>
-<div id="mNick" class="modal" hidden><form id="fNick"><h3>Rumuzunu değiştir</h3><div class="row"><input id="nick" maxlength="20" placeholder="2-20 karakter"><button type="button" class="btn" id="nickDice" title="Rastgele rumuz">🎲</button></div><div class="row"><button type="button" class="btn" data-x>Vazgeç</button><button class="btn pri" style="flex:1">Kaydet</button></div></form></div>
+<div id="mNick" class="modal" hidden><form id="fNick"><h3>Rumuzunu değiştir</h3><input id="nick" maxlength="20" placeholder="2-20 karakter"><div class="row"><button type="button" class="btn" data-x>Vazgeç</button><button class="btn pri" style="flex:1">Kaydet</button></div></form></div>
 <div id="mWarn" class="modal" hidden><form id="fWarn"><h3>Uyarı at: <span id="wFor"></span></h3><p class="small">Kullanıcıda “Bu mesaj sadece sizde gözükür” başlığıyla çıkar. Aşağıya yazdığın açıklama altında görünür.</p><textarea id="wIn" rows="3" maxlength="300" placeholder="Açıklama yaz…"></textarea><div class="row" id="wChips"><button type="button" class="chip">Küfür etme.</button><button type="button" class="chip">Spam yapma.</button><button type="button" class="chip">Kurallara uy.</button><button type="button" class="chip">Son uyarı!</button></div><div class="row"><button type="button" class="btn" data-x>Vazgeç</button><button class="btn pri" style="flex:1"><i class="fa-solid fa-paper-plane"></i>Uyarıyı gönder</button></div></form></div>
 <div id="warn" class="warn" hidden><div class="wbox"><div class="wic"><i class="fa-solid fa-triangle-exclamation"></i></div><h3>Yönetici uyarısı</h3><div class="wonly"><i class="fa-solid fa-eye"></i>Bu mesaj sadece sizde gözükür</div><div class="wtxt" id="wTxt"></div><small id="wBy"></small><button class="btn pri" id="wOk" disabled>Oku</button></div></div>
 <div id="pop" class="pop" hidden></div>
@@ -261,7 +237,7 @@ function start(){
  f.onValue(R('.info/serverTimeOffset'),s=>off=s.val()||0);
  f.onValue(R('.info/connected'),s=>{const on=!!s.val();$('#dot').classList.toggle('off',!on);if(on){f.onDisconnect(R('presence/'+me.uid)).remove();beat()}});
  f.onValue(R('config'),s=>{cfg={...DEF,...(s.val()||{})};cfg.badWords=Object.values(cfg.badWords||[]);applyCfg()});
- f.onValue(R('users'),s=>{users=s.val()||{};const r=users[me.uid];if(r&&r.role)me.role=r.role;else if(r)me.role='user';paintMe();checkWarn();tick();renderPanel();applyRankStyles()});
+ f.onValue(R('users'),s=>{users=s.val()||{};const r=users[me.uid];if(r&&r.role)me.role=r.role;else if(r)me.role='user';paintMe();checkWarn();tick();renderPanel()});
  f.onValue(R('presence'),s=>{pres=s.val()||{};renderPanel()});
  f.onValue(f.query(R('modlog'),f.orderByKey(),f.limitToLast(40)),s=>{logs=Object.values(s.val()||{}).reverse();renderLog()});
  const q=f.query(R('messages'),f.orderByKey(),f.limitToLast(150));
@@ -310,11 +286,11 @@ function tick(){
  $('#msg').placeholder=cfg.locked&&!staff()?'Sohbet yöneticiler tarafından kilitlendi':'Bir şey yaz…';
  $('#qLock').innerHTML=cfg.locked?'<i class="fa-solid fa-lock-open"></i>Kilidi aç':'<i class="fa-solid fa-lock"></i>Sohbeti kilitle';
 }
-setInterval(tick,1000);setInterval(()=>{if($('#panel').classList.contains('open'))renderPanel()},15000);
+setInterval(tick,1000);setInterval(()=>{if($('#panel').classList.contains('open'))renderPanel()},5000);
 /* ---------- messages ---------- */
 const stream=$('#stream');
 function addMsg(k,m){
- if(!m||msgs[k])return;msgs[k]=m;$('#empty').style.display='none';
+ if(!m||msgs[k])return;if(m.sys){if(me.role==='admin')F().remove(R('messages/'+k));return}msgs[k]=m;$('#empty').style.display='none';
  const isNew=m.ts>boot-1500,mine=m.uid===me.uid,el=document.createElement('div');el.dataset.k=k;
  if(m.sys){el.className='sys'+(isNew?' new':'');el.innerHTML=`<i class="fa-solid fa-bullhorn"></i> ${esc(m.text)}`}
  else{
@@ -509,200 +485,7 @@ $('#mSearch').oninput=e=>{const q=e.target.value.trim().toLowerCase(),r=$('#mRes
  const l=Object.entries(msgs).filter(([,m])=>(m.text||'').toLowerCase().includes(q)||nameOf(m.uid).toLowerCase().includes(q)).slice(-20).reverse();
  r.innerHTML=l.map(([k,m])=>`<div class="li" data-mk="${esc(k)}" style="cursor:default"><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><b>${esc(nameOf(m.uid))}:</b> ${esc(m.text)}</span><button class="ib sm" data-dk aria-label="Sil"><i class="fa-solid fa-trash"></i></button></div>`).join('')||'<div class="small">Sonuç yok.</div>'};
 $('#mRes').onclick=e=>{if(!e.target.closest('[data-dk]'))return;const row=e.target.closest('[data-mk]');F().remove(R('messages/'+row.dataset.mk));row.remove();log('Mesaj silindi (arama)')};
-
-/* ================= FEATURE PACK =================
-   Firebase-backed extras. Keep listeners limited to one per shared feature. */
-const RANKS={
- newbie:{label:'Yeni Üye',icon:'🌱'},active:{label:'Aktif Üye',icon:'⚡'},
- chatty:{label:'Sohbetçi',icon:'💬'},veteran:{label:'Kıdemli',icon:'🛡️'},
- elite:{label:'Elit',icon:'💎'},legend:{label:'Efsane',icon:'👑'},
- vip:{label:'VIP',icon:'✨'},artist:{label:'Sanatçı',icon:'🎨'},
- supporter:{label:'Destekçi',icon:'💚'},champion:{label:'Şampiyon',icon:'🏆'},
- mythic:{label:'Mitik',icon:'🔮'},cosmic:{label:'Kozmik',icon:'🌌'}
-};
-const rankOf=u=>users[u]?.rank||'';
-function rankHTML(u){const r=rankOf(u),d=RANKS[r];return d?`<span class="rank-chip rank-${r}">${d.icon} ${d.label}</span>`:''}
-function applyRankStyles(){
- $$('.m[data-uid]').forEach(el=>{
-  const u=el.dataset.uid,r=rankOf(u);
-  el.dataset.rank=r||'';
-  const b=el.querySelector('.mh b[data-u]');if(!b)return;
-  let chip=el.querySelector('.rank-chip');const h=rankHTML(u);
-  if(chip)chip.remove();
-  if(h)b.insertAdjacentHTML('afterend',h);
- });
-}
-const oldRestyle=restyle;
-restyle=function(){oldRestyle();applyRankStyles()};
-const rankObserver=()=>applyRankStyles();
-if(window.FB){
- F().onValue(R('users'),rankObserver);
- F().onValue(R('poll'),s=>renderPoll(s.val()));
- F().onValue(R('game'),s=>renderGame(s.val()));
- F().onValue(R('music'),s=>syncMusic(s.val()));
-}
-function isAdmin(){return me.role==='admin'}
-function adminOnly(){if(!isAdmin()){toast('Bu işlem yalnızca yöneticiye açık');return false}return true}
-
-/* Nickname generator */
-const nickA=['Siber','Gece','Piksel','Gizemli','Turbo','Kahve','Sessiz','Uzay','Limon','Çılgın','Kuzey','Gölge'];
-const nickB=['Korsan','Kuşu','Gezgini','Avcısı','Tilki','Ninja','Ruhu','Ustası','Hayaleti','Kedi','Oyuncu','Efsane'];
-$('#nickDice').onclick=()=>{$('#nick').value=nickA[Math.floor(Math.random()*nickA.length)]+nickB[Math.floor(Math.random()*nickB.length)]+'#'+(10+Math.floor(Math.random()*90))};
-
-/* Rank assignment */
-$('#rankSave').onclick=()=>{
- if(!adminOnly())return;
- const u=$('#rankUid').value.trim(),rank=$('#rankSelect').value;
- if(!u||!users[u])return toast('Geçerli kullanıcı UID gir');
- F().update(R('users/'+u),{rank:rank||null});
- log(`${nameOf(u)} rankı: ${RANKS[rank]?.label||'Ranksız'}`);
- toast('Rank güncellendi');
-};
-$('#t-us').addEventListener('click',e=>{
- const item=e.target.closest('[data-u]');if(item&&isAdmin())$('#rankUid').value=item.dataset.u;
-});
-
-/* YouTube shared playback. Browsers may require a one-time user gesture to enable audio. */
-function youtubeId(raw){
- try{
-  const u=new URL(raw);
-  if(u.hostname==='youtu.be')return u.pathname.slice(1).split('/')[0];
-  if(u.hostname.endsWith('youtube.com')||u.hostname.endsWith('youtube-nocookie.com')){
-   if(u.searchParams.get('v'))return u.searchParams.get('v');
-   const m=u.pathname.match(/\/(?:embed|shorts|live)\/([^/?]+)/);return m?.[1]||'';
-  }
- }catch(e){}
- return '';
-}
-let ytPlayer=null,ytReady=false,musicState=null,musicEnabled=false,lastMusicKey='';
-function loadYT(){
- if(document.getElementById('yt-api'))return;
- const sc=document.createElement('script');sc.id='yt-api';sc.src='https://www.youtube.com/iframe_api';document.head.append(sc);
- window.onYouTubeIframeAPIReady=()=>{
-  ytPlayer=new YT.Player('ytPlayer',{height:'1',width:'1',videoId:'',playerVars:{autoplay:0,controls:0,playsinline:1,enablejsapi:1},events:{onReady:()=>{ytReady=true;applyMusicState()}}});
- };
- const wrap=document.createElement('div');wrap.id='ytFrameWrap';wrap.innerHTML='<div id="ytPlayer"></div>';document.body.append(wrap);
-}
-function syncMusic(v){
- musicState=v||null;
- const dock=$('#musicDock'),enable=$('#musicEnable');
- if(!v||!v.videoId||v.stopped){dock.classList.remove('active');return}
- dock.classList.add('active');$('#musicTitle').textContent='Şimdi çalıyor · '+(v.title||'YouTube yayını');
- enable.classList.toggle('show',!musicEnabled);
- loadYT();applyMusicState();
-}
-function applyMusicState(){
- if(!musicEnabled||!ytReady||!musicState||musicState.stopped)return;
- const elapsed=Math.max(0,(Date.now()-(musicState.startedAt||Date.now()))/1000);
- try{
-  const current=ytPlayer.getVideoData()?.video_id;
-  if(current!==musicState.videoId){ytPlayer.loadVideoById({videoId:musicState.videoId,startSeconds:elapsed});}
-  else if(musicState.playing){if(Math.abs(ytPlayer.getCurrentTime()-elapsed)>3)ytPlayer.seekTo(elapsed,true);ytPlayer.playVideo()}
-  else ytPlayer.pauseVideo();
- }catch(e){}
-}
-$('#musicEnable').onclick=()=>{musicEnabled=true;$('#musicEnable').classList.remove('show');loadYT();if(ytReady)applyMusicState();else toast('YouTube oynatıcı hazırlanıyor')};
-$('#ytPlay').onclick=()=>{
- if(!adminOnly())return;
- const id=youtubeId($('#ytUrl').value.trim());if(!id)return toast('Geçerli bir YouTube bağlantısı gir');
- F().set(R('music'),{videoId:id,title:'Yönetici yayını',startedAt:Date.now(),playing:true,stopped:false,by:me.name});
- log('YouTube müzik yayını başlatıldı');toast('Müzik yayını gönderildi');
-};
-$('#ytStop').onclick=()=>{if(!adminOnly())return;F().set(R('music'),{stopped:true,playing:false,at:Date.now()});log('Müzik yayını durduruldu')};
-
-/* Live poll */
-function renderPoll(p){
- const host=$('#pollHost');if(!p||!p.active){host.innerHTML='';return}
- const opts=Object.entries(p.options||{}),votes=p.votes||{},total=Object.keys(votes).length,chosen=votes[me.uid];
- const admin=isAdmin();
- host.innerHTML=`<section class="poll-live"><h4>📊 ${esc(p.question||'Anket')}</h4>${opts.map(([id,label])=>{
-  const n=Object.values(votes).filter(v=>v===id).length,pc=total?Math.round(n/total*100):0;
-  return `<button class="poll-choice" data-vote="${esc(id)}" ${chosen||admin?'disabled':''}>${esc(label)} <b>${pc}%</b><div class="poll-meter"><i style="width:${pc}%"></i></div><small>${n} oy</small></button>`;
- }).join('')}<small>${total} oy · ${chosen?'Oyun kaydedildi':admin?'Yönetici görünümü':'Bir seçenek seç'}</small></section>`;
-}
-$('#pollAdd').onclick=()=>{if(!adminOnly())return;const n=$$('.pollOpt').length;if(n>=6)return toast('En fazla 6 seçenek');const i=document.createElement('input');i.className='pollOpt';i.maxLength=60;i.placeholder=(n+1)+'. seçenek';$('#pollOpts').append(i)};
-$('#pollStart').onclick=()=>{
- if(!adminOnly())return;
- const question=$('#pollQ').value.trim(),options=$$('.pollOpt').map(x=>x.value.trim()).filter(Boolean);
- if(!question||options.length<2)return toast('Soru ve en az 2 seçenek gerekli');
- const o={};options.forEach((v,i)=>o['o'+i]=v);
- F().set(R('poll'),{active:true,id:Date.now(),question,options:o,votes:{},by:me.name});
- log('Anket başlatıldı: '+question);toast('Anket yayınlandı');
-};
-$('#pollEnd').onclick=()=>{if(!adminOnly())return;F().update(R('poll'),{active:false});toast('Anket bitirildi')};
-$('#pollHost').addEventListener('click',e=>{
- const b=e.target.closest('[data-vote]');if(!b||!musicState&&false)return;
- F().get(R('poll')).then(s=>{
-  const p=s.val();if(!p?.active||p.votes?.[me.uid])return toast('Bu ankette zaten oy kullandın');
-  F().set(R('poll/votes/'+me.uid),b.dataset.vote);
- });
-});
-
-/* Admin-started word game and public dice/coin commands */
-function renderGame(g){
- if(!g?.active){window.activeGame=null;return}
- window.activeGame=g;
-}
-$('#gameWord').onclick=()=>{
- if(!adminOnly())return;
- const letters='ABCÇDEFGĞHİJKLMNOÖPRSŞTUÜVYZ',letter=letters[Math.floor(Math.random()*letters.length)];
- F().set(R('game'),{active:true,type:'word',letter,id:Date.now(),by:me.name,startedAt:Date.now()});
- F().push(R('messages'),{uid:'system',name:'Sistem',sys:true,text:'🎮 Kelime oyunu başladı! '+letter+' harfiyle başlayan bir kelime yazın.',ts:Date.now(),time:new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})});
- toast('Kelime oyunu başladı');
-};
-$('#gameStop').onclick=()=>{if(!adminOnly())return;F().update(R('game'),{active:false});toast('Oyun bitirildi')};
-$('#noticeSend').onclick=()=>{
- if(!adminOnly())return;const t=$('#featureNotice').value.trim();if(!t)return toast('Mesaj yaz');
- F().push(R('messages'),{uid:'system',name:'Sistem',sys:true,text:'📢 '+t,ts:Date.now(),time:new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})});
- $('#featureNotice').value='';
-};
-$('#soundTest').onclick=()=>beep();
-
-/* Intercept chat commands before normal message submission. */
-const oldSubmit=$('#form').onsubmit;
-$('#form').onsubmit=function(e){
- const t=$('#msg').value.trim();
- if(t==='/zar'||t==='/yazitura'){
-  e.preventDefault();
-  if(muteLeft()>0&&!staff())return;
-  const result=t==='/zar'?'🎲 '+nameOf(me.uid)+' zar attı: '+(1+Math.floor(Math.random()*6))+' çıktı!':'🪙 '+nameOf(me.uid)+' yazı-tura attı: '+(Math.random()<.5?'Yazı':'Tura')+'!';
-  F().push(R('messages'),{uid:'system',name:'Sistem',sys:true,text:result,ts:now(),time:new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})});
-  $('#msg').value='';return;
- }
- if(window.activeGame?.active&&window.activeGame.type==='word'&&!staff()){
-  const answer=t.toLocaleUpperCase('tr');
-  if(!answer.startsWith(window.activeGame.letter))return toast('Kelime '+window.activeGame.letter+' harfiyle başlamalı');
- }
- return oldSubmit.call(this,e);
-};
-
-/* Message reactions stored by message key; render lightweight controls. */
-const REACTIONS=['👍','❤️','💀','🤡','😂'];
-function attachReactions(el,k){
- if(el.querySelector('.msg-reactions'))return;
- const bar=document.createElement('div');bar.className='msg-reactions';
- bar.innerHTML=REACTIONS.map(x=>`<button type="button" data-react="${x}">${x} <span>0</span></button>`).join('');
- el.querySelector('.mb')?.append(bar);
- F().onValue(R('reactions/'+k),s=>{
-  const vals=s.val()||{};
-  bar.querySelectorAll('[data-react]').forEach(b=>{
-   const emoji=b.dataset.react,n=Object.values(vals).filter(v=>v===emoji).length;
-   b.querySelector('span').textContent=n;b.classList.toggle('mine',vals[me.uid]===emoji);
-  });
- });
-}
-stream.addEventListener('click',e=>{
- const b=e.target.closest('[data-react]');if(!b)return;
- const msg=b.closest('[data-k]');if(!msg)return;
- const path=R('reactions/'+msg.dataset.k+'/'+me.uid);
- F().get(path).then(s=>F().set(path,s.val()===b.dataset.react?null:b.dataset.react));
-});
-const oldAddMsg=addMsg;
-addMsg=function(k,m){oldAddMsg(k,m);const el=stream.querySelector(`[data-k="${k}"]`);if(el&&!m?.sys)attachReactions(el,k)};
-
-/* Keep the UI in sync when an admin assigns ranks while chat is already rendered. */
 paintMe();
-
 </script>
 </body>
 </html>
