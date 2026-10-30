@@ -82,8 +82,8 @@ label.t{display:flex;gap:8px;align-items:center;font-size:14px}label.t input{wid
 @keyframes drop{from{transform:translateY(-100%);opacity:0}}@keyframes lift{to{transform:translateY(-100%);opacity:0}}@keyframes drain{to{transform:scaleX(0)}}
 @keyframes toastIn{from{opacity:0;transform:translateY(-22px) scale(.8)}60%{transform:translateY(4px) scale(1.04)}}@keyframes fly{0%{transform:none}45%{transform:translate(26px,-26px) scale(.4);opacity:0}55%{transform:translate(-26px,26px) scale(.4);opacity:0}100%{transform:none;opacity:1}}
 @keyframes sheen{to{background-position:-250% 0}}@keyframes flt{50%{transform:translateY(-6px)}}@keyframes drift{to{transform:translate3d(5%,4%,0) rotate(7deg)}}
-body::before{content:'';position:fixed;inset:-20%;z-index:-1;pointer-events:none;background:radial-gradient(38% 28% at 18% 8%,#FFC23326,#0000 70%),radial-gradient(34% 34% at 88% 92%,#5FD3A524,#0000 70%);animation:drift 26s ease-in-out infinite alternate}
-body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.07;mix-blend-mode:overlay;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+body::before{content:'';position:fixed;inset:-20%;z-index:-1;pointer-events:none;background:radial-gradient(38% 28% at 18% 8%,#FFC23326,#0000 70%),radial-gradient(34% 34% at 88% 92%,#5FD3A524,#0000 70%);animation:drift 26s ease-in-out infinite alternate;will-change:transform}
+body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.04;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .brand h1{background:linear-gradient(100deg,var(--tx) 38%,var(--ac) 50%,var(--tx) 62%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 7s linear infinite}
 input:focus,textarea:focus{box-shadow:0 0 0 4px #FFC23322}input,textarea,select{transition:border-color .2s,box-shadow .25s}
 .empty{animation:flt 4s ease-in-out infinite}.stream{padding:18px 22px}
@@ -137,6 +137,29 @@ input:focus,textarea:focus{box-shadow:0 0 0 4px #FFC23322}input,textarea,select{
 .ann>i:first-child{font-size:20px;color:var(--ac);animation:wig .5s 3}.ann.warn>i:first-child{color:var(--rd)}.ann.ok>i:first-child{color:var(--gn)}
 @keyframes annIn{from{opacity:0;transform:translateY(-70px) scale(.85)}}@keyframes annOut{to{opacity:0;transform:translateY(-70px) scale(.9)}}@keyframes wig{25%{rotate:-18deg}75%{rotate:18deg}}
 .cf{position:fixed;top:-40px;z-index:130;pointer-events:none;animation:cf var(--d) linear forwards}@keyframes cf{to{transform:translate(var(--x),110vh) rotate(540deg)}}
+
+/* ===== v4: performans + yeni özellikler ===== */
+.stream{scroll-behavior:auto}
+body.hid *,body.hid ::before,body.hid ::after{animation-play-state:paused!important}
+.m.pz .bub,.m.pz .av,.m.pz .bub::before,.m.pz .bub::after,.m.pz .av::before,.m.pz .mh b,.m.pz .tag{animation-play-state:paused!important}
+body.lite::after{display:none}body.lite .m .bub::before,body.lite .m .av::before{display:none}body.lite::before{animation:none}
+.mus,.gbar,.poll,.pearl{display:flex;gap:10px;align-items:center;padding:7px 16px;background:var(--sf);border-bottom:1px solid var(--ln);font-size:14px}
+.mus>i{color:var(--ac)}.mus span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mus input[type=range]{width:84px;padding:0;accent-color:var(--ac);border:0;background:none}
+.gbar{flex-wrap:wrap;justify-content:center}.gbar .big{font:800 20px var(--h);color:var(--ac)}
+.poll{flex-direction:column;align-items:stretch;gap:6px;max-height:38vh;overflow:auto}.poll.min .po{display:none}
+.poll .ph2{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.po{position:relative;overflow:hidden;display:flex;justify-content:space-between;gap:8px;text-align:left;padding:8px 12px;border:1px solid var(--ln);border-radius:10px;background:var(--bg)}
+.po i{position:absolute;inset:0;background:#FFC23333;transform-origin:left;transition:transform .5s}.po span,.po em{position:relative;font-style:normal}.po.my{border-color:var(--ac)}.po:disabled{cursor:default}
+.pearl{overflow:hidden;white-space:nowrap;padding:5px 0;color:var(--ac);display:block}.pearl span{display:inline-block;padding-left:100%;animation:mq 30s linear infinite}@keyframes mq{to{transform:translateX(-100%)}}
+.typ{padding:2px 16px;font-size:12px;color:var(--mu);background:var(--sf2)}
+.rx{display:flex;gap:4px;flex-wrap:wrap;margin-top:3px}.rx:empty{display:none}.me .rx{justify-content:flex-end}.rxc{font-size:12px;padding:1px 7px;border:1px solid var(--ln);border-radius:99px;background:var(--sf2)}.rxc.me{border-color:var(--ac);color:var(--ac)}
+.rxp{position:absolute;top:100%;right:0;z-index:6;display:flex;gap:2px;background:var(--sf);border:1px solid var(--ln);border-radius:99px;padding:3px 6px;box-shadow:0 8px 20px #000a}.rxp button{font-size:18px;padding:2px 4px}
+body.noreact .tools [data-x],body.noreact .rx{display:none}
+.bigE{font-size:44px;line-height:1.1;display:block}.gif{max-width:220px;max-height:200px;border-radius:10px;display:block}
+.m.wh .bub{border-style:dashed;border-color:#c13dff;background:#2a1a3a}.m.wh .mh b::before{content:'🔒 '}
+.fun{background:var(--sf);border-top:1px solid var(--ln);padding:10px;display:flex;flex-direction:column;gap:8px;max-height:230px;overflow:auto;animation:pop .2s}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:2px}.fgrid button{font-size:26px;padding:4px;border-radius:8px}.fgrid button:hover{background:var(--bg)}
+.lv{font-size:12px;margin-left:2px}.rkt{color:#111}
 </style>
 </head>
 <body>
@@ -146,15 +169,17 @@ input:focus,textarea:focus{box-shadow:0 0 0 4px #FFC23322}input,textarea,select{
  <div class="acts"><span id="onP" class="pill" hidden></span><span id="slowB" class="pill" hidden></span><button id="snd" class="ib" aria-label="Ses"><i class="fa-solid fa-volume-high"></i></button><button id="me" class="pill me" title="Rumuzu değiştir"></button><button id="adm" class="btn"><i class="fa-solid fa-shield-halved"></i><span id="admT">Yönetici</span></button></div>
 </header>
 <div id="pin" class="pin" hidden><i class="fa-solid fa-thumbtack"></i><span id="pinT"></span><button id="unpin" class="ib sm" hidden aria-label="Sabiti kaldır"><i class="fa-solid fa-xmark"></i></button></div>
+<div id="mus" class="mus" hidden><i class="fa-solid fa-music"></i><span id="musT">Müzik</span><button id="musGo" class="btn sm pri" hidden>▶ Dinle</button><input id="musV" type="range" min="0" max="100" aria-label="Ses"><button id="musM" class="ib sm" aria-label="Sustur"><i class="fa-solid fa-volume-high"></i></button></div>
+<div id="gbar" class="gbar" hidden></div><div id="poll" class="poll" hidden></div><div id="pearl" class="pearl" hidden><span></span></div>
 <div class="wrap">
  <main id="stream" class="stream"><div id="empty" class="empty"><b>Sessiz.</b>İlk mesajı sen yaz.</div></main>
  <button id="down" class="down" hidden></button>
 </div>
 <div id="muteBar" class="bar" hidden></div>
 <div id="rbar" class="bar rep" hidden><span id="rT" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span><button id="rX" aria-label="İptal"><i class="fa-solid fa-xmark"></i></button></div>
-<div id="emo" class="emo" hidden></div>
+<div id="emo" class="emo" hidden></div><div id="fun" class="fun" hidden></div><div id="typ" class="typ" hidden></div>
 <form id="form" class="comp in" autocomplete="off">
- <button type="button" id="emoB" class="ib" aria-label="Emoji"><i class="fa-regular fa-face-smile"></i></button>
+ <button type="button" id="emoB" class="ib" aria-label="Emoji"><i class="fa-regular fa-face-smile"></i></button><button type="button" id="funB" class="ib" aria-label="Çıkartma ve sesler"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
  <input id="msg" maxlength="300" placeholder="Bir şey yaz…"><span id="cnt" class="cnt"></span>
  <button class="btn pri" id="sendB" aria-label="Gönder"><i class="fa-solid fa-paper-plane"></i></button>
 </form>
@@ -169,7 +194,7 @@ input:focus,textarea:focus{box-shadow:0 0 0 4px #FFC23322}input,textarea,select{
 
 <aside id="panel" class="panel" aria-label="Yönetici paneli">
  <div class="ph"><h3>Yönetim</h3><button class="ib" id="pX" aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button></div>
- <div class="tabs"><button data-tab="ov" class="on">Özet</button><button data-tab="ch">Sohbet</button><button data-tab="us">Kişiler</button><button data-tab="si" id="tabSi">Site</button></div>
+ <div class="tabs"><button data-tab="ov" class="on">Özet</button><button data-tab="ch">Sohbet</button><button data-tab="us">Kişiler</button><button data-tab="ev" id="tabEv">Etkinlik</button><button data-tab="si" id="tabSi">Site</button></div>
  <div class="tab on" id="t-ov">
   <div class="grid"><div class="st"><b id="sOn">0</b><span>çevrimiçi</span></div><div class="st"><b id="sMs">0</b><span>yüklü mesaj</span></div><div class="st"><b id="sPn">0</b><span>cezalı kişi</span></div><div class="st"><b id="sMd" style="font-size:18px;padding:5px 0">-</b><span>site durumu</span></div></div>
   <div class="card"><h4>Hızlı işlemler</h4><div class="grid"><button class="btn" id="qLock"></button><button class="btn" id="qExp"><i class="fa-solid fa-download"></i>Sohbeti indir</button><button class="btn" id="qFx">🎉 Konfeti</button><button class="btn" id="qUn"><i class="fa-solid fa-unlock"></i>Cezaları kaldır</button><button class="btn red" id="qClr" style="grid-column:span 2"><i class="fa-solid fa-trash"></i>Sohbeti temizle</button></div></div>
@@ -187,8 +212,17 @@ input:focus,textarea:focus{box-shadow:0 0 0 4px #FFC23322}input,textarea,select{
   <div class="card"><h4>Çevrimiçi</h4><input id="uSearch" placeholder="Ara…"><div id="uList" style="display:flex;flex-direction:column;gap:6px;max-height:170px;overflow:auto"></div></div>
   <div class="card" id="insp"><h4 id="iName">Kişi seç</h4><div class="small" id="iInfo">Listeden ya da sohbetteki bir isme tıkla.</div>
    <div class="grid"><button class="btn sm" data-a="m10">10 dk mute</button><button class="btn sm" data-a="m60">1 saat mute</button><button class="btn sm" data-a="m1440">1 gün mute</button><button class="btn sm red" data-a="ban">Kalıcı ban</button><button class="btn sm" data-a="warn"><i class="fa-solid fa-triangle-exclamation"></i>Uyarı at</button><button class="btn sm" data-a="wipe">Mesajları sil</button><button class="btn sm pri" data-a="un" style="grid-column:span 2">Cezayı kaldır</button></div>
-   <div class="row"><input id="cMin" type="number" min="1" placeholder="Özel mute (dk)"><button class="btn sm" data-a="mc">Uygula</button></div><div class="grid" id="roleBtns"><button class="btn sm" data-a="mod">Moderatör yap</button><button class="btn sm" data-a="usr">Kullanıcı yap</button></div></div>
+   <div class="row"><input id="cMin" type="number" min="1" placeholder="Özel mute (dk)"><button class="btn sm" data-a="mc">Uygula</button></div><div class="row" id="admOnly"><input id="rnIn" maxlength="20" placeholder="Yeni rumuz"><button class="btn sm" data-a="rn">Adı değiştir</button></div><select id="rkSel"></select><div class="grid" id="roleBtns"><button class="btn sm" data-a="mod">Moderatör yap</button><button class="btn sm" data-a="usr">Kullanıcı yap</button></div></div>
   <div class="card"><h4>Cezalılar</h4><div id="pList" style="display:flex;flex-direction:column;gap:6px"></div></div>
+ </div>
+ <div class="tab" id="t-ev">
+  <div class="card"><h4>🎵 Müzik (herkes duyar)</h4><input id="yIn" placeholder="YouTube linkini yapıştır"><div class="row"><label class="t"><input type="checkbox" id="yLoop">Tekrar</label><span class="small">Ses</span><input id="yVol" type="range" min="0" max="100" value="80" style="flex:1;padding:0"></div><div class="row"><button class="btn pri" id="yPlay" style="flex:1">▶ Çal</button><button class="btn red" id="yStop">■ Durdur</button></div><div class="small" id="yNow"></div></div>
+  <div class="card"><h4>🔤 Kelime oyunu</h4><div class="row"><input id="gLet" maxlength="1" placeholder="Harf (boş = rastgele)"><select id="gDur" style="width:auto"><option value="30">30 sn</option><option value="60" selected>60 sn</option><option value="120">2 dk</option></select></div><button class="btn pri" id="gW">Başlat</button></div>
+  <div class="card"><h4>❓ Soru-cevap</h4><input id="gQi" maxlength="120" placeholder="Soru"><input id="gAi" maxlength="40" placeholder="Cevap"><button class="btn pri" id="gQ">Soruyu sor (90 sn)</button><button class="btn red sm" id="gOff">Oyunu bitir / kaldır</button></div>
+  <div class="card"><h4>📊 Anket</h4><input id="pQ" maxlength="120" placeholder="Günün sorusu…"><textarea id="pO" rows="4" placeholder="Her satıra bir seçenek (2-6)"></textarea><div class="row"><button class="btn pri" id="pGo" style="flex:1">Gönder</button><button class="btn" id="pCl">Kapat/Aç</button><button class="btn red" id="pDel">Sil</button></div></div>
+  <div class="card"><h4>🔊 Ses paneli (herkese çalar)</h4><div class="row" id="sbRow"></div></div>
+  <div class="card"><h4>🎰 Çekiliş</h4><button class="btn" id="raf">Çevrimiçi birini seç</button></div>
+  <div class="card"><h4>🏅 En aktifler</h4><div id="topAct" style="display:flex;flex-direction:column;gap:6px"></div></div>
  </div>
  <div class="tab" id="t-si">
   <div class="card"><h4>Erişim</h4>
@@ -199,17 +233,18 @@ input:focus,textarea:focus{box-shadow:0 0 0 4px #FFC23322}input,textarea,select{
   <div class="card"><h4>Metinler</h4><input id="iTitle" placeholder="Başlık"><input id="iSub" placeholder="Alt başlık"><input id="iBn" placeholder="Üst duyuru"><div class="row"><label class="t"><input type="checkbox" id="iBnOn">Duyuru açık</label><select id="iTone" style="width:auto"><option value="info">Bilgi</option><option value="warn">Uyarı</option><option value="ok">Olumlu</option></select></div><p class="small">Duyuru kaç saniye sonra kapansın?</p><div class="row"><input id="iBnDur" type="number" min="0" max="3600" placeholder="sn (0 = kapanmasın)"></div><div class="row" id="durChips"></div><button class="btn pri" id="saveTxt">Kaydet ve yayınla</button></div>
   <div class="card"><h4>Görünüm ve kurallar</h4><div class="row"><label class="t">Vurgu rengi <input type="color" id="iAcc" style="width:56px;height:36px;padding:2px"></label><select id="iMax" style="width:auto"><option value="150">150 karakter</option><option value="300">300 karakter</option><option value="500">500 karakter</option></select></div><label class="t"><input type="checkbox" id="iNoLink">Link paylaşımını engelle</label><label class="t"><input type="checkbox" id="iFx">Parlama efektleri</label><label class="t"><input type="checkbox" id="iNoEmo">Emoji panelini kapat</label><input id="iWel" maxlength="120" placeholder="Hoş geldin mesajı (girişte kısa görünür)"><button class="btn" id="saveLook">Kaydet</button></div>
   <div class="card"><h4>Yasaklı kelimeler</h4><div class="row"><input id="bwIn" placeholder="Kelime ekle"><button class="btn" id="bwAdd">Ekle</button></div><div class="row" id="bwList"></div></div>
+  <div class="card"><h4>Özellikler</h4><label class="t"><input type="checkbox" id="fR">Mesaj tepkileri</label><label class="t"><input type="checkbox" id="fW">Fısıltı</label><label class="t"><input type="checkbox" id="fT">Yazıyor göstergesi</label><label class="t"><input type="checkbox" id="fS">Çıkartma / GIF paneli</label><label class="t"><input type="checkbox" id="fC">/zar ve /yazitura</label><label class="t"><input type="checkbox" id="fX">Ses komutları (!alkis…)</label><button class="btn" id="saveFeat">Kaydet</button></div>
   <button class="btn red" id="logout"><i class="fa-solid fa-right-from-bracket"></i>Yönetici oturumunu kapat</button>
  </div>
 </aside>
 
 <div id="mLogin" class="modal" hidden><form id="fLogin"><h3>Yönetici girişi</h3><input id="pw" type="password" placeholder="Şifre" autocomplete="current-password"><div class="row"><button type="button" class="btn" data-x>Vazgeç</button><button class="btn pri" style="flex:1">Giriş yap</button></div></form></div>
-<div id="mNick" class="modal" hidden><form id="fNick"><h3>Rumuzunu değiştir</h3><input id="nick" maxlength="20" placeholder="2-20 karakter"><div class="row"><button type="button" class="btn" data-x>Vazgeç</button><button class="btn pri" style="flex:1">Kaydet</button></div></form></div>
+<div id="mNick" class="modal" hidden><form id="fNick"><h3>Rumuzunu değiştir</h3><div class="row"><input id="nick" maxlength="20" placeholder="2-20 karakter"><button type="button" class="ib" id="dice" aria-label="Rastgele rumuz">🎲</button></div><div class="row"><button type="button" class="btn" id="nickX" data-x>Vazgeç</button><button class="btn pri" style="flex:1">Kaydet</button></div></form></div>
 <div id="mWarn" class="modal" hidden><form id="fWarn"><h3>Uyarı at: <span id="wFor"></span></h3><p class="small">Kullanıcıda “Bu mesaj sadece sizde gözükür” başlığıyla çıkar. Aşağıya yazdığın açıklama altında görünür.</p><textarea id="wIn" rows="3" maxlength="300" placeholder="Açıklama yaz…"></textarea><div class="row" id="wChips"><button type="button" class="chip">Küfür etme.</button><button type="button" class="chip">Spam yapma.</button><button type="button" class="chip">Kurallara uy.</button><button type="button" class="chip">Son uyarı!</button></div><div class="row"><button type="button" class="btn" data-x>Vazgeç</button><button class="btn pri" style="flex:1"><i class="fa-solid fa-paper-plane"></i>Uyarıyı gönder</button></div></form></div>
 <div id="warn" class="warn" hidden><div class="wbox"><div class="wic"><i class="fa-solid fa-triangle-exclamation"></i></div><h3>Yönetici uyarısı</h3><div class="wonly"><i class="fa-solid fa-eye"></i>Bu mesaj sadece sizde gözükür</div><div class="wtxt" id="wTxt"></div><small id="wBy"></small><button class="btn pri" id="wOk" disabled>Oku</button></div></div>
 <div id="pop" class="pop" hidden></div>
 <div id="ann" class="ann" hidden><i class="fa-solid fa-bullhorn"></i><div><span id="annT"></span><small id="annBy"></small></div><button class="ib sm" id="annX" aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button><i id="annBar" class="bnbar"></i></div>
-<div id="toasts"></div>
+<div id="toasts"></div><div id="yt" style="position:fixed;bottom:0;right:0;width:2px;height:2px;opacity:.01;pointer-events:none"></div>
 
 <script>
 const ADMIN_PASSWORD="16153015";
@@ -219,7 +254,7 @@ const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const pad=n=>String(n).padStart(2,'0');
 let off=0;const now=()=>Date.now()+off;
-const me={uid:localStorage.c_uid||(localStorage.c_uid='u'+Math.random().toString(36).slice(2,10)),name:localStorage.c_name||'Anonim #'+(1000+Math.floor(Math.random()*9000)),role:'user'};
+const wasNew=!localStorage.c_uid;if(wasNew)localStorage.c_new=1;const me={uid:localStorage.c_uid||(localStorage.c_uid='u'+Math.random().toString(36).slice(2,10)),name:localStorage.c_name||'Anonim #'+(1000+Math.floor(Math.random()*9000)),role:'user'};
 localStorage.c_name=me.name;
 let cfg={...DEF},users={},pres={},msgs={},boot=Date.now(),lastSent=0,reply=null,sel=null,gateSt='',selMode='normal',pend=0,snd=true,atBot=true,unseen=0,fails=0,lockT=0,actx;
 const staff=()=>me.role==='admin'||me.role==='mod';
@@ -230,20 +265,23 @@ function beep(){if(!snd)return;try{actx=actx||new(window.AudioContext||window.we
 const nameOf=u=>users[u]?.name||pres[u]?.name||u;
 const roleOf=u=>u===me.uid?me.role:(users[u]?.role||'user');
 function hue(s){let h=0;for(const c of s)h=(h*31+c.charCodeAt(0))%360;return h}
-function paintMe(){const b=$('#me');b.className='pill me '+(me.role==='user'?'':me.role);b.innerHTML=(me.role==='admin'?'<i class="fa-solid fa-crown"></i> ':me.role==='mod'?'<i class="fa-solid fa-shield"></i> ':'')+esc(me.name);$('#admT').textContent=staff()?(me.role==='admin'?'Yönetici':'Moderatör'):'Giriş';$('#tabSi').hidden=me.role!=='admin';$('#dock').hidden=!staff();$('#gLogin').hidden=staff();$$('.tools [data-del],.tools [data-pin]').forEach(b=>b.hidden=!staff());document.body.classList.toggle('st',staff());restyle()}
+function paintMe(){const b=$('#me');b.className='pill me '+(me.role==='user'?'':me.role);b.innerHTML=(me.role==='admin'?'<i class="fa-solid fa-crown"></i> ':me.role==='mod'?'<i class="fa-solid fa-shield"></i> ':'')+esc(me.name);$('#admT').textContent=staff()?(me.role==='admin'?'Yönetici':'Moderatör'):'Giriş';$('#tabSi').hidden=$('#tabEv').hidden=me.role!=='admin';$('#dock').hidden=!staff();$('#gLogin').hidden=staff();$$('.tools [data-del],.tools [data-pin],.tools [data-star]').forEach(b=>b.hidden=!staff());document.body.classList.toggle('st',staff());restyleSoon()}
 /* ---------- firebase ---------- */
 function start(){
  const f=F();
  f.onValue(R('.info/serverTimeOffset'),s=>off=s.val()||0);
  f.onValue(R('.info/connected'),s=>{const on=!!s.val();$('#dot').classList.toggle('off',!on);if(on){f.onDisconnect(R('presence/'+me.uid)).remove();beat()}});
  f.onValue(R('config'),s=>{cfg={...DEF,...(s.val()||{})};cfg.badWords=Object.values(cfg.badWords||[]);applyCfg()});
- f.onValue(R('users'),s=>{users=s.val()||{};const r=users[me.uid];if(r&&r.role)me.role=r.role;else if(r)me.role='user';paintMe();checkWarn();tick();renderPanel()});
+ f.onValue(R('users'),s=>{users=s.val()||{};const r=users[me.uid];if(r&&r.role)me.role=r.role;else if(r)me.role='user';
+  if(r&&r.name&&r.name!==me.name){me.name=r.name;localStorage.c_name=r.name;beat()}
+  if(!firstU){firstU=1;if(localStorage.c_new)askNick();else if(!r||!r.named)f.update(R('users/'+me.uid),{name:r?.name||me.name,named:true})}
+  paintMe();checkWarn();tick();renderPanel()});
  f.onValue(R('presence'),s=>{pres=s.val()||{};renderPanel()});
  f.onValue(f.query(R('modlog'),f.orderByKey(),f.limitToLast(40)),s=>{logs=Object.values(s.val()||{}).reverse();renderLog()});
- const q=f.query(R('messages'),f.orderByKey(),f.limitToLast(150));
+ const q=f.query(R('messages'),f.orderByKey(),f.limitToLast(100));
  f.onChildAdded(q,s=>addMsg(s.key,s.val()));
- f.onChildRemoved(q,s=>{document.querySelector(`[data-k="${s.key}"]`)?.remove();delete msgs[s.key];stats()});
- f.update(R('users/'+me.uid),{name:me.name});
+ f.onChildRemoved(q,s=>{document.querySelector(`[data-k="${s.key}"]`)?.remove();delete msgs[s.key];stats();pearls()});
+ startX(f);
  setInterval(beat,20000);
 }
 function beat(){F().set(R('presence/'+me.uid),{name:me.name,role:me.role,t:now()})}
@@ -257,7 +295,7 @@ function applyCfg(){
  if(show&&(b.hidden||bnKey!==key)){bnKey=key;b.hidden=false;const bar=$('#bnBar');bar.hidden=!dur;bar.style.animation='none';void bar.offsetWidth;if(dur)bar.style.animation=`drain ${left}ms linear forwards`}else if(!show)b.hidden=true;
  $('#pin').hidden=!cfg.pinned;if(cfg.pinned)$('#pinT').innerHTML=`<b>${esc(cfg.pinned.by)}:</b> ${esc(cfg.pinned.text)}`;$('#unpin').hidden=!staff();
  $('#slowB').hidden=!cfg.slow;$('#slowB').innerHTML=`<i class="fa-solid fa-gauge-simple-high"></i> Yavaş mod ${cfg.slow} sn`;
- annSync();fxSync();tick();renderPanel();
+ annSync();fxSync();musicSync();sfxSync();featSync();tick();renderPanel();
 }
 function setGate(){
  const w=cfg.mode==='scheduled'&&cfg.openAt>now(),m=cfg.mode==='maintenance',st=m?'m':w?'w':'';
@@ -274,9 +312,9 @@ function setGate(){
 function fmt(ts){return new Date(ts).toLocaleString('tr-TR',{weekday:'long',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'})}
 function muteLeft(){return Math.max(0,(users[me.uid]?.mutedUntil||0)-now())}
 function tick(){
- setGate();
+ setGate();gameTick();showTyp();
  if(annEnd&&!$('#ann').hidden&&now()>=annEnd)hideAnn();
- try{const n=onl().length;$('#onP').hidden=!n;$('#onP').innerHTML='<i class="fa-solid fa-circle" style="color:var(--gn);font-size:8px"></i> '+n}catch(e){}
+ try{const n=onl().length;$('#onP').hidden=!n;sh('#onP','<i class="fa-solid fa-circle" style="color:var(--gn);font-size:8px"></i> '+n)}catch(e){}
  $('#empty').style.display=Object.keys(msgs).length?'none':'';
  if(bnEnd&&!$('#banner').hidden&&!$('#banner').classList.contains('out')&&now()>=bnEnd)hideBanner();
  const ml=muteLeft(),blocked=!staff()&&(ml>0||cfg.locked||!!gateSt);
@@ -284,47 +322,61 @@ function tick(){
  if(ml>0){const s=Math.ceil(ml/1000);mb.innerHTML=ml>1e12?'<i class="fa-solid fa-ban"></i> Kalıcı olarak engellendin.':`<i class="fa-solid fa-triangle-exclamation"></i> Mesaj yazamazsın · ${pad(Math.floor(s/60))}:${pad(s%60)}`}
  $('#msg').disabled=$('#sendB').disabled=blocked;
  $('#msg').placeholder=cfg.locked&&!staff()?'Sohbet yöneticiler tarafından kilitlendi':'Bir şey yaz…';
- $('#qLock').innerHTML=cfg.locked?'<i class="fa-solid fa-lock-open"></i>Kilidi aç':'<i class="fa-solid fa-lock"></i>Sohbeti kilitle';
+ sh('#qLock',cfg.locked?'<i class="fa-solid fa-lock-open"></i>Kilidi aç':'<i class="fa-solid fa-lock"></i>Sohbeti kilitle');
 }
 setInterval(tick,1000);setInterval(()=>{if($('#panel').classList.contains('open'))renderPanel()},5000);
 /* ---------- messages ---------- */
 const stream=$('#stream');
+const io=new IntersectionObserver(es=>es.forEach(x=>x.target.classList.toggle('pz',!x.isIntersecting)),{root:stream,rootMargin:'120px'});
+let sT=0;const toBot=()=>{if(!sT)sT=requestAnimationFrame(()=>{sT=0;stream.scrollTop=stream.scrollHeight})};
+const okGif=u=>/^https:\/\/([\w-]+\.)*(giphy|tenor)\.com\/[^\s"'<>]+\.(gif|webp|png|jpe?g)(\?[^\s"'<>]*)?$/i.test(u||'');
+const bubIn=m=>m.st?`<span class="bigE">${esc(m.st)}</span>`:m.gif&&okGif(m.gif)?`<img class="gif" loading="lazy" referrerpolicy="no-referrer" src="${esc(m.gif)}" alt="GIF">`:esc(m.text);
 function addMsg(k,m){
  if(!m||msgs[k])return;if(m.sys){if(me.role==='admin')F().remove(R('messages/'+k));return}msgs[k]=m;$('#empty').style.display='none';
  const isNew=m.ts>boot-1500,mine=m.uid===me.uid,el=document.createElement('div');el.dataset.k=k;
- if(m.sys){el.className='sys'+(isNew?' new':'');el.innerHTML=`<i class="fa-solid fa-bullhorn"></i> ${esc(m.text)}`}
- else{
-  const r=roleOf(m.uid),n=users[m.uid]?.name||m.name;
-  el.dataset.uid=m.uid;el.className=`m${mine?' me':''}${rc(r)}${isNew?' new':''}`;
-  el.innerHTML=`<div class="av" style="--c:hsl(${hue(m.uid)} 70% 70%)">${esc([...n][0]||'?').toUpperCase()}</div><div class="mb"><div class="mh"><b data-u="${esc(m.uid)}">${esc(n)}</b><span class="rt">${tagH(r)}</span><time>${esc(m.time||'')}</time></div>${m.reply?`<div class="rp">↩ ${esc(m.reply.name)}: ${esc(m.reply.text)}</div>`:''}<div class="bub">${esc(m.text)}<div class="tools"><button data-r aria-label="Yanıtla"><i class="fa-solid fa-reply"></i></button><button data-pin hidden aria-label="Sabitle"><i class="fa-solid fa-thumbtack"></i></button><button data-del hidden aria-label="Sil"><i class="fa-solid fa-trash"></i></button></div></div></div>`;
-  if(isNew&&!mine)beep();
- }
- stream.append(el);
- if(staff())el.querySelectorAll('[data-del],[data-pin]').forEach(b=>b.hidden=false);
- if(!isNew||atBot||mine){stream.scrollTop=stream.scrollHeight}else{unseen++;$('#down').hidden=false;$('#down').textContent='↓ '+unseen+' yeni'}
- stats();
-}
-stream.addEventListener('scroll',()=>{atBot=stream.scrollHeight-stream.scrollTop-stream.clientHeight<80;if(atBot){unseen=0;$('#down').hidden=true}});
+ if(m.cmd){el.className='sys cmdm'+(isNew?' new':'');el.textContent=m.text}
+ else{const r=roleOf(m.uid),n=users[m.uid]?.name||m.name;el.dataset.uid=m.uid;el.dataset.rk=users[m.uid]?.rank||'';el.className=`m${mine?' me':''}${rc(r)}${isNew?' new':''}`;
+  el.innerHTML=`<div class="av" style="--c:hsl(${hue(m.uid)} 70% 70%)">${esc([...n][0]||'?').toUpperCase()}</div><div class="mb"><div class="mh"><b data-u="${esc(m.uid)}">${esc(n)}</b><span class="rt">${tagH(r,m.uid)}</span><time>${esc(m.time||'')}</time></div>${m.reply?`<div class="rp">↩ ${esc(m.reply.name)}: ${esc(m.reply.text)}</div>`:''}<div class="bub">${bubIn(m)}<div class="tools"><button data-x aria-label="Tepki"><i class="fa-regular fa-face-smile"></i></button><button data-r aria-label="Yanıtla"><i class="fa-solid fa-reply"></i></button><button data-star hidden aria-label="Günün incisi"><i class="fa-solid fa-star"></i></button><button data-pin hidden aria-label="Sabitle"><i class="fa-solid fa-thumbtack"></i></button><button data-del hidden aria-label="Sil"><i class="fa-solid fa-trash"></i></button></div></div><div class="rx"></div></div>`;
+  if(isNew&&!mine){beep();kw(m.text)}io.observe(el)}
+ stream.append(el);if(m.re)rx(el,m);if(m.pearl||m.re)pearls();
+ if(staff())el.querySelectorAll('[data-del],[data-pin],[data-star]').forEach(b=>b.hidden=false);
+ const all=stream.querySelectorAll('[data-k]');if(all.length>110){const f=all[0];io.unobserve(f);delete msgs[f.dataset.k];f.remove()}
+ if(!isNew||atBot||mine)toBot();else{unseen++;$('#down').hidden=false;$('#down').textContent='↓ '+unseen+' yeni'}
+ stats()}
+stream.addEventListener('scroll',()=>{atBot=stream.scrollHeight-stream.scrollTop-stream.clientHeight<80;if(atBot){unseen=0;$('#down').hidden=true}},{passive:true});
 $('#down').onclick=()=>{stream.scrollTop=stream.scrollHeight};
+const RX=['👍','❤️','💀','🤡','😂','🔥'];
 stream.addEventListener('click',e=>{
- const el=e.target.closest('[data-k]'),k=el?.dataset.k,m=msgs[k];
+ const el=e.target.closest('[data-k]'),k=el?.dataset.k,m=msgs[k],mu=e.target.closest('.m[data-uid]')?.dataset.uid;
+ const eb=e.target.closest('[data-e]');if(eb&&m){react(k,eb.dataset.e);el.querySelector('.rxp')?.remove();return}
+ if(e.target.closest('[data-x]')&&m){const b=el.querySelector('.bub');let p=b.querySelector('.rxp');if(p)p.remove();else{p=document.createElement('div');p.className='rxp';p.innerHTML=RX.map(x=>`<button data-e="${x}">${x}</button>`).join('');b.append(p)}return}
+ if(mu&&(e.target.dataset.u||e.target.closest('.av')))return showPop(mu,e.clientX,e.clientY);
+ if(!m)return;
  if(e.target.closest('[data-r]')){reply={name:nameOf(m.uid),text:m.text.slice(0,70)};$('#rT').textContent='Yanıt: '+reply.name+' – '+reply.text;$('#rbar').hidden=false;$('#msg').focus()}
  else if(e.target.closest('[data-del]'))F().remove(R('messages/'+k));
  else if(e.target.closest('[data-pin]'))F().update(R('config'),{pinned:{text:m.text.slice(0,140),by:nameOf(m.uid)}});
- else if(el?.dataset.uid&&(e.target.dataset.u||e.target.closest('.av'))&&staff())showPop(el.dataset.uid,e.clientX,e.clientY);
+ else if(e.target.closest('[data-star]'))F().update(R('messages/'+k),{pearl:m.pearl?null:true});
 });
-$('#rX').onclick=()=>{reply=null;$('#rbar').hidden=true};
+function react(k,em){if(!msgs[k]||(!staff()&&(muteLeft()>0||cfg.locked||gateSt)))return;const has=msgs[k].re?.[em]?.[me.uid];F().set(R(`messages/${k}/re/${em}/${me.uid}`),has?null:true)}
+function rx(el,m){const b=el.querySelector('.rx');if(!b)return;b.innerHTML=Object.entries(m.re||{}).map(([e,o])=>{const c=Object.keys(o||{}).length;return c?`<button class="rxc${o[me.uid]?' me':''}" data-e="${esc(e)}">${esc(e)} ${c}</button>`:''}).join('')}
+const rc2=m=>Object.values(m.re||{}).reduce((a,o)=>a+Object.keys(o||{}).length,0);let pT=0;
+function pearls(){clearTimeout(pT);pT=setTimeout(()=>{const sc=m=>(m.pearl?99:0)+rc2(m),l=Object.values(msgs).filter(m=>!m.cmd&&(m.pearl||rc2(m)>=3)).sort((a,b)=>sc(b)-sc(a)).slice(0,5),b=$('#pearl');b.hidden=!l.length;if(!l.length)return;const s=b.querySelector('span');s.innerHTML=l.map(m=>`✨ <b>${esc(nameOf(m.uid))}:</b> ${esc((m.text||'').slice(0,90))}${rc2(m)?' · '+rc2(m)+' tepki':''}`).join('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');s.style.animationDuration=Math.max(18,s.textContent.length/5)+'s'},500)}
+$('#rX').onclick=()=>{reply=null;wto=null;$('#rbar').hidden=true};
 const BAD_NORM=s=>s.toLocaleLowerCase('tr').replace(/ı/g,'i').replace(/ö/g,'o').replace(/ü/g,'u').replace(/ş/g,'s').replace(/ç/g,'c').replace(/ğ/g,'g').replace(/0/g,'o').replace(/1/g,'i').replace(/3/g,'e').replace(/4/g,'a').replace(/5/g,'s').replace(/@/g,'a').replace(/\$/g,'s');
 function bad(t){const n=BAD_NORM(t),tk=n.replace(/(.)\1+/g,'$1').split(/[^a-z]+/).filter(Boolean),cp=tk.join('');
  return cfg.badWords.some(w=>{w=BAD_NORM(w).replace(/[^a-z]/g,'').replace(/(.)\1+/g,'$1');return w&&(w.length>=5?cp.includes(w):tk.includes(w))})}
 function violate(){const r=users[me.uid]||{},b=(r.bans||0)+1,s=b<=10?30:b<=20?60:300;F().update(R('users/'+me.uid),{bans:b,mutedUntil:now()+s*1000});toast(`Küfür tespit edildi: ${s} sn yazamazsın (${b}. ihlal)`)}
-$('#form').onsubmit=e=>{e.preventDefault();const i=$('#msg'),t=i.value.trim();if(!t||!window.FB)return;
- if(!staff()){
-  if(gateSt)return toast('Sohbet şu an kapalı');if(cfg.locked)return toast('Sohbet kilitli');if(muteLeft()>0)return;
-  const w=cfg.slow-Math.floor((now()-lastSent)/1000);if(cfg.slow&&w>0)return toast(`Yavaş mod: ${w} sn bekle`);
-  if(cfg.noLinks&&/(https?:\/\/|www\.|\b[a-z0-9-]+\.(com|net|org|tr|io|me|gg|xyz)\b)/i.test(t))return toast('Link paylaşımı kapalı');if(bad(t)){i.value='';return violate()}}
- const d=new Date(now());F().push(R('messages'),{uid:me.uid,name:me.name,text:t.slice(0,cfg.maxLen||300),ts:now(),time:pad(d.getHours())+':'+pad(d.getMinutes()),reply:reply||null});
- lastSent=now();i.value='';fly();$('#cnt').textContent='';$('#rX').click();atBot=true};
+const LINKRE=/(https?:\/\/|www\.|\b[a-z0-9-]+\.(com|net|org|tr|io|me|gg|xyz)\b)/i;
+function allow(t){if(staff())return true;if(gateSt)return toast('Sohbet şu an kapalı'),false;if(cfg.locked)return toast('Sohbet kilitli'),false;if(muteLeft()>0)return false;
+ const w=cfg.slow-Math.floor((now()-lastSent)/1000);if(cfg.slow&&w>0)return toast(`Yavaş mod: ${w} sn bekle`),false;
+ if(t!=null){if(cfg.noLinks&&LINKRE.test(t))return toast('Link paylaşımı kapalı'),false;if(bad(t)){$('#msg').value='';violate();return false}}return true}
+function post(o){const d=new Date(now());F().push(R('messages'),{uid:me.uid,name:me.name,ts:now(),time:pad(d.getHours())+':'+pad(d.getMinutes()),...o});lastSent=now();F().update(R('act/'+me.uid),{n:F().increment(1)})}
+$('#form').onsubmit=e=>{e.preventDefault();const i=$('#msg'),t=i.value.trim();if(!t||!window.FB)return;if(!allow(t))return;
+ const c=cfg.fCmd!==false&&t.match(/^\/(zar|yazitura|yazıtura|yazı-tura)(?:\s+(\d{1,3}))?$/i);i.value='';$('#cnt').textContent='';
+ if(wto)whisper(t);
+ else if(c){let x;if(/^zar/i.test(c[1])){const n=Math.max(2,Math.min(100,+c[2]||6)),v=1+Math.floor(Math.random()*n);x=`${me.name} ${n===6?'zar':n+' yüzlü zar'} attı: ${v} çıktı! ${v===n?'🎉':'🎲'}`}else x=`${me.name} yazı-tura attı: ${Math.random()<.5?'YAZI':'TURA'} geldi! 🪙`;post({text:x,cmd:1})}
+ else{post({text:t.slice(0,cfg.maxLen||300),reply:reply||null});gameCheck(t)}
+ lastSent=now();fly();$('#rX').click();atBot=true;stopTyping()};
 $('#msg').oninput=e=>{const l=e.target.value.length;const mx=cfg.maxLen||300;$('#cnt').textContent=l>mx-60?mx-l:''};
 const EM='😀 😂 🤣 😊 😍 🥰 😘 😎 🤔 🙄 😴 😭 😡 🥺 😅 😉 🙂 😏 😬 🤯 🥳 🤩 😱 😇 🤗 🤫 🫡 👍 👎 👏 🙌 🙏 💪 👀 🔥 ✨ 💯 ❤️ 💔 💜 🖤 💀 👻 🤡 🎉 🎂 ☕ 🍕 🍔 🍟 🍫 🍿 🐱 🐶 🦊 🐸 🌙 ⭐ 🌈 ⚡'.split(' ');
 $('#emo').innerHTML=EM.map(e=>`<button type="button">${e}</button>`).join('');
@@ -335,12 +387,12 @@ $('#bnX').onclick=()=>{sessionStorage.c_bd=bnKey;hideBanner()};
 /* ---------- identity / login ---------- */
 const open=id=>{$(id).hidden=false;setTimeout(()=>$(id).querySelector('input')?.focus(),50)};
 $$('[data-x]').forEach(b=>b.onclick=()=>b.closest('.modal').hidden=true);
-$('#me').onclick=()=>{$('#nick').value=me.name;open('#mNick')};
-function setNick(n){n=n.trim().replace(/\s+/g,' ');if(n.length<2)return toast('En az 2 karakter');
+$('#me').onclick=()=>{if(me.role!=='admin')return toast('Rumuzları yönetici belirler');nickFirst=0;$('#nick').value=me.name;$('#mNick h3').textContent='Rumuzunu değiştir';$('#nickX').hidden=false;open('#mNick')};
+function setNick(n,first){n=n.trim().replace(/\s+/g,' ');if(n.length<2||n.length>20)return toast('2-20 karakter');if(!first&&me.role!=='admin')return toast('Rumuz değiştirilemez');
  const taken=Object.entries(users).some(([u,r])=>u!==me.uid&&(r.name||'').toLowerCase()===n.toLowerCase());
- if(taken||(me.role!=='admin'&&/^(sistem|admin|yönetici|yonetici|moderatör)$/i.test(n)))return toast('Bu rumuz kullanılamaz');
- me.name=n;localStorage.c_name=n;F().update(R('users/'+me.uid),{name:n});beat();paintMe();$('#mNick').hidden=true;$('#pNick').value=n;toast('Rumuz güncellendi')}
-$('#fNick').onsubmit=e=>{e.preventDefault();setNick($('#nick').value)};
+ if(taken||(me.role!=='admin'&&(/^(sistem|admin|yönetici|yonetici|moderatör)$/i.test(n)||bad(n))))return toast('Bu rumuz kullanılamaz');
+ me.name=n;localStorage.c_name=n;localStorage.removeItem('c_new');F().update(R('users/'+me.uid),{name:n,named:true});beat();paintMe();$('#mNick').hidden=true;$('#pNick').value=n;toast(first?'Hoş geldin '+n:'Rumuz güncellendi')}
+$('#fNick').onsubmit=e=>{e.preventDefault();setNick($('#nick').value,nickFirst)};
 $('#pNickB').onclick=()=>setNick($('#pNick').value);$('#pNick').onkeydown=e=>{if(e.key==='Enter')setNick(e.target.value)};
 const adminClick=()=>staff()?openPanel():open('#mLogin');
 $('#adm').onclick=adminClick;$('#gLogin').onclick=adminClick;
@@ -365,12 +417,12 @@ function renderPanel(){
  $('#pList').innerHTML=pn.map(([u,r])=>`<div class="li" data-u="${esc(u)}"><span>${esc(r.name||u)}</span><span class="small">${r.mutedUntil>1e12?'kalıcı':Math.ceil((r.mutedUntil-now())/60000)+' dk'}</span></div>`).join('')||'<div class="small">Cezalı kimse yok.</div>';
  $('#slowChips').innerHTML=[0,3,5,10,30,60].map(s=>`<button class="chip${cfg.slow===s?' on':''}" data-s="${s}">${s?s+' sn':'Kapalı'}</button>`).join('');
  $('#bwList').innerHTML=cfg.badWords.map((w,i)=>`<button class="chip" data-bw="${i}">${esc(w)} ✕</button>`).join('');
- if(sel)pick(sel,true);renderLog();
+ if(sel)pick(sel,true);renderLog();renderTop();
 }
 $('#uSearch').oninput=renderPanel;
 $('#t-us').addEventListener('click',e=>{const l=e.target.closest('[data-u]');if(l)pick(l.dataset.u)});
 function pick(u,quiet){sel=u;const r=users[u]||{};$('#iName').textContent=nameOf(u);const ml=(r.mutedUntil||0)-now();
- $('#iInfo').textContent=`Rol: ${{admin:'Yönetici',mod:'Moderatör'}[r.role]||'Kullanıcı'} · İhlal: ${r.bans||0} · ${ml>1e12?'Kalıcı ban':ml>0?'Mute: '+Math.ceil(ml/60000)+' dk':'Temiz'}`;$('#roleBtns').hidden=me.role!=='admin'}
+ $('#iInfo').textContent=`Rol: ${{admin:'Yönetici',mod:'Moderatör'}[r.role]||'Kullanıcı'} · İhlal: ${r.bans||0} · ${ml>1e12?'Kalıcı ban':ml>0?'Mute: '+Math.ceil(ml/60000)+' dk':'Temiz'}`;$('#admOnly').hidden=$('#rkSel').hidden=$('#roleBtns').hidden=me.role!=='admin';if(!quiet)$('#rkSel').value=r.rank||''}
 function doAct(u,a){
  if(u===me.uid)return toast('Kendine işlem yapamazsın');if(roleOf(u)==='admin'&&me.role!=='admin')return toast('Yöneticiye işlem yapılamaz');
  const r=users[u]||{},U=R('users/'+u),n=nameOf(u);
@@ -382,7 +434,7 @@ function doAct(u,a){
  else if(me.role==='admin'&&(a==='mod'||a==='usr')){F().update(U,{role:a==='mod'?'mod':'user'});log(`${n} ${a==='mod'?'moderatör yapıldı':'kullanıcı yapıldı'}`)}
  else return;
  toast('Uygulandı')}
-$('#insp').addEventListener('click',e=>{const a=e.target.closest('[data-a]')?.dataset.a;if(!a||!sel)return;if(a==='mc'){const v=Math.floor(+$('#cMin').value);if(!(v>0))return toast('Dakika yaz');return doAct(sel,'m'+v)}doAct(sel,a)});
+$('#insp').addEventListener('click',e=>{const a=e.target.closest('[data-a]')?.dataset.a;if(!a||!sel)return;if(a==='rn')return rename(sel,$('#rnIn').value);if(a==='mc'){const v=Math.floor(+$('#cMin').value);if(!(v>0))return toast('Dakika yaz');return doAct(sel,'m'+v)}doAct(sel,a)});
 $('#slowChips').onclick=e=>{if(e.target.dataset.s!=null)F().update(R('config'),{slow:+e.target.dataset.s})};
 $('#bcB').onclick=()=>{const t=$('#bcIn').value.trim();if(!t)return toast('Duyuru yaz');const d=Math.max(3,Math.min(600,+$('#bcDur').value||10));
  F().update(R('config'),{ann:{id:now(),text:t.slice(0,200),at:now(),dur:d,by:me.name,tone:$('#bcTone').value}});$('#bcIn').value='';toast(`Duyuru ${d} sn görünecek`);log(`Duyuru (${d} sn): ${t.slice(0,50)}`)};
@@ -437,10 +489,10 @@ $('#whenChips').innerHTML=['30 dk sonra','1 saat sonra','bu akşam 20.00','yarı
 $('#whenChips').onclick=e=>{if(e.target.tagName==='BUTTON'){$('#when').value=e.target.textContent;showWhen()}};
 /* ---------- v2 ek özellikler ---------- */
 function rc(r){return r==='admin'?' adm':r==='mod'?' mdr':''}
-function tagH(r){return r==='admin'?'<span class="tag">Yönetici</span>':r==='mod'?'<span class="tag mod">Mod</span>':''}
-function restyle(){$$('.m[data-uid]').forEach(el=>{const u=el.dataset.uid,r=roleOf(u),n=users[u]?.name;el.classList.toggle('adm',r==='admin');el.classList.toggle('mdr',r==='mod');
+function tagH(r,u){const k=RK[users[u]?.rank],L=lvl(u);return (r==='admin'?'<span class="tag">Yönetici</span>':r==='mod'?'<span class="tag mod">Mod</span>':'')+(k?`<span class="tag rkt" style="background:${k[3]}">${k[2]} ${k[1]}</span>`:'')+(L.i?`<span class="lv" title="${esc(L.n)} · ${L.p} puan">${L.e}</span>`:'')}
+function restyle(){$$('.m[data-uid]:not(.wh)').forEach(el=>{const u=el.dataset.uid,r=roleOf(u),n=users[u]?.name;el.classList.toggle('adm',r==='admin');el.classList.toggle('mdr',r==='mod');const rk=users[u]?.rank||'';if(el.dataset.rk!==rk)el.dataset.rk=rk;
  const b=el.querySelector('b[data-u]');if(n&&b&&b.textContent!==n){b.textContent=n;el.querySelector('.av').textContent=([...n][0]||'?').toUpperCase()}
- const t=el.querySelector('.rt'),h=tagH(r);if(t&&t.innerHTML!==h)t.innerHTML=h})}
+ const t=el.querySelector('.rt'),h=tagH(r,u);if(t&&t._h!==h){t._h=h;t.innerHTML=h}})}
 function fly(){const b=$('#sendB');b.classList.remove('fly');void b.offsetWidth;b.classList.add('fly')}
 function hideBanner(){const b=$('#banner');b.classList.add('out');setTimeout(()=>{b.hidden=true;b.classList.remove('out')},450)}
 const log=text=>F().push(R('modlog'),{t:now(),by:me.name,text});
@@ -455,12 +507,14 @@ function checkWarn(){const w=users[me.uid]?.warn;if(!w||w.id<=(+localStorage.c_w
  let c=3;ok.disabled=true;ok.textContent='Oku ('+c+')';const iv=setInterval(()=>{if(--c>0)ok.textContent='Oku ('+c+')';else{clearInterval(iv);ok.disabled=false;ok.textContent='Anladım'}},1000)}
 $('#wOk').onclick=()=>$('#warn').hidden=true;
 /* kullanıcıya tıklayınca açılan menü */
-function showPop(u,x,y){popU=u;const r=users[u]||{},role=roleOf(u),own=u===me.uid,lock=own||(role==='admin'&&me.role!=='admin'),ml=(r.mutedUntil||0)-now(),p=$('#pop'),n=nameOf(u);
- p.innerHTML=`<div class="pn"><span class="av" style="--c:hsl(${hue(u)} 70% 70%);width:36px;height:36px;border-radius:11px">${esc([...n][0]||'?').toUpperCase()}</span><div><b>${esc(n)}</b><div class="small">${{admin:'Yönetici',mod:'Moderatör'}[role]||'Kullanıcı'} · ${r.warns||0} uyarı · ${ml>1e12?'Kalıcı ban':ml>0?'Susturulmuş':'Temiz'}</div></div></div>`
- +(lock?`<div class="small">${own?'Bu sensin.':'Yöneticiye işlem yapılamaz.'}</div>`:`<div class="grid"><button class="btn sm" data-p="warn"><i class="fa-solid fa-triangle-exclamation"></i>Uyarı at</button><button class="btn sm" data-p="m10"><i class="fa-regular fa-clock"></i>10 dk mute</button><button class="btn sm" data-p="m60">1 saat mute</button><button class="btn sm" data-p="m1440">1 gün mute</button><button class="btn sm red" data-p="ban"><i class="fa-solid fa-ban"></i>Ban</button><button class="btn sm" data-p="un">Cezayı kaldır</button><button class="btn sm" data-p="wipe">Mesajları sil</button>${me.role==='admin'?`<button class="btn sm gold" data-p="${role==='mod'?'usr':'mod'}"><i class="fa-solid fa-shield"></i>${role==='mod'?'Modluğu al':'Mod yap'}</button>`:''}</div>`)
- +'<button class="btn sm ghost" data-p="panel">Panelde aç</button>';
+function showPop(u,x,y){popU=u;const r=users[u]||{},role=roleOf(u),own=u===me.uid,st=staff(),lock=own||(role==='admin'&&me.role!=='admin'),ml=(r.mutedUntil||0)-now(),p=$('#pop'),n=nameOf(u),L=lvl(u),rk=RK[r.rank];
+ p.innerHTML=`<div class="pn"><span class="av" style="--c:hsl(${hue(u)} 70% 70%);width:36px;height:36px;border-radius:11px">${esc([...n][0]||'?').toUpperCase()}</span><div><b>${esc(n)}</b><div class="small">${{admin:'Yönetici',mod:'Moderatör'}[role]||'Kullanıcı'}${rk?' · '+rk[2]+' '+rk[1]:''} · ${L.e} ${esc(L.n)}${st?` · ${r.warns||0} uyarı · ${ml>1e12?'Kalıcı ban':ml>0?'Susturulmuş':'Temiz'}`:''}</div></div></div>`
+ +(own||cfg.fWhisper===false?'':'<button class="btn sm" data-p="wh"><i class="fa-solid fa-user-secret"></i>Fısılda</button>')
+ +(!st?'':lock?`<div class="small">${own?'Bu sensin.':'Yöneticiye işlem yapılamaz.'}</div>`:`<div class="grid"><button class="btn sm" data-p="warn"><i class="fa-solid fa-triangle-exclamation"></i>Uyarı at</button><button class="btn sm" data-p="m10"><i class="fa-regular fa-clock"></i>10 dk mute</button><button class="btn sm" data-p="m60">1 saat mute</button><button class="btn sm" data-p="m1440">1 gün mute</button><button class="btn sm red" data-p="ban"><i class="fa-solid fa-ban"></i>Ban</button><button class="btn sm" data-p="un">Cezayı kaldır</button><button class="btn sm" data-p="wipe">Mesajları sil</button>${me.role==='admin'?`<button class="btn sm gold" data-p="${role==='mod'?'usr':'mod'}"><i class="fa-solid fa-shield"></i>${role==='mod'?'Modluğu al':'Mod yap'}</button>`:''}</div>`)
+ +(me.role==='admin'?`<select data-rank>${rkOpts(r.rank)}</select>`:'')+(st?'<button class="btn sm ghost" data-p="panel">Panelde aç</button>':'');
  p.hidden=false;const w=p.offsetWidth,h=p.offsetHeight;p.style.left=Math.max(8,Math.min(x-20,innerWidth-w-8))+'px';p.style.top=Math.max(8,Math.min(y+10,innerHeight-h-8))+'px'}
-$('#pop').onclick=e=>{const a=e.target.closest('[data-p]')?.dataset.p;if(!a)return;$('#pop').hidden=true;if(a==='panel'){openPanel('us');pick(popU)}else doAct(popU,a)};
+$('#pop').onclick=e=>{const a=e.target.closest('[data-p]')?.dataset.p;if(!a)return;$('#pop').hidden=true;if(a==='panel'){openPanel('us');pick(popU)}else if(a==='wh')startWhisper(popU);else doAct(popU,a)};
+$('#pop').onchange=e=>{if(e.target.matches('[data-rank]'))setRank(popU,e.target.value)};
 addEventListener('pointerdown',e=>{if(!e.target.closest('#pop'))$('#pop').hidden=true});addEventListener('keydown',e=>{if(e.key==='Escape')$('#pop').hidden=true});
 /* site ayarları */
 $('#durChips').innerHTML=[5,10,30,60,0].map(v=>`<button class="chip" type="button" data-d="${v}">${v?v+' sn':'Hep açık'}</button>`).join('');
@@ -485,6 +539,107 @@ $('#mSearch').oninput=e=>{const q=e.target.value.trim().toLowerCase(),r=$('#mRes
  const l=Object.entries(msgs).filter(([,m])=>(m.text||'').toLowerCase().includes(q)||nameOf(m.uid).toLowerCase().includes(q)).slice(-20).reverse();
  r.innerHTML=l.map(([k,m])=>`<div class="li" data-mk="${esc(k)}" style="cursor:default"><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><b>${esc(nameOf(m.uid))}:</b> ${esc(m.text)}</span><button class="ib sm" data-dk aria-label="Sil"><i class="fa-solid fa-trash"></i></button></div>`).join('')||'<div class="small">Sonuç yok.</div>'};
 $('#mRes').onclick=e=>{if(!e.target.closest('[data-dk]'))return;const row=e.target.closest('[data-mk]');F().remove(R('messages/'+row.dataset.mk));row.remove();log('Mesaj silindi (arama)')};
+/* ================= v4 ek modüller ================= */
+const sh=(s,h)=>{const e=$(s);if(e._h!==h){e._h=h;e.innerHTML=h}};
+let wto=null,nickFirst=0,firstU=0,rsT=0,acts={},typ={},tyAt=0,game=null,poll=null,gid=0,fin=0,yt=null,ytOK=0,mKey=null,mVol=+(localStorage.c_vol||70),mMute=localStorage.c_mm==='1',ytq=[],sKey=null,kwT=0;
+const restyleSoon=()=>{if(!rsT)rsT=setTimeout(()=>{rsT=0;restyle()},250)};
+document.body.classList.toggle('lite',(navigator.hardwareConcurrency||8)<=4||(navigator.deviceMemory||8)<=2);
+document.addEventListener('visibilitychange',()=>document.body.classList.toggle('hid',document.hidden));
+/* ranklar */
+const RANKS=[['cirak','Çırak','🌱','#5FD3A5','#12392e','3px 14px 14px 14px'],['usta','Usta','🛠️','#9fb4c0','#1d3340','8px'],['vip','VIP','💎','#c13dff','#2a1245','3px 18px 3px 18px'],['elit','Elit','⚔️','#ff4d5e','#3a1519','2px 14px 2px 14px'],['buz','Buz','❄️','#7fe3ff','#0f3547','16px 16px 16px 4px'],['ates','Ateş','🔥','#ff8a2b','#3d1a08','4px 18px 14px 18px'],['zumrut','Zümrüt','🍀','#2bd67b','#0d3a26','12px 3px 12px 3px'],['gul','Gül','🌹','#ff5c9a','#3d1226','18px 18px 18px 3px'],['gece','Gece','🌙','#7b8cff','#161a45','3px 12px 12px 12px'],['galaksi','Galaksi','🪐','#b57bff','#1b1040','20px 4px 20px 4px'],['efsane','Efsane','🏆','#ffe27a','#3b2f08','6px 18px 6px 18px'],['hayalet','Hayalet','👻','#e6eef2','#26343b','14px 14px 4px 14px'],['siber','Siber','🤖','#39ff7a','#06210f','2px'],['okyanus','Okyanus','🌊','#26c6da','#0a3640','18px 4px 18px 18px'],['ejder','Ejder','🐉','#e8412f','#2a0f0a','4px 20px 4px 20px'],['kral','Kral','👑','#f5c542','#2e1f4a','10px 20px 10px 3px']];
+const RK=Object.fromEntries(RANKS.map(r=>[r[0],r]));
+const NO=':not(.adm):not(.mdr)';
+document.head.append(Object.assign(document.createElement('style'),{textContent:RANKS.map(([k,n,e,c,d,s])=>`.m[data-rk="${k}"]${NO} .bub{border-color:${c};background:linear-gradient(135deg,${d},var(--sf));box-shadow:0 0 12px ${c}55;border-radius:${s}}.m[data-rk="${k}"]${NO} .bub::after{content:"${e}";position:absolute;right:-7px;top:-9px;font-size:12px}.m[data-rk="${k}"]${NO} .mh b{color:${c}}`).join('')}));
+const rkOpts=s=>'<option value="">Rank yok</option>'+RANKS.map(r=>`<option value="${r[0]}"${s===r[0]?' selected':''}>${r[2]} ${r[1]}</option>`).join('');
+$('#rkSel').innerHTML=rkOpts('');
+function setRank(u,v){if(me.role!=='admin')return;F().update(R('users/'+u),{rank:v||null});log(`${nameOf(u)} → ${RK[v]?RK[v][1]+' rankı verildi':'rank kaldırıldı'}`);toast(RK[v]?'Rank verildi':'Rank kaldırıldı')}
+$('#rkSel').onchange=()=>{if(sel)setRank(sel,$('#rkSel').value)};
+function rename(u,n){if(me.role!=='admin'||!u)return;n=n.trim().replace(/\s+/g,' ');if(n.length<2||n.length>20)return toast('2-20 karakter');if(Object.entries(users).some(([k,r])=>k!==u&&(r.name||'').toLowerCase()===n.toLowerCase()))return toast('Bu rumuz kullanımda');const o=nameOf(u);F().update(R('users/'+u),{name:n});log(`${o} → ${n} olarak değiştirildi`);$('#rnIn').value='';toast('Rumuz değiştirildi')}
+/* seviye */
+const LV=[[0,'Yeni','🥚'],[15,'Çırak Sohbetçi','🌱'],[60,'Aktif Üye','⚡'],[200,'Sohbet Ustası','🛡️'],[600,'Efsane Sohbetçi','🌟']];
+function lvl(u){const a=acts[u]||{},p=(a.n||0)+(a.m||0);let i=0;LV.forEach((x,j)=>{if(p>=x[0])i=j});return{n:LV[i][1],e:LV[i][2],p,i}}
+setInterval(()=>{if(!document.hidden&&window.FB&&!localStorage.c_new)F().update(R('act/'+me.uid),{m:F().increment(1)})},60000);
+function renderTop(){if(!staff()||!$('#topAct'))return;sh('#topAct',Object.keys(acts).map(u=>[u,lvl(u)]).sort((a,b)=>b[1].p-a[1].p).slice(0,8).map(([u,l])=>`<div class="li" style="cursor:default"><span>${l.e} ${esc(nameOf(u))}</span><span class="small">${l.n} · ${l.p}</span></div>`).join('')||'<div class="small">Henüz veri yok.</div>')}
+/* rumuz üreteci */
+const NA=['Siber','Gece','Gölge','Kor','Buz','Rüzgar','Neon','Çılgın','Sessiz','Tatlı','Yıldız','Fırtına'],NB=['Korsan','Kuşu','Kurt','Ejder','Panda','Ninja','Baykuş','Tilki','Hayalet','Yunus','Şahin','Kedi'];
+const gen=()=>NA[Math.random()*NA.length|0]+NB[Math.random()*NB.length|0]+'#'+(10+(Math.random()*90|0));
+$('#dice').onclick=()=>$('#nick').value=gen();
+function askNick(){nickFirst=1;$('#nick').value=gen();$('#mNick h3').textContent='Rumuzunu seç (sonra değişmez)';$('#nickX').hidden=true;open('#mNick')}
+/* fısıltı */
+function startWhisper(u){if(u===me.uid)return;wto={uid:u,name:nameOf(u)};reply=null;$('#rT').textContent='🔒 Fısıltı → '+wto.name;$('#rbar').hidden=false;$('#msg').focus()}
+function showW(w){const el=document.createElement('div');el.className='m wh'+(w.mine?' me':'');el.dataset.uid=w.uid;el.innerHTML=`<div class="av" style="--c:hsl(${hue(w.uid)} 70% 70%)">${esc([...w.name][0]||'?').toUpperCase()}</div><div class="mb"><div class="mh"><b data-u="${esc(w.uid)}">${esc(w.name)}</b><time>fısıltı</time></div><div class="bub">${esc(w.text)}</div></div>`;stream.append(el);const l=stream.querySelectorAll('.wh');if(l.length>20)l[0].remove();toBot()}
+function whisper(t){F().push(R('whispers/'+wto.uid),{from:me.uid,name:me.name,text:t.slice(0,300),ts:now()});showW({uid:wto.uid,name:'Sen → '+wto.name,text:t,mine:1});toast('Fısıltı gönderildi')}
+/* yazıyor */
+$('#msg').addEventListener('input',()=>{if(cfg.fTyp===false||!window.FB||!$('#msg').value)return;if(now()-tyAt>2500){tyAt=now();const r=R('typing/'+me.uid);F().set(r,now());F().onDisconnect(r).remove()}});
+function stopTyping(){if(tyAt&&window.FB){tyAt=0;F().remove(R('typing/'+me.uid))}}
+function showTyp(){const n=Object.entries(typ).filter(([u,t])=>u!==me.uid&&now()-t<5000).map(([u])=>nameOf(u)),e=$('#typ');e.hidden=!n.length||cfg.fTyp===false;if(!e.hidden)e.textContent=(n.length>2?'Birkaç kişi':n.join(', '))+' yazıyor…'}
+/* ses efektleri */
+const ac=()=>{actx=actx||new(window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();return actx};
+function tone(f,t0,d,ty='sine',v=.15,f2){const a=ac(),o=a.createOscillator(),g=a.createGain(),T=a.currentTime+t0;o.type=ty;o.frequency.setValueAtTime(f,T);if(f2)o.frequency.exponentialRampToValueAtTime(f2,T+d);g.gain.setValueAtTime(v,T);g.gain.exponentialRampToValueAtTime(.001,T+d);o.connect(g);g.connect(a.destination);o.start(T);o.stop(T+d)}
+function noise(t0,d,v=.3){const a=ac(),n=a.sampleRate*d|0,b=a.createBuffer(1,n,a.sampleRate),x=b.getChannelData(0);for(let i=0;i<n;i++)x[i]=(Math.random()*2-1)*(1-i/n);const s=a.createBufferSource(),g=a.createGain(),h=a.createBiquadFilter();h.type='highpass';h.frequency.value=1200;g.gain.value=v;s.buffer=b;s.connect(h);h.connect(g);g.connect(a.destination);s.start(a.currentTime+t0)}
+const SFX={alkis:()=>[0,.12,.24,.4,.52,.66].forEach(t=>noise(t,.1)),zil:()=>{tone(880,0,1,'sine',.2);tone(1760,0,.6,'sine',.08)},uzgun:()=>[392,370,349,330].forEach((f,i)=>tone(f,i*.4,.5,'triangle',.18)),davul:()=>{tone(180,0,.3,'sine',.4,40);noise(0,.08,.2)},korna:()=>{tone(230,0,.6,'sawtooth',.14);tone(290,0,.6,'sawtooth',.1)},tada:()=>[523,659,784,1047].forEach((f,i)=>tone(f,i*.1,.4,'square',.07))};
+const SFXN=[['alkis','👏 Alkış'],['zil','🔔 Zil'],['uzgun','😢 Hüzün'],['davul','🥁 Davul'],['korna','📯 Korna'],['tada','🎺 Tada']];
+const sfx=n=>{if(snd&&SFX[n])try{SFX[n]()}catch(e){}};
+const KW={alkis:/!alk[ıi]s/i,zil:/!zil/i,uzgun:/!([üu]zg[üu]n|h[üu]z[üu]n)/i,davul:/!davul/i,korna:/!korna/i,tada:/!tada/i};
+function kw(t){if(cfg.fSfx===false||now()-kwT<3000)return;for(const k in KW)if(KW[k].test(t||'')){kwT=now();sfx(k);return}}
+function sfxSync(){const e=cfg.sfxEvent;if(e&&e.id!==sKey){sKey=e.id;if(now()-e.id<8000)sfx(e.n)}}
+$('#sbRow').innerHTML=SFXN.map(([k,n])=>`<button class="btn sm" data-s="${k}">${n}</button>`).join('');
+$('#sbRow').onclick=e=>{const n=e.target.dataset.s;if(n){F().update(R('config'),{sfxEvent:{id:now(),n}});log('Ses çalındı: '+n)}};
+/* çıkartma / gif paneli */
+const STK=['😂','🤣','😎','🥳','🔥','💀','🤡','👻','🦊','🐸','🐱','🐶','🍕','🍔','🎉','💯','❤️','👍','👎','🙏','😭','🥺','🤯','🫡'];
+$('#fun').innerHTML=`<div class="fgrid">${STK.map(s=>`<button type="button" data-st="${s}">${s}</button>`).join('')}</div><div class="row">${SFXN.map(([k,n])=>`<button type="button" class="btn sm" data-sf="${k}">${n}</button>`).join('')}</div><div class="small">Herkese çalmak için sohbete !alkis !zil !uzgun !davul !korna !tada yaz.</div><div class="row"><input id="gifIn" placeholder="GIF linki (giphy / tenor)"><button type="button" class="btn sm" id="gifB">Gönder</button></div>`;
+$('#fun').onclick=e=>{const t=e.target,s=t.dataset.st,f=t.dataset.sf;if(f)return sfx(f);if(s){if(allow(null)){post({text:'[çıkartma]',st:s});$('#fun').hidden=true;atBot=true}}else if(t.id==='gifB'){const u=$('#gifIn').value.trim();if(!okGif(u))return toast('Sadece giphy/tenor .gif linki');if(allow(null)){post({text:'[GIF]',gif:u});$('#gifIn').value='';$('#fun').hidden=true;atBot=true}}};
+$('#funB').onclick=()=>{$('#emo').hidden=true;$('#fun').hidden=!$('#fun').hidden};$('#emoB').addEventListener('click',()=>$('#fun').hidden=true);
+function featSync(){document.body.classList.toggle('noreact',cfg.fReact===false);$('#funB').hidden=cfg.fStick===false;if(cfg.fStick===false)$('#fun').hidden=true;showTyp()}
+$('#saveFeat').onclick=()=>{F().update(R('config'),{fReact:$('#fR').checked,fWhisper:$('#fW').checked,fTyp:$('#fT').checked,fStick:$('#fS').checked,fCmd:$('#fC').checked,fSfx:$('#fX').checked});toast('Kaydedildi');log('Özellik ayarları güncellendi')};
+const _fs=fillSite;fillSite=function(){_fs();$('#fR').checked=cfg.fReact!==false;$('#fW').checked=cfg.fWhisper!==false;$('#fT').checked=cfg.fTyp!==false;$('#fS').checked=cfg.fStick!==false;$('#fC').checked=cfg.fCmd!==false;$('#fX').checked=cfg.fSfx!==false};
+/* müzik */
+const ytId=s=>{s=s.trim();const m=s.match(/(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/|\/live\/)([\w-]{11})/)||s.match(/^([\w-]{11})$/);return m&&m[1]};
+function loadYT(cb){if(window.YT&&YT.Player)return cb();ytq.push(cb);if(!window._ytl){window._ytl=1;const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.append(s);window.onYouTubeIframeAPIReady=()=>ytq.splice(0).forEach(f=>f())}}
+function setVol(){if(!yt||!ytOK)return;yt.setVolume(Math.round(mVol*((cfg.music?.vol??100)/100)));mMute||!mVol?yt.mute():yt.unMute();$('#musM').innerHTML=`<i class="fa-solid fa-volume-${mMute||!mVol?'xmark':'high'}"></i>`}
+function musGo(){const m=cfg.music;if(!yt||!ytOK||!m)return;let t=(now()-m.at)/1000;const d=yt.getDuration();if(d>0&&m.loop)t%=d;yt.seekTo(Math.max(0,t),true);yt.playVideo();setVol()}
+const chk=()=>{if(yt&&ytOK&&yt.getPlayerState()!==1&&cfg.music)$('#musGo').hidden=false};
+function startTrack(){const c=cfg.music;if(!c||!c.id||!ytOK)return;yt.loadVideoById({videoId:c.id,startSeconds:Math.max(0,Math.floor((now()-c.at)/1000))});setVol();setTimeout(chk,2500)}
+function musicSync(){const m=cfg.music,bar=$('#mus');$('#yNow').textContent=m?'Çalıyor: '+m.id:'';
+ if(!m||!m.id){mKey=null;bar.hidden=true;if(yt&&ytOK)try{yt.stopVideo()}catch(e){}return}
+ bar.hidden=false;if(mKey===m.key){setVol();return}mKey=m.key;$('#musT').textContent='Müzik yükleniyor…';$('#musGo').hidden=true;
+ loadYT(()=>{if(yt&&ytOK)startTrack();else if(!yt)yt=new YT.Player('yt',{width:'1',height:'1',playerVars:{controls:0,playsinline:1,rel:0},events:{onReady:()=>{ytOK=1;startTrack()},onStateChange:e=>{if(e.data===1){$('#musGo').hidden=true;$('#musT').textContent='🎵 '+(yt.getVideoData().title||'Çalıyor')}else if(e.data===0&&cfg.music?.loop)musGo()},onError:e=>{$('#musT').textContent='Video açılamadı';if(me.role==='admin'){toast('Bu video gömülemiyor ('+e.data+')');F().update(R('config'),{music:null})}}}})})}
+$('#musGo').onclick=musGo;$('#musV').value=mVol;$('#musV').oninput=e=>{mVol=+e.target.value;localStorage.c_vol=mVol;setVol()};$('#musM').onclick=()=>{mMute=!mMute;localStorage.c_mm=mMute?1:0;setVol()};
+addEventListener('pointerdown',()=>{if(mKey&&yt&&ytOK&&yt.getPlayerState()!==1&&!mMute)musGo()},{passive:true});
+$('#yPlay').onclick=()=>{const id=ytId($('#yIn').value);if(!id)return toast('Geçerli YouTube linki yapıştır');const k=now();F().update(R('config'),{music:{id,at:k,key:k,by:me.name,loop:$('#yLoop').checked,vol:+$('#yVol').value}});toast('Müzik başladı');log('Müzik açıldı: '+id)};
+$('#yStop').onclick=()=>{F().update(R('config'),{music:null});toast('Müzik durdu')};
+$('#yVol').oninput=e=>{if(cfg.music)F().update(R('config/music'),{vol:+e.target.value})};
+/* oyunlar */
+const annx=(text,tone)=>F().update(R('config'),{ann:{id:now(),text,at:now(),dur:8,by:'Etkinlik',tone:tone||'info'}});
+function gameCheck(t){if(!game||game.done||now()>=game.end)return;
+ if(game.type==='word'){const w=t.toLocaleLowerCase('tr').trim();if(!/^[a-zçğıöşü]{3,20}$/.test(w)||!w.startsWith(game.letter))return;F().runTransaction(R('game/used/'+w),c=>c?undefined:me.uid).then(r=>{if(r.committed){F().update(R('game/scores'),{[me.uid]:F().increment(1)});toast('+1 puan! 🎯')}else toast('Bu kelime kullanıldı')})}
+ else if(game.type==='qa'&&!game.winner&&BAD_NORM(t).trim()===BAD_NORM(game.a).trim())F().runTransaction(R('game/winner'),c=>c?undefined:{uid:me.uid,name:me.name}).then(r=>{if(r.committed)toast('Doğru cevap! 🏆')})}
+function finishGame(){F().runTransaction(R('game/done'),c=>c?undefined:true).then(r=>{if(!r.committed)return;const g=game;let x;if(g.type==='qa')x=g.winner?`🏆 ${g.winner.name} doğru bildi: ${g.a}`:`⌛ Süre bitti! Cevap: ${g.a}`;else{const t=Object.entries(g.scores||{}).sort((a,b)=>b[1]-a[1])[0];x=t?`🏆 Kelime oyunu bitti! Kazanan: ${nameOf(t[0])} (${t[1]} puan)`:'⌛ Kelime oyunu bitti, kimse puan alamadı'}annx(x,'ok')})}
+function gameTick(){const b=$('#gbar'),g=game;if(!g||!g.type){b.hidden=true;return}const left=Math.max(0,Math.ceil((g.end-now())/1000)),over=g.done||left<=0||g.winner;
+ if(over&&now()>g.end+30000){b.hidden=true;return}
+ if(me.role==='admin'&&!g.done&&!fin&&(left<=0||g.winner)){fin=1;finishGame()}
+ const top=Object.entries(g.scores||{}).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([u,s],i)=>`${['🥇','🥈','🥉'][i]} ${esc(nameOf(u))} <b>${s}</b>`).join(' · ');
+ sh('#gbar',g.type==='word'?(over?`🏁 <b>Kelime oyunu bitti</b> ${top}`:`🔤 <b>Kelime oyunu</b> · <span class="big">${esc(g.letter.toLocaleUpperCase('tr'))}</span> harfiyle başlayan kelime yaz (min 3 harf) · ⏱ ${left} sn ${top}`):(over?`💡 Cevap: <b>${esc(g.a)}</b>${g.winner?' · 🏆 '+esc(g.winner.name):''}`:`❓ <b>${esc(g.q)}</b> · ⏱ ${left} sn`));b.hidden=false}
+$('#gW').onclick=()=>{if(me.role!=='admin')return;const L='abcçdefghıijklmnoöprsştuüvyz',l=($('#gLet').value.trim()||L[Math.random()*L.length|0]).toLocaleLowerCase('tr')[0],d=+$('#gDur').value;F().set(R('game'),{type:'word',letter:l,end:now()+d*1000,id:now(),by:me.name});annx(`🔤 Kelime oyunu başladı! Harf: ${l.toLocaleUpperCase('tr')}`);log('Kelime oyunu başlatıldı ('+l+')')};
+$('#gQ').onclick=()=>{if(me.role!=='admin')return;const q=$('#gQi').value.trim(),a=$('#gAi').value.trim();if(!q||!a)return toast('Soru ve cevap yaz');F().set(R('game'),{type:'qa',q,a,end:now()+90000,id:now(),by:me.name});$('#gQi').value=$('#gAi').value='';annx('❓ Soru-cevap başladı!');log('Soru-cevap başlatıldı')};
+$('#gOff').onclick=()=>{F().remove(R('game'));toast('Oyun kaldırıldı')};
+/* anket */
+function renderPoll(){const b=$('#poll');if(!poll||!poll.q||!Array.isArray(poll.opts)){b.hidden=true;return}b.hidden=false;const v=poll.votes||{},c=poll.opts.map(()=>0);Object.values(v).forEach(i=>{if(c[i]!=null)c[i]++});const tot=c.reduce((a,b)=>a+b,0),my=v[me.uid],can=my==null&&!poll.closed&&(staff()||muteLeft()<=0);
+ b.innerHTML=`<div class="ph2"><b><i class="fa-solid fa-chart-simple"></i> ${esc(poll.q)}</b><span class="small">${tot} oy${poll.closed?' · kapalı':''} <button class="ib sm" data-pm aria-label="Küçült"><i class="fa-solid fa-chevron-up"></i></button></span></div>`+poll.opts.map((o,i)=>{const p=tot?Math.round(c[i]/tot*100):0;return`<button class="po${my===i?' my':''}" data-v="${i}"${can?'':' disabled'}><i style="transform:scaleX(${p/100})"></i><span>${esc(o)}</span><em>${p}%</em></button>`}).join('')}
+$('#poll').onclick=e=>{if(e.target.closest('[data-pm]'))return $('#poll').classList.toggle('min');const o=e.target.closest('[data-v]');if(!o||!poll||poll.closed||poll.votes?.[me.uid]!=null)return;F().set(R('poll/votes/'+me.uid),+o.dataset.v)};
+$('#pGo').onclick=()=>{const q=$('#pQ').value.trim(),o=$('#pO').value.split('\n').map(s=>s.trim().slice(0,40)).filter(Boolean).slice(0,6);if(!q||o.length<2)return toast('Soru ve en az 2 seçenek');F().set(R('poll'),{q:q.slice(0,120),opts:o,id:now(),by:me.name,closed:false});$('#pQ').value=$('#pO').value='';annx('📊 Yeni anket: '+q);log('Anket: '+q.slice(0,50))};
+$('#pCl').onclick=()=>poll&&F().update(R('poll'),{closed:!poll.closed});$('#pDel').onclick=()=>F().remove(R('poll'));
+$('#raf').onclick=()=>{const l=onl().filter(([u])=>roleOf(u)==='user');if(!l.length)return toast('Çevrimiçi kullanıcı yok');const u=l[Math.random()*l.length|0][0];annx('🎰 Çekiliş kazananı: '+nameOf(u),'ok');log('Çekiliş: '+nameOf(u))};
+/* firebase dinleyicileri */
+function startX(f){
+ f.onChildChanged(f.query(R('messages'),f.orderByKey(),f.limitToLast(100)),s=>{const m=s.val();if(!m||!msgs[s.key])return;msgs[s.key]=m;const el=document.querySelector(`[data-k="${s.key}"]`);if(el)rx(el,m);pearls()});
+ f.onChildAdded(R('whispers/'+me.uid),s=>{const w=s.val();f.remove(s.ref);if(!w||now()-w.ts>36e5)return;showW({uid:w.from,name:w.name,text:w.text});beep();toast('🔒 '+w.name+' sana fısıldadı')});
+ f.onValue(R('typing'),s=>{typ=s.val()||{};showTyp()});
+ f.onValue(R('game'),s=>{game=s.val();if((game?.id||0)!==gid){gid=game?.id||0;fin=0}gameTick()});
+ f.onValue(R('poll'),s=>{poll=s.val();renderPoll()});
+ f.onValue(R('act'),s=>{acts=s.val()||{};restyleSoon();renderTop()});
+}
+
 paintMe();
 </script>
 </body>
