@@ -208,13 +208,74 @@ body.lite .halt::before{animation:none;opacity:.5}body.lite .hin>i{animation:non
 .dmf{display:flex;gap:8px;padding:10px;border-top:1px solid var(--ln)}.dmf input{flex:1}
 .dmn{padding:6px 12px;text-align:center;border-top:1px solid var(--ln)}
 #dmAdmList .li.on{outline:1px solid var(--ac)}
+
+/* ===== v7: mobil, animasyon, performans, yeni özellikler ===== */
+html,body{height:100%}body{height:100dvh}
+*{-webkit-tap-highlight-color:transparent}button,.chip,.li,.btn{touch-action:manipulation}
+#adm{position:relative}.tabs .badge{margin-left:4px}
+.rt{display:inline-flex;gap:4px;flex-wrap:wrap;align-items:center}.mh{flex-wrap:wrap}
+#mProf{z-index:85}
+.pcard{border-top:3px solid var(--pc,transparent)}.pav{box-shadow:0 0 0 3px var(--pc,transparent),0 8px 20px #0007}
+.pstat{font-size:13px;color:var(--mu);display:flex;gap:6px;align-items:center;flex-wrap:wrap}.pstat i{font-size:8px}
+.pbio{white-space:pre-wrap;word-break:break-word;font-size:14px;background:var(--bg);border-radius:12px;padding:9px 12px}
+.setc{width:min(100%,440px);max-height:min(90dvh,740px);display:flex;flex-direction:column;background:var(--sf);border:1px solid var(--ln);border-radius:20px;overflow:hidden;animation:pop .3s}
+.setb{overflow:auto;padding:12px;display:flex;flex-direction:column;gap:12px;overscroll-behavior:contain}.setb .small{margin-bottom:-4px}
+.sbn{height:96px;flex:none;border-radius:14px;background-size:cover;background-position:center}
+.spav{display:flex;flex-direction:column;gap:10px;margin-top:-46px;padding:0 10px}
+.swc{width:30px;height:30px;border-radius:50%;border:2px solid #0000;box-shadow:0 0 0 1px var(--ln);transition:transform .15s,border-color .15s}.swc.on{border-color:var(--tx);transform:scale(1.14)}
+.rkrow{max-height:96px;overflow:auto}
+.dmc{height:min(82dvh,660px)}
+.dmwho{position:relative;display:flex;gap:10px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--ln);background-size:cover;background-position:center;cursor:pointer;text-align:left;flex:none;isolation:isolate}
+.dmwho::before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#0A1A22f0,#0A1A22aa)}
+.dmwho .av{width:44px;height:44px;border-radius:14px;font-size:18px;flex:none}
+.dmwi{flex:1;min-width:0}.dmwi b{font:800 16px var(--h);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.dmwi small{color:var(--mu);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dmwi .tg{display:flex;gap:4px;flex-wrap:wrap;margin-top:3px}
+.dmrec{display:flex;align-items:center;gap:10px;padding:9px 12px;border-top:1px solid var(--ln);background:var(--sf)}
+.modal .dmf{flex-direction:row;align-items:center;width:auto;background:none;border:0;border-top:1px solid var(--ln);border-radius:0;padding:10px;gap:8px;animation:none}.dmf .ib{flex:none}.dmf input{min-width:0}#dmEmo{max-height:128px;padding:6px}#dmMic.on{color:var(--rd);border-color:var(--rd)}
+.wnS{position:fixed;top:calc(64px + env(safe-area-inset-top));right:12px;z-index:98;display:flex;flex-direction:column;gap:8px;width:min(340px,calc(100vw - 24px));pointer-events:none}
+.wnc{pointer-events:auto;cursor:pointer;display:flex;gap:10px;background:var(--sf);border:1px solid #c13dff;border-radius:14px;padding:10px 12px;box-shadow:0 12px 34px #000a,0 0 24px #c13dff33;animation:wnIn .45s cubic-bezier(.2,1.3,.4,1)}
+.wnc.out{animation:wnOut .3s forwards}.wnc>i{color:#c13dff;font-size:18px;margin-top:2px}.wnc b{display:block;font-size:13px}.wnc span{font-size:14px;word-break:break-word}
+@keyframes wnIn{from{opacity:0;transform:translateX(40px) scale(.9)}}@keyframes wnOut{to{opacity:0;transform:translateX(40px)}}
+/* animasyonlar */
+@keyframes slideIn{from{opacity:0;transform:translateX(26px)}}@keyframes slideBk{from{opacity:0;transform:translateX(-26px)}}@keyframes rip{to{transform:scale(1);opacity:0}}
+.acts>*{animation:up .5s cubic-bezier(.2,.9,.3,1) both}.acts>:nth-child(2){animation-delay:.04s}.acts>:nth-child(3){animation-delay:.08s}.acts>:nth-child(4){animation-delay:.12s}.acts>:nth-child(5){animation-delay:.16s}.acts>:nth-child(n+6){animation-delay:.2s}
+#dmChat:not([hidden]){animation:slideIn .3s cubic-bezier(.2,.9,.3,1)}#dmList:not([hidden]){animation:slideBk .3s cubic-bezier(.2,.9,.3,1)}
+.m.wh{animation:inL .5s cubic-bezier(.2,1.3,.4,1)}.m.wh.me{animation-name:inR}
+.btn:not(#adm),.chip{position:relative;overflow:hidden}
+.rip{position:absolute;border-radius:50%;pointer-events:none;background:currentColor;opacity:.22;transform:scale(0);animation:rip .55s ease-out forwards}
+.li{transition:transform .18s,outline-color .2s}.dmb .bub{transition:transform .15s}
+@media(hover:hover){.btn:hover{transform:translateY(-1px)}.btn:active{transform:scale(.96)}.li:hover{transform:translateX(3px)}.av{transition:transform .2s}.m:hover .av{transform:scale(1.08) rotate(-3deg)}}
+/* performans */
+.sys::after{animation:none}.sys.new::after{animation:sweep 2.4s linear 2}
+.brand h1{animation-iteration-count:3}
+.mob .m.adm .bub,.mob .m.adm .av,.mob .m.mdr .bub,.mob .m.mdr .av,.mob .m.adm .mh b,.mob .m.adm .tag,.mob .m.mdr .mh b,.mob .m.mdr .tag,.mob .m.mdr .bub::after,.lite .m.adm .bub,.lite .m.adm .av,.lite .m.mdr .bub,.lite .m.mdr .av,.lite .m.adm .mh b,.lite .m.adm .tag,.lite .m.mdr .mh b,.lite .m.mdr .tag,.lite .m.mdr .bub::after{animation:none}
+.mob .m .bub::before,.mob .m .av::before{display:none}body.mob::before{animation:none}
+body.lite .acts>*,body.lite .tab.on>*{animation:none}
+/* dokunmatik: araçlar sadece baloncuğa dokununca açılır */
+@media(hover:none){.tools{position:static;display:none;margin-top:6px;flex-wrap:wrap;gap:4px;max-width:230px;opacity:1;background:none;border:0;padding:0}.bub.tp .tools{display:flex}.bub:hover .tools{opacity:1}.tools button{width:34px;height:34px;border:1px solid var(--ln);background:var(--bg);border-radius:8px}}
+/* mobil uyum */
+@media(max-width:640px){
+ .top{padding:8px 10px;gap:8px}.brand{gap:8px}.brand h1{font-size:19px}.acts{gap:5px}
+ .ib{width:36px;height:36px}.ib.sm{width:28px;height:28px}.pill{padding:4px 9px;font-size:12px}
+ #admT{display:none}#adm{padding:7px 11px}#me{max-width:96px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .comp{gap:6px;padding:8px 8px calc(8px + env(safe-area-inset-bottom))}.comp .ib{flex:none}.comp input{min-width:0}.cnt{width:auto;min-width:0}#sendB{padding:9px 13px;flex:none}
+ .stream{padding:12px 10px}.banner,.pin,.mus,.gbar,.poll{padding-left:10px;padding-right:10px}.gbar{font-size:13px}
+ .tabs{overflow-x:auto;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tabs button{flex:none;padding:11px 12px}
+ .panel{width:100%}.tab{padding:10px}.grid,.row{gap:6px}.modal{padding:10px}
+ .pcard,.ucard{max-height:92dvh;overflow-y:auto}.dmc{width:100%;height:92dvh;border-radius:16px}
+ .dock{max-width:calc(100vw - 16px);flex-wrap:wrap;justify-content:center;white-space:normal;border-radius:20px}
+ .ann{width:calc(100vw - 20px)}.pop{width:min(240px,calc(100vw - 16px))}.down{bottom:76px;right:10px}
+ .pst{gap:6px}.pst b{font-size:20px}.wbox{padding:26px 16px 16px}.hbar{max-width:calc(100vw - 16px);white-space:normal}
+ .emo{grid-template-columns:repeat(auto-fill,minmax(36px,1fr))}.wnS{top:calc(58px + env(safe-area-inset-top));right:8px;left:8px;width:auto}
+}
+@media(max-width:480px){.top{flex-wrap:wrap}.wnS{top:calc(96px + env(safe-area-inset-top))}.brand{flex:1 1 100%}.brand p{display:none}.acts{flex:1 1 100%;justify-content:space-between}#me{flex:1;max-width:none}}
 </style>
 </head>
 <body>
 <div id="banner" class="banner info" hidden><i id="bnBar" class="bnbar"></i><i class="fa-solid fa-bullhorn"></i><span id="bnT"></span><button class="ib sm" id="bnX" aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button></div>
 <header class="top in">
  <div class="brand"><span id="dot" class="dot off"></span><div><h1 id="tTitle">Anonim Chat</h1><p id="tSub"></p></div></div>
- <div class="acts"><span id="onP" class="pill" hidden></span><span id="slowB" class="pill" hidden></span><button id="snd" class="ib" aria-label="Ses"><i class="fa-solid fa-volume-high"></i></button><button id="updB" class="ib" aria-label="Güncelleme notları"><i class="fa-solid fa-clipboard-list"></i><b id="updDot" class="udot" hidden></b></button><button id="dmB" class="ib" aria-label="Özel mesajlar"><i class="fa-solid fa-envelope"></i><b id="dmDot" class="badge" hidden></b></button><button id="me" class="pill me" title="Rumuzu değiştir"></button><button id="adm" class="btn"><i class="fa-solid fa-shield-halved"></i><span id="admT">Yönetici</span></button></div>
+ <div class="acts"><span id="onP" class="pill" hidden></span><span id="slowB" class="pill" hidden></span><button id="snd" class="ib" aria-label="Ses"><i class="fa-solid fa-volume-high"></i></button><button id="updB" class="ib" aria-label="Güncelleme notları"><i class="fa-solid fa-clipboard-list"></i><b id="updDot" class="udot" hidden></b></button><button id="dmB" class="ib" aria-label="Özel mesajlar"><i class="fa-solid fa-envelope"></i><b id="dmDot" class="badge" hidden></b></button><button id="setB" class="ib" aria-label="Ayarlar"><i class="fa-solid fa-gear"></i></button><button id="me" class="pill me" title="Profilim"></button><button id="adm" class="btn"><i class="fa-solid fa-shield-halved"></i><span id="admT">Yönetici</span><b id="whDot" class="badge" hidden></b></button></div>
 </header>
 <div id="pin" class="pin" hidden><i class="fa-solid fa-thumbtack"></i><span id="pinT"></span><button id="unpin" class="ib sm" hidden aria-label="Sabiti kaldır"><i class="fa-solid fa-xmark"></i></button></div>
 <div id="mus" class="mus" hidden><i class="fa-solid fa-music"></i><span id="musT">Müzik</span><button id="musGo" class="btn sm pri" hidden>▶ Dinle</button><input id="musV" type="range" min="0" max="100" aria-label="Ses"><button id="musM" class="ib sm" aria-label="Sustur"><i class="fa-solid fa-volume-high"></i></button></div>
@@ -243,7 +304,7 @@ body.lite .halt::before{animation:none;opacity:.5}body.lite .hin>i{animation:non
 
 <aside id="panel" class="panel" aria-label="Yönetici paneli">
  <div class="ph"><h3>Yönetim</h3><button class="ib" id="pX" aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button></div>
- <div class="tabs"><button data-tab="ov" class="on">Özet</button><button data-tab="ch">Sohbet</button><button data-tab="us">Kişiler</button><button data-tab="ev" id="tabEv">Etkinlik</button><button data-tab="si" id="tabSi">Site</button><button data-tab="dm" id="tabDm" hidden>DM</button></div>
+ <div class="tabs"><button data-tab="ov" class="on">Özet</button><button data-tab="ch">Sohbet</button><button data-tab="us">Kişiler</button><button data-tab="ev" id="tabEv">Etkinlik</button><button data-tab="si" id="tabSi">Site</button><button data-tab="dm" id="tabDm" hidden>DM &amp; Fısıltı<b id="whTab" class="badge st" hidden></b></button></div>
  <div class="tab on" id="t-ov">
   <div class="grid"><div class="st"><b id="sOn">0</b><span>çevrimiçi</span></div><div class="st"><b id="sMs">0</b><span>yüklü mesaj</span></div><div class="st"><b id="sPn">0</b><span>cezalı kişi</span></div><div class="st"><b id="sMd" style="font-size:18px;padding:5px 0">-</b><span>site durumu</span></div></div>
   <div class="card"><h4>Hızlı işlemler</h4><div class="grid"><button class="btn" id="qLock"></button><button class="btn" id="qExp"><i class="fa-solid fa-download"></i>Sohbeti indir</button><button class="btn" id="qFx">🎉 Konfeti</button><button class="btn" id="qUn"><i class="fa-solid fa-unlock"></i>Cezaları kaldır</button><button class="btn red" id="qClr" style="grid-column:span 2"><i class="fa-solid fa-trash"></i>Sohbeti temizle</button></div></div>
@@ -263,7 +324,7 @@ body.lite .halt::before{animation:none;opacity:.5}body.lite .hin>i{animation:non
   <div class="card"><h4>Çevrimiçi</h4><input id="uSearch" placeholder="Ara…"><div id="uList" style="display:flex;flex-direction:column;gap:6px;max-height:170px;overflow:auto"></div></div>
   <div class="card" id="insp"><h4 id="iName">Kişi seç</h4><div class="small" id="iInfo">Listeden ya da sohbetteki bir isme tıkla.</div>
    <div class="grid"><button class="btn sm" data-a="m10">10 dk mute</button><button class="btn sm" data-a="m60">1 saat mute</button><button class="btn sm" data-a="m1440">1 gün mute</button><button class="btn sm red" data-a="ban">Kalıcı ban</button><button class="btn sm" data-a="warn"><i class="fa-solid fa-triangle-exclamation"></i>Uyarı at</button><button class="btn sm" data-a="wipe">Mesajları sil</button><button class="btn sm pri" data-a="un" style="grid-column:span 2">Cezayı kaldır</button><button class="btn sm" data-a="pr" style="grid-column:span 2">Profil resmi ve banner'ı sıfırla</button></div>
-   <div class="row"><input id="cMin" type="number" min="1" placeholder="Özel mute (dk)"><button class="btn sm" data-a="mc">Uygula</button></div><div class="row" id="admOnly"><input id="rnIn" maxlength="20" placeholder="Yeni rumuz"><button class="btn sm" data-a="rn">Adı değiştir</button></div><select id="rkSel"></select><div class="grid" id="roleBtns"><button class="btn sm" data-a="mod">Moderatör yap</button><button class="btn sm" data-a="usr">Kullanıcı yap</button></div></div>
+   <div class="row"><input id="cMin" type="number" min="1" placeholder="Özel mute (dk)"><button class="btn sm" data-a="mc">Uygula</button></div><div class="row" id="admOnly"><input id="rnIn" maxlength="20" placeholder="Yeni rumuz"><button class="btn sm" data-a="rn">Adı değiştir</button></div><div class="row" id="rkChips"></div><div class="grid" id="roleBtns"><button class="btn sm" data-a="mod">Moderatör yap</button><button class="btn sm" data-a="usr">Kullanıcı yap</button></div></div>
   <div class="card"><h4>Cezalılar</h4><div id="pList" style="display:flex;flex-direction:column;gap:6px"></div></div>
  </div>
  <div class="tab" id="t-ev">
@@ -276,7 +337,7 @@ body.lite .halt::before{animation:none;opacity:.5}body.lite .hin>i{animation:non
   <div class="card"><h4>❤️ En beğenilen profiller</h4><div id="topLike" style="display:flex;flex-direction:column;gap:6px"></div><button class="btn sm" id="tlB">Yenile</button></div>
   <div class="card"><h4>🏅 En aktifler</h4><div id="topAct" style="display:flex;flex-direction:column;gap:6px"></div></div>
  </div>
- <div class="tab" id="t-dm">
+ <div class="tab" id="t-dm"><div class="card"><h4>🔒 Fısıltı kayıtları (canlı)</h4><div id="whList" style="display:flex;flex-direction:column;gap:6px;max-height:220px;overflow:auto"></div><button class="btn sm red" id="whClr"><i class="fa-solid fa-trash"></i>Kayıtları temizle</button></div>
   <div class="card"><h4>💬 Tüm özel sohbetler (canlı)</h4><input id="dmSearch" placeholder="Kişi ara…"><div id="dmAdmList" style="display:flex;flex-direction:column;gap:6px;max-height:220px;overflow:auto"></div></div>
   <div class="card"><h4 id="dmAdmT">Sohbet seç</h4><div id="dmAdmMsgs" class="dmm adm"></div><div class="row"><button class="btn red sm" id="dmDel" hidden>Bu sohbeti sil</button><button class="btn red sm" id="dmDelAll">Tüm DM'leri sil</button></div></div>
  </div>
@@ -312,12 +373,19 @@ body.lite .halt::before{animation:none;opacity:.5}body.lite .hin>i{animation:non
 <div id="mNick" class="modal" hidden><form id="fNick"><h3>Rumuzunu değiştir</h3><div class="row"><input id="nick" maxlength="20" placeholder="2-20 karakter"><button type="button" class="ib" id="dice" aria-label="Rastgele rumuz">🎲</button></div><div class="row"><button type="button" class="btn" id="nickX" data-x>Vazgeç</button><button class="btn pri" style="flex:1">Kaydet</button></div></form></div>
 <div id="mWarn" class="modal" hidden><form id="fWarn"><h3>Uyarı at: <span id="wFor"></span></h3><p class="small">Kullanıcıda “Bu mesaj sadece sizde gözükür” başlığıyla çıkar. Aşağıya yazdığın açıklama altında görünür.</p><textarea id="wIn" rows="3" maxlength="300" placeholder="Açıklama yaz…"></textarea><div class="row" id="wChips"><button type="button" class="chip">Küfür etme.</button><button type="button" class="chip">Spam yapma.</button><button type="button" class="chip">Kurallara uy.</button><button type="button" class="chip">Son uyarı!</button></div><div class="row"><button type="button" class="btn" data-x>Vazgeç</button><button class="btn pri" style="flex:1"><i class="fa-solid fa-paper-plane"></i>Uyarıyı gönder</button></div></form></div>
 <div id="warn" class="warn" hidden><div class="wbox"><div class="wic"><i class="fa-solid fa-triangle-exclamation"></i></div><h3>Yönetici uyarısı</h3><div class="wonly" id="wOnly"><i class="fa-solid fa-eye"></i>Bu mesaj sadece sizde gözükür</div><div class="wtxt" id="wTxt"></div><small id="wBy"></small><button class="btn pri" id="wOk" disabled>Oku</button></div></div>
-<div id="mProf" class="modal" hidden><div class="pcard"><div class="pbn" id="pBn"><button type="button" class="ib sm pcl" aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button></div><div class="pmid"><div class="pav" id="pAv"></div></div><div class="pbody"><h3 id="pNm"></h3><div class="ptags" id="pTg"></div><div class="pst"><div><b id="pMsg">0</b><span>mesaj</span></div><div data-fl="fo"><b id="pFo">0</b><span>takipçi</span></div><div data-fl="fg"><b id="pFg">0</b><span>takip</span></div><div id="pLkW"><b id="pLk">0</b><span>beğeni</span></div><div id="pVsW"><b id="pVs">0</b><span>ziyaretçi</span></div></div><div id="pFl" class="pfl" hidden></div><div class="row" id="pBtns"></div><p class="small" id="pHint"></p></div></div></div>
+<div id="mProf" class="modal" hidden><div class="pcard"><div class="pbn" id="pBn"><button type="button" class="ib sm pcl" aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button></div><div class="pmid"><div class="pav" id="pAv"></div></div><div class="pbody"><h3 id="pNm"></h3><div class="pstat" id="pStat" hidden></div><div class="ptags" id="pTg"></div><p class="pbio" id="pBio" hidden></p><div class="pst"><div><b id="pMsg">0</b><span>mesaj</span></div><div data-fl="fo"><b id="pFo">0</b><span>takipçi</span></div><div data-fl="fg"><b id="pFg">0</b><span>takip</span></div><div id="pLkW"><b id="pLk">0</b><span>beğeni</span></div><div id="pVsW"><b id="pVs">0</b><span>ziyaretçi</span></div></div><div id="pFl" class="pfl" hidden></div><div class="row" id="pBtns"></div><p class="small" id="pHint"></p></div></div></div>
 <div id="mUpd" class="modal" hidden><div class="ucard"><div class="ph"><h3><i class="fa-solid fa-clipboard-list"></i>Güncelleme notları</h3><button class="ib" data-x aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button></div><div id="uBody" class="ubody"></div></div></div>
 <div id="mDm" class="modal" hidden><div class="dmc"><div class="ph"><button class="ib sm" id="dmBack" hidden aria-label="Geri"><i class="fa-solid fa-arrow-left"></i></button><h3 id="dmTitle">Mesajlar</h3><button class="ib" data-x aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button></div>
  <div id="dmList" class="dml"></div>
- <div id="dmChat" class="dmch" hidden><div id="dmMsgs" class="dmm"></div><form id="dmForm" class="dmf" autocomplete="off"><input id="dmIn" maxlength="300" placeholder="Mesaj yaz…"><button class="btn pri" aria-label="Gönder"><i class="fa-solid fa-paper-plane"></i></button></form></div>
+ <div id="dmChat" class="dmch" hidden><div id="dmWho" class="dmwho" role="button" tabindex="0" aria-label="Profili aç"></div><div id="dmMsgs" class="dmm"></div><div id="dmEmo" class="emo" hidden></div><div id="dmRec" class="dmrec" hidden><span class="rdot"></span><b id="dmRecT">0:00</b><span style="flex:1"></span><button type="button" class="btn sm" id="dmRecX">İptal</button><button type="button" class="btn sm pri" id="dmRecOk"><i class="fa-solid fa-paper-plane"></i>Gönder</button></div><form id="dmForm" class="dmf" autocomplete="off"><button type="button" class="ib" id="dmEmoB" aria-label="Emoji"><i class="fa-regular fa-face-smile"></i></button><button type="button" class="ib" id="dmMic" aria-label="Sesli mesaj"><i class="fa-solid fa-microphone"></i></button><input id="dmIn" maxlength="300" placeholder="Mesaj yaz…"><button class="btn pri" aria-label="Gönder"><i class="fa-solid fa-paper-plane"></i></button></form></div>
  <div class="small dmn">ℹ️ Özel mesajlar yönetim tarafından görülebilir.</div></div></div>
+<div id="mSet" class="modal" hidden><div class="setc"><div class="ph"><h3><i class="fa-solid fa-gear"></i> Ayarlar</h3><button class="ib" data-x aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button></div><div class="setb">
+<div class="sbn" id="sBn"></div><div class="spav"><div class="pav" id="sAv"></div><div class="row"><button class="btn sm pri" id="sAvB"><i class="fa-solid fa-camera"></i>Fotoğraf</button><button class="btn sm" id="sBnB"><i class="fa-solid fa-image"></i>Banner</button><button class="btn sm ghost" id="sAvR">Fotoğrafı kaldır</button><button class="btn sm ghost" id="sBnR">Banner'ı kaldır</button></div></div>
+<div class="card"><h4>Profil</h4><span class="small">Rumuz</span><div class="row"><input id="sNick" maxlength="20"><button class="btn sm pri" id="sNickB">Değiştir</button></div><span class="small">Durum</span><input id="sStat" maxlength="40" placeholder="Şu an ne yapıyorsun? (😴 uyuyorum)"><span class="small">Hakkımda</span><textarea id="sBio" rows="3" maxlength="140" placeholder="Kendinden kısaca bahset…"></textarea><span class="small">Profil rengi</span><div class="row" id="sCol"></div><button class="btn pri" id="sSave">Profili kaydet</button></div>
+<div class="card"><h4>Ranklarım</h4><div class="row" id="sRk"></div></div>
+<div class="card"><h4>Gizlilik ve bildirim</h4><label class="t"><input type="checkbox" id="sDM">Özel mesaj kabul et</label><label class="t"><input type="checkbox" id="sSnd">Bildirim sesleri</label><label class="t"><input type="checkbox" id="sNt">Sekme arkadayken tarayıcı bildirimi</label><label class="t"><input type="checkbox" id="sLite">Hafif mod (animasyonları azalt)</label></div>
+<div class="card"><h4>Hesap</h4><button class="btn red sm" id="sDel"><i class="fa-solid fa-trash"></i>Mesajlarımı sil</button></div>
+</div></div></div>
 <input type="file" id="fAv" accept="image/*" hidden><input type="file" id="fBn" accept="image/*" hidden>
 <section id="halt" class="halt" hidden role="alert"><i class="hs"></i><i class="hs b"></i><div class="hin"><i class="fa-solid fa-hand"></i><h2>ACİL DURAKLAMA</h2><p id="hTxt"></p><div class="hw"><s></s><s></s><s></s></div><small id="hBy"></small></div></section>
 <div id="haltBar" class="hbar" hidden><i class="fa-solid fa-triangle-exclamation"></i><span>Acil duraklama aktif</span><button class="btn sm" id="hbOff">Kaldır</button></div>
@@ -361,7 +429,7 @@ function start(){
  f.onChildAdded(q,s=>addMsg(s.key,s.val()));
  f.onChildRemoved(q,s=>{document.querySelector(`[data-k="${s.key}"]`)?.remove();delete msgs[s.key];stats();pearls()});
  startX(f);
- setInterval(beat,20000);
+ setInterval(beat,30000);
 }
 function beat(){F().set(R('presence/'+me.uid),{name:me.name,role:me.role,t:now()})}
 if(window.FB)start();else addEventListener('fb',start);
@@ -414,7 +482,7 @@ function addMsg(k,m){
  if(!m||msgs[k])return;if(m.sys){if(me.role==='admin')F().remove(R('messages/'+k));return}msgs[k]=m;$('#empty').style.display='none';
  const isNew=m.ts>boot-1500,mine=m.uid===me.uid,el=document.createElement('div');el.dataset.k=k;
  if(m.cmd){el.className='sys cmdm'+(isNew?' new':'');el.textContent=m.text}
- else{const r=roleOf(m.uid),n=users[m.uid]?.name||m.name;el.dataset.uid=m.uid;el.dataset.rk=users[m.uid]?.rank||'';el.className=`m${mine?' me':''}${rc(r)}${isNew?' new':''}`;
+ else{const r=roleOf(m.uid),n=users[m.uid]?.name||m.name;el.dataset.uid=m.uid;el.dataset.rk=rkMain(m.uid);el.className=`m${mine?' me':''}${rc(r)}${isNew?' new':''}`;
   el.innerHTML=`${avH(m.uid,n)}<div class="mb"><div class="mh"><b data-u="${esc(m.uid)}">${esc(n)}</b><span class="rt">${tagH(r,m.uid)}</span><time>${esc(m.time||'')}</time></div>${m.reply?`<div class="rp">↩ ${esc(m.reply.name)}: ${esc(m.reply.text)}</div>`:''}<div class="bub">${bubIn(m)}<div class="tools"><button data-x aria-label="Tepki"><i class="fa-regular fa-face-smile"></i></button><button data-r aria-label="Yanıtla"><i class="fa-solid fa-reply"></i></button><button data-star hidden aria-label="Günün incisi"><i class="fa-solid fa-star"></i></button><button data-pin hidden aria-label="Sabitle"><i class="fa-solid fa-thumbtack"></i></button><button data-mydel hidden aria-label="Kendi mesajını sil"><i class="fa-regular fa-trash-can"></i></button><button data-del hidden aria-label="Sil"><i class="fa-solid fa-trash"></i></button></div></div><div class="rx"></div></div>`;
   if(isNew&&!mine){beep();kw(m.text)}io.observe(el)}
  stream.append(el);if(m.re)rx(el,m);if(m.pearl||m.re)pearls();
@@ -503,7 +571,7 @@ function renderPanel(){
 $('#uSearch').oninput=renderPanel;
 $('#t-us').addEventListener('click',e=>{const l=e.target.closest('[data-u]');if(l)pick(l.dataset.u)});
 function pick(u,quiet){sel=u;const r=users[u]||{};$('#iName').textContent=nameOf(u);const ml=(r.mutedUntil||0)-now();
- $('#iInfo').textContent=`Rol: ${{admin:'Yönetici',mod:'Moderatör'}[r.role]||'Kullanıcı'} · İhlal: ${r.bans||0} · ${ml>1e12?'Kalıcı ban':ml>0?'Mute: '+Math.ceil(ml/60000)+' dk':'Temiz'}`;$('#admOnly').hidden=$('#rkSel').hidden=$('#roleBtns').hidden=me.role!=='admin';if(!quiet)$('#rkSel').value=r.rank||''}
+ $('#iInfo').textContent=`Rol: ${{admin:'Yönetici',mod:'Moderatör'}[r.role]||'Kullanıcı'} · İhlal: ${r.bans||0} · ${ml>1e12?'Kalıcı ban':ml>0?'Mute: '+Math.ceil(ml/60000)+' dk':'Temiz'}`;$('#admOnly').hidden=$('#rkChips').hidden=$('#roleBtns').hidden=me.role!=='admin';rkPaint(u)}
 function doAct(u,a){
  if(u===me.uid)return toast('Kendine işlem yapamazsın');if(roleOf(u)==='admin'&&me.role!=='admin')return toast('Yöneticiye işlem yapılamaz');
  const r=users[u]||{},U=R('users/'+u),n=nameOf(u);
@@ -522,7 +590,7 @@ $('#bcB').onclick=()=>{const t=$('#bcIn').value.trim();if(!t)return toast('Duyur
  F().update(R('config'),{ann:{id:now(),text:t.slice(0,200),at:now(),dur:d,by:me.name,tone:$('#bcTone').value}});$('#bcIn').value='';toast(`Duyuru ${d} sn görünecek`);log(`Duyuru (${d} sn): ${t.slice(0,50)}`)};
 $('#unpin').onclick=$('#unpin2').onclick=()=>F().update(R('config'),{pinned:null});
 $('#qLock').onclick=()=>F().update(R('config'),{locked:!cfg.locked});
-$('#qClr').onclick=()=>{if(confirm('Tüm sohbet silinsin mi?'))F().remove(R('messages')).then(()=>{$('#empty').style.display='';F().remove(R('voices'));F().remove(R('vidx'))})};
+$('#qClr').onclick=()=>{if(confirm('Tüm sohbet silinsin mi?'))F().remove(R('messages')).then(()=>{$('#empty').style.display='';vCleanRun(true)})};
 $('#qExp').onclick=()=>{const t=Object.entries(msgs).map(([,m])=>`[${m.time||''}] ${m.sys?'SİSTEM':nameOf(m.uid)}: ${m.text}`).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/plain'}));a.download='sohbet-'+new Date().toISOString().slice(0,10)+'.txt';a.click()};
 /* site tab */
 function fillSite(){$('#iNoEmo').checked=!!cfg.noEmoji;$('#iWel').value=cfg.welcome||'';$('#iBnDur').value=cfg.bannerDur||0;$('#iAcc').value=cfg.accent||'#FFC233';$('#iMax').value=cfg.maxLen||300;$('#iNoLink').checked=!!cfg.noLinks;$('#iFx').checked=cfg.fx!==false;$('#pNick').value=me.name;$('#iTitle').value=cfg.title;$('#iSub').value=cfg.subtitle;$('#iBn').value=cfg.banner;$('#iBnOn').checked=cfg.bannerOn;$('#iTone').value=cfg.tone;$('#mMsg').value=cfg.maintMsg;setMode(cfg.mode);if(cfg.mode==='scheduled'&&cfg.openAt>now()){$('#when').value='';$('#prev').textContent='Şu an kayıtlı: '+fmt(cfg.openAt)}}
@@ -571,8 +639,8 @@ $('#whenChips').innerHTML=['30 dk sonra','1 saat sonra','bu akşam 20.00','yarı
 $('#whenChips').onclick=e=>{if(e.target.tagName==='BUTTON'){$('#when').value=e.target.textContent;showWhen()}};
 /* ---------- v2 ek özellikler ---------- */
 function rc(r){return r==='admin'?' adm':r==='mod'?' mdr':''}
-function tagH(r,u){const k=RK[users[u]?.rank],L=lvl(u);return (r==='admin'?'<span class="tag">Yönetici</span>':r==='mod'?'<span class="tag mod">Mod</span>':'')+(k?`<span class="tag rkt" style="background:${k[3]}">${k[2]} ${k[1]}</span>`:'')+(L.i?`<span class="lv" title="${esc(L.n)} · ${L.p} puan">${L.e}</span>`:'')}
-function restyle(){syncAv();$$('.m[data-uid]:not(.wh)').forEach(el=>{const u=el.dataset.uid,r=roleOf(u),n=users[u]?.name;el.classList.toggle('adm',r==='admin');el.classList.toggle('mdr',r==='mod');const rk=users[u]?.rank||'';if(el.dataset.rk!==rk)el.dataset.rk=rk;
+function tagH(r,u){const L=lvl(u);return (r==='admin'?'<span class="tag">Yönetici</span>':r==='mod'?'<span class="tag mod">Mod</span>':'')+rkTags(u)+(L.i?`<span class="lv" title="${esc(L.n)} · ${L.p} puan">${L.e}</span>`:'')}
+function restyle(){syncAv();$$('.m[data-uid]:not(.wh)').forEach(el=>{const u=el.dataset.uid,r=roleOf(u),n=users[u]?.name;el.classList.toggle('adm',r==='admin');el.classList.toggle('mdr',r==='mod');const rk=rkMain(u);if(el.dataset.rk!==rk)el.dataset.rk=rk;
  const b=el.querySelector('b[data-u]');if(n&&b&&b.textContent!==n){b.textContent=n;{const av=el.querySelector('.av');if(av&&av.firstChild)av.firstChild.nodeValue=([...n][0]||'?').toUpperCase()}}
  const t=el.querySelector('.rt'),h=tagH(r,u);if(t&&t._h!==h){t._h=h;t.innerHTML=h}})}
 function fly(){const b=$('#sendB');b.classList.remove('fly');void b.offsetWidth;b.classList.add('fly')}
@@ -589,14 +657,14 @@ function checkWarn(){const w=users[me.uid]?.warn;if(!w||w.id<=(+localStorage.c_w
  let c=3;ok.disabled=true;ok.textContent='Oku ('+c+')';const iv=setInterval(()=>{if(--c>0)ok.textContent='Oku ('+c+')';else{clearInterval(iv);ok.disabled=false;ok.textContent='Anladım'}},1000)}
 $('#wOk').onclick=()=>$('#warn').hidden=true;
 /* kullanıcıya tıklayınca açılan menü */
-function showPop(u,x,y){popU=u;const r=users[u]||{},role=roleOf(u),own=u===me.uid,st=staff(),lock=own||(role==='admin'&&me.role!=='admin'),ml=(r.mutedUntil||0)-now(),p=$('#pop'),n=nameOf(u),L=lvl(u),rk=RK[r.rank];
- p.innerHTML=`<div class="pn"><span class="av" style="--c:hsl(${hue(u)} 70% 70%);width:36px;height:36px;border-radius:11px">${esc([...n][0]||'?').toUpperCase()}</span><div><b>${esc(n)}</b><div class="small">${{admin:'Yönetici',mod:'Moderatör'}[role]||'Kullanıcı'}${rk?' · '+rk[2]+' '+rk[1]:''} · ${L.e} ${esc(L.n)}${st?` · ${r.warns||0} uyarı · ${ml>1e12?'Kalıcı ban':ml>0?'Susturulmuş':'Temiz'}`:''}</div></div></div>`
+function showPop(u,x,y){popU=u;const r=users[u]||{},role=roleOf(u),own=u===me.uid,st=staff(),lock=own||(role==='admin'&&me.role!=='admin'),ml=(r.mutedUntil||0)-now(),p=$('#pop'),n=nameOf(u),L=lvl(u),rk=rkList(u).map(k=>RK[k][2]+' '+RK[k][1]).join(', ');
+ p.innerHTML=`<div class="pn"><span class="av" style="--c:hsl(${hue(u)} 70% 70%);width:36px;height:36px;border-radius:11px">${esc([...n][0]||'?').toUpperCase()}</span><div><b>${esc(n)}</b><div class="small">${{admin:'Yönetici',mod:'Moderatör'}[role]||'Kullanıcı'}${rk?' · '+esc(rk):''} · ${L.e} ${esc(L.n)}${st?` · ${r.warns||0} uyarı · ${ml>1e12?'Kalıcı ban':ml>0?'Susturulmuş':'Temiz'}`:''}</div></div></div>`
  +'<button class="btn sm" data-p="pf"><i class="fa-regular fa-id-card"></i>Profili aç</button>'+(own||cfg.fWhisper===false?'':'<button class="btn sm" data-p="wh"><i class="fa-solid fa-user-secret"></i>Fısılda</button>')
  +(!st?'':lock?`<div class="small">${own?'Bu sensin.':'Yöneticiye işlem yapılamaz.'}</div>`:`<div class="grid"><button class="btn sm" data-p="warn"><i class="fa-solid fa-triangle-exclamation"></i>Uyarı at</button><button class="btn sm" data-p="m10"><i class="fa-regular fa-clock"></i>10 dk mute</button><button class="btn sm" data-p="m60">1 saat mute</button><button class="btn sm" data-p="m1440">1 gün mute</button><button class="btn sm red" data-p="ban"><i class="fa-solid fa-ban"></i>Ban</button><button class="btn sm" data-p="un">Cezayı kaldır</button><button class="btn sm" data-p="wipe">Mesajları sil</button>${me.role==='admin'?`<button class="btn sm gold" data-p="${role==='mod'?'usr':'mod'}"><i class="fa-solid fa-shield"></i>${role==='mod'?'Modluğu al':'Mod yap'}</button>`:''}</div>`)
- +(me.role==='admin'?`<select data-rank>${rkOpts(r.rank)}</select>`:'')+(st?'<button class="btn sm ghost" data-p="panel">Panelde aç</button>':'');
+ +(me.role==='admin'?`<div class="row rkrow">${rkChipsH(u)}</div>`:'')+(st?'<button class="btn sm ghost" data-p="panel">Panelde aç</button>':'');
  p.hidden=false;const w=p.offsetWidth,h=p.offsetHeight;p.style.left=Math.max(8,Math.min(x-20,innerWidth-w-8))+'px';p.style.top=Math.max(8,Math.min(y+10,innerHeight-h-8))+'px'}
 $('#pop').onclick=e=>{const a=e.target.closest('[data-p]')?.dataset.p;if(!a)return;$('#pop').hidden=true;if(a==='panel'){openPanel('us');pick(popU)}else if(a==='wh')startWhisper(popU);else if(a==='pf')openProfile(popU);else doAct(popU,a)};
-$('#pop').onchange=e=>{if(e.target.matches('[data-rank]'))setRank(popU,e.target.value)};
+
 addEventListener('pointerdown',e=>{if(!e.target.closest('#pop'))$('#pop').hidden=true});addEventListener('keydown',e=>{if(e.key==='Escape')$('#pop').hidden=true});
 /* site ayarları */
 $('#durChips').innerHTML=[5,10,30,60,0].map(v=>`<button class="chip" type="button" data-d="${v}">${v?v+' sn':'Hep açık'}</button>`).join('');
@@ -633,9 +701,9 @@ const RK=Object.fromEntries(RANKS.map(r=>[r[0],r]));
 const NO=':not(.adm):not(.mdr)';
 document.head.append(Object.assign(document.createElement('style'),{textContent:RANKS.map(([k,n,e,c,d,s])=>`.m[data-rk="${k}"]${NO} .bub{border-color:${c};background:linear-gradient(135deg,${d},var(--sf));box-shadow:0 0 12px ${c}55;border-radius:${s}}.m[data-rk="${k}"]${NO} .bub::after{content:"${e}";position:absolute;right:-7px;top:-9px;font-size:12px}.m[data-rk="${k}"]${NO} .mh b{color:${c}}`).join('')}));
 const rkOpts=s=>'<option value="">Rank yok</option>'+RANKS.map(r=>`<option value="${r[0]}"${s===r[0]?' selected':''}>${r[2]} ${r[1]}</option>`).join('');
-$('#rkSel').innerHTML=rkOpts('');
-function setRank(u,v){if(me.role!=='admin')return;F().update(R('users/'+u),{rank:v||null});log(`${nameOf(u)} → ${RK[v]?RK[v][1]+' rankı verildi':'rank kaldırıldı'}`);toast(RK[v]?'Rank verildi':'Rank kaldırıldı')}
-$('#rkSel').onchange=()=>{if(sel)setRank(sel,$('#rkSel').value)};
+
+function toggleRank(u,k){if(me.role!=='admin'||!RK[k])return;const r=users[u]||{},has=rkList(u).includes(k),o={};o['users/'+u+'/ranks/'+k]=has?null:true;if(r.rank){o['users/'+u+'/rank']=null;if(r.rank!==k&&RK[r.rank])o['users/'+u+'/ranks/'+r.rank]=true}F().update(F().ref(F().db),o);log(`${nameOf(u)} → ${RK[k][1]} ${has?'rankı alındı':'rankı verildi'}`);toast(has?'Rank kaldırıldı':'Rank verildi')}
+$('#rkChips').onclick=e=>{const k=e.target.closest('[data-rkt]')?.dataset.rkt;if(k&&sel)toggleRank(sel,k)};
 function rename(u,n){if(me.role!=='admin'||!u)return;n=n.trim().replace(/\s+/g,' ');if(n.length<2||n.length>20)return toast('2-20 karakter');if(Object.entries(users).some(([k,r])=>k!==u&&(r.name||'').toLowerCase()===n.toLowerCase()))return toast('Bu rumuz kullanımda');const o=nameOf(u);F().update(R('users/'+u),{name:n});log(`${o} → ${n} olarak değiştirildi`);$('#rnIn').value='';toast('Rumuz değiştirildi')}
 /* seviye */
 const LV=[[0,'Yeni','🥚'],[15,'Çırak Sohbetçi','🌱'],[60,'Aktif Üye','⚡'],[200,'Sohbet Ustası','🛡️'],[600,'Efsane Sohbetçi','🌟']];
@@ -650,7 +718,7 @@ function askNick(){nickFirst=1;$('#nick').value=gen();$('#mNick h3').textContent
 /* fısıltı */
 function startWhisper(u){if(u===me.uid)return;wto={uid:u,name:nameOf(u)};reply=null;$('#rT').textContent='🔒 Fısıltı → '+wto.name;$('#rbar').hidden=false;$('#msg').focus()}
 function showW(w){const el=document.createElement('div');el.className='m wh'+(w.mine?' me':'');el.dataset.uid=w.uid;el.innerHTML=`<div class="av" style="--c:hsl(${hue(w.uid)} 70% 70%)">${esc([...w.name][0]||'?').toUpperCase()}</div><div class="mb"><div class="mh"><b data-u="${esc(w.uid)}">${esc(w.name)}</b><time>fısıltı</time></div><div class="bub">${esc(w.text)}</div></div>`;stream.append(el);const l=stream.querySelectorAll('.wh');if(l.length>20)l[0].remove();toBot()}
-function whisper(t){F().push(R('whispers/'+wto.uid),{from:me.uid,name:me.name,text:t.slice(0,300),ts:now()});showW({uid:wto.uid,name:'Sen → '+wto.name,text:t,mine:1});toast('Fısıltı gönderildi')}
+function whisper(t){F().push(R('whispers/'+wto.uid),{from:me.uid,name:me.name,text:t.slice(0,300),ts:now()});F().push(R('whisperlog'),{from:me.uid,fn:me.name,to:wto.uid,tn:wto.name,text:t.slice(0,300),ts:now()});showW({uid:wto.uid,name:'Sen → '+wto.name,text:t,mine:1});toast('Fısıltı gönderildi')}
 /* yazıyor */
 $('#msg').addEventListener('input',()=>{if(cfg.fTyp===false||!window.FB||!$('#msg').value)return;if(now()-tyAt>2500){tyAt=now();const r=R('typing/'+me.uid);F().set(r,now());F().onDisconnect(r).remove()}});
 function stopTyping(){if(tyAt&&window.FB){tyAt=0;F().remove(R('typing/'+me.uid))}}
@@ -715,7 +783,7 @@ $('#raf').onclick=()=>{const l=onl().filter(([u])=>roleOf(u)==='user');if(!l.len
 /* firebase dinleyicileri */
 function startX(f){
  f.onChildChanged(f.query(R('messages'),f.orderByKey(),f.limitToLast(100)),s=>{const m=s.val();if(!m||!msgs[s.key])return;msgs[s.key]=m;const el=document.querySelector(`[data-k="${s.key}"]`);if(el)rx(el,m);pearls()});
- f.onChildAdded(R('whispers/'+me.uid),s=>{const w=s.val();f.remove(s.ref);if(!w||now()-w.ts>36e5)return;showW({uid:w.from,name:w.name,text:w.text});beep();toast('🔒 '+w.name+' sana fısıldadı')});
+ f.onChildAdded(R('whispers/'+me.uid),s=>{const w=s.val();f.remove(s.ref);if(!w||now()-w.ts>36e5)return;showW({uid:w.from,name:w.name,text:w.text});beep();toast('🔒 '+w.name+' sana fısıldadı');notifyB('🔒 '+w.name+' sana fısıldadı',w.text)});
  f.onValue(R('typing'),s=>{typ=s.val()||{};showTyp()});
  f.onValue(R('game'),s=>{game=s.val();if((game?.id||0)!==gid){gid=game?.id||0;fin=0}gameTick()});
  f.onValue(R('poll'),s=>{poll=s.val();renderPoll()});
@@ -725,8 +793,8 @@ function startX(f){
 /* ================= v5 ================= */
 let avs={},bns={},avp=new Set(),profU=null,profOff=[],pl={},pv={},ups=[],upTop='',lastVoice=0,lastGif=0,lastGifU='',lastTxt='',lastTxtAt=0,recd=null,rcCh=[],rcSt=0,rcT=0,rcStr=null,rcSend=false,rcBusy=false,vCache={},vAud=null,vBtn=null,profAt=0,wIv=0;
 const okImg=d=>typeof d==='string'&&d.length<90000&&/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+\/=]+$/.test(d);
-const avH=(u,n,style='',tag='div')=>`<${tag} class="av" data-av="${esc(u)}" style="--c:hsl(${hue(u)} 70% 70%);${style}">${esc([...n][0]||'?').toUpperCase()}${okImg(avs[u])?`<img class="ai" alt="" src="${avs[u]}">`:''}</${tag}>`;
-function paintAv(u){const d=avs[u];$$(`[data-av="${CSS.escape(u)}"]`).forEach(a=>{a.querySelector('.ai')?.remove();if(okImg(d)){const i=document.createElement('img');i.className='ai';i.alt='';i.src=d;a.append(i)}})}
+const avH=(u,n,style='',tag='div')=>`<${tag} class="av" data-av="${esc(u)}" style="--c:hsl(${hue(u)} 70% 70%);${style}">${esc([...n][0]||'?').toUpperCase()}${okImg(avs[u])?`<img class="ai" alt="" src="${avSrc(u)}">`:''}</${tag}>`;
+function paintAv(u){const d=avs[u];$$(`[data-av="${CSS.escape(u)}"]`).forEach(a=>{a.querySelector('.ai')?.remove();if(okImg(d)){const i=document.createElement('img');i.className='ai';i.alt='';i.src=avSrc(u);a.append(i)}})}
 function needAv(u){if(!u||!window.FB||u in avs||avp.has(u))return;avp.add(u);F().get(R('avatars/'+u)).then(s=>{avs[u]=s.val()||'';avp.delete(u);paintAv(u)}).catch(()=>{avp.delete(u)})}
 function bulkDel(ks){const o={};ks.forEach(k=>{o['messages/'+k]=null;const v=msgs[k]?.vid;if(v){o['voices/'+v]=null;o['vidx/'+v]=null}});if(Object.keys(o).length)F().update(F().ref(F().db),o)}
 /* ---- profil ---- */
@@ -748,21 +816,20 @@ $('#mProf').addEventListener('click',e=>{if(e.target.id==='mProf'||e.target.clos
 addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#mProf').hidden)closeProf()});
 function renderProf(){const u=profU;if(!u)return;const r=users[u]||{},own=u===me.uid,n=nameOf(u),role=roleOf(u),rk=RK[r.rank],L=lvl(u),a=acts[u]||{},likeOn=cfg.fLike!==false,can=own&&(cfg.fProf!==false||staff()),bn=bns[u],hu=hue(u);
  $('#pBn').style.background=okImg(bn)?`url("${bn}") center/cover`:`linear-gradient(120deg,hsl(${hu} 55% 32%),hsl(${(hu+60)%360} 60% 42%))`;
- const av=$('#pAv');av.dataset.av=u;av.style.setProperty('--c',`hsl(${hu} 70% 70%)`);av.innerHTML=esc([...n][0]||'?').toUpperCase()+(okImg(avs[u])?`<img class="ai" alt="" src="${avs[u]}">`:'');
- $('#pNm').textContent=n;
- $('#pTg').innerHTML=(role==='admin'?'<span class="tag">Yönetici</span>':role==='mod'?'<span class="tag mod">Mod</span>':'')+(rk?`<span class="tag rkt" style="background:${rk[3]}">${rk[2]} ${rk[1]}</span>`:'')+`<span class="tag lvt">${L.e} ${esc(L.n)}</span>`;
+ const av=$('#pAv');av.dataset.av=u;av.style.setProperty('--c',`hsl(${hu} 70% 70%)`);av.innerHTML=esc([...n][0]||'?').toUpperCase()+(okImg(avs[u])?`<img class="ai" alt="" src="${avSrc(u)}">`:'');
+ $('#pNm').textContent=n;{const on=!!pres[u]&&now()-pres[u].t<90000,pc=/^#[0-9a-f]{6}$/i.test(r.pc||'')?r.pc:'';$('#mProf .pcard').style.setProperty('--pc',pc||'transparent');const st=$('#pStat');st.hidden=false;st.innerHTML=`<i class="fa-solid fa-circle" style="color:${on?'var(--gn)':'var(--mu)'}"></i>${on?'Çevrimiçi':'Çevrimdışı'}${r.stat?' · '+esc(r.stat):''}`;const bi=$('#pBio');bi.hidden=!r.bio;bi.textContent=r.bio||''}
+ $('#pTg').innerHTML=(role==='admin'?'<span class="tag">Yönetici</span>':role==='mod'?'<span class="tag mod">Mod</span>':'')+rkTags(u)+`<span class="tag lvt">${L.e} ${esc(L.n)}</span>`;
  $('#pMsg').textContent=a.n||0;$('#pFo').textContent=Object.keys(fo).length;$('#pFg').textContent=Object.keys(fg).length;$('#pLk').textContent=Object.keys(pl).length;$('#pVs').textContent=Object.keys(pv).length;$('#pLkW').hidden=$('#pVsW').hidden=!likeOn;
  let b='';
- if(own){if(can){b+='<button class="btn sm pri" data-pa="av"><i class="fa-solid fa-camera"></i>Fotoğraf</button><button class="btn sm" data-pa="bn"><i class="fa-solid fa-image"></i>Banner</button>';if(okImg(avs[u])||okImg(bn))b+='<button class="btn sm ghost" data-pa="rav">Fotoğrafı kaldır</button><button class="btn sm ghost" data-pa="rbn">Banner\'ı kaldır</button>'}
-  b+='<button class="btn sm" data-pa="nick"><i class="fa-solid fa-pen"></i>Rumuz</button><button class="btn sm ghost" data-pa="mine">Mesajlarımı sil</button>'}
+ if(own){b+='<button class="btn sm" data-pa="set"><i class="fa-solid fa-gear"></i>Ayarlar</button>'}
  else{b+=followBtn()+(cfg.fDM!==false||staff()?'<button class="btn sm" data-pa="dm"><i class="fa-solid fa-envelope"></i>Mesaj at</button>':'');if(likeOn)b+=`<button class="btn sm ${pl[me.uid]?'pri':''}" data-pa="like"><i class="fa-${pl[me.uid]?'solid':'regular'} fa-heart"></i>${pl[me.uid]?'Beğenildi':'Beğen'}</button>`;
   if(cfg.fWhisper!==false)b+='<button class="btn sm" data-pa="wh"><i class="fa-solid fa-user-secret"></i>Fısılda</button>';
   if(staff())b+='<button class="btn sm" data-pa="mgr"><i class="fa-solid fa-gear"></i>Yönet</button><button class="btn sm red" data-pa="rst">Profili sıfırla</button>'}
- sh('#pBtns',b);renderFl();$('#pHint').textContent=own?(can?'Fotoğraf 128×128, banner 480×160 olarak küçültülür.':'Profil düzenleme şu an kapalı.'):''}
+ sh('#pBtns',b);renderFl();$('#pHint').textContent=own?'Profilini Ayarlar bölümünden düzenleyebilirsin.':''}
 $('#pBtns').onclick=e=>{const a=e.target.closest('[data-pa]')?.dataset.pa,u=profU;if(!a||!u)return;
  if(a==='av')$('#fAv').click();else if(a==='bn')$('#fBn').click();
  else if(a==='rav')setImg('avatars',null);else if(a==='rbn')setImg('banners',null);
- else if(a==='nick'){closeProf();renameMe()}
+ else if(a==='set'){closeProf();fillSet(1);$('#mSet').hidden=false}else if(a==='nick'){closeProf();renameMe()}
  else if(a==='like')likeP(u);
  else if(a==='fol')followP(u);
  else if(a==='dm'){closeProf();openDM(u)}
@@ -787,20 +854,20 @@ function stopV(){if(vAud){vAud.pause();vAud=null}if(vBtn){vBtn.classList.remove(
 async function playVoice(btn){const id=btn.dataset.vid;if(vBtn===btn){stopV();return}stopV();let d=vCache[id];
  if(!d){btn.classList.add('ld');try{const s=await F().get(R('voices/'+id));d=s.val()?.d}catch(e){}btn.classList.remove('ld');if(!d||!/^data:audio\//.test(d))return toast('Ses kaydı bulunamadı');if(Object.keys(vCache).length>15)vCache={};vCache[id]=d}
  vAud=new Audio(d);vBtn=btn;btn.classList.add('pl');btn.querySelector('i').className='fa-solid fa-pause';vAud.onended=stopV;vAud.onerror=()=>{stopV();toast('Ses oynatılamadı')};vAud.play().catch(()=>{stopV();toast('Ses oynatılamadı')})}
-function micEnd(){clearInterval(rcT);rcStr?.getTracks().forEach(t=>t.stop());rcStr=null;rcBusy=false;$('#recBar').hidden=true;$('#micB').classList.remove('on')}
-async function micStart(){if(rcBusy)return;if(cfg.fVoice===false&&!staff())return toast('Sesli mesaj kapalı');if(!allow(null))return;
+function micEnd(){clearInterval(rcT);rcStr?.getTracks().forEach(t=>t.stop());rcStr=null;rcBusy=false;$('#recBar').hidden=true;$('#micB').classList.remove('on');$('#dmRec').hidden=true;$('#dmMic').classList.remove('on')}
+async function micStart(tg){if(rcBusy)return;rcTgt=tg||'chat';rcDmU=dmOpen;if(cfg.fVoice===false&&!staff())return toast('Sesli mesaj kapalı');if(rcTgt==='dm'){if(!dmOpen||!dmCan(dmOpen,1))return}else if(!allow(null))return;
  if(!staff()&&now()-lastVoice<8000)return toast('Biraz bekle');
  if(!navigator.mediaDevices?.getUserMedia||!window.MediaRecorder)return toast('Tarayıcın ses kaydını desteklemiyor');
  rcBusy=true;try{rcStr=await navigator.mediaDevices.getUserMedia({audio:true})}catch(e){rcBusy=false;return toast('Mikrofon izni verilmedi')}
  const mt=['audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus','audio/mp4'].find(t=>MediaRecorder.isTypeSupported(t));
  try{recd=new MediaRecorder(rcStr,mt?{mimeType:mt,audioBitsPerSecond:24000}:{audioBitsPerSecond:24000})}catch(e){micEnd();return toast('Kayıt başlatılamadı')}
  rcCh=[];rcSend=false;recd.ondataavailable=e=>{if(e.data.size)rcCh.push(e.data)};
- recd.onstop=()=>{const dur=Math.round((Date.now()-rcSt)/1000),type=recd.mimeType||mt||'audio/webm',ok=rcSend,ch=rcCh;micEnd();recd=null;if(ok&&dur>=1)sendVoice(new Blob(ch,{type}),dur);else if(ok)toast('Kayıt çok kısa')};
- rcSt=Date.now();recd.start();$('#recBar').hidden=false;$('#micB').classList.add('on');$('#recT').textContent='0:00';
- rcT=setInterval(()=>{const s=Math.floor((Date.now()-rcSt)/1000),mx=cfg.voiceMax||15;$('#recT').textContent=`0:${pad(s)} / 0:${pad(mx)}`;if(s>=mx)micStop(true)},250)}
+ recd.onstop=()=>{const dur=Math.round((Date.now()-rcSt)/1000),type=recd.mimeType||mt||'audio/webm',ok=rcSend,ch=rcCh;micEnd();recd=null;if(ok&&dur>=1)sendVoice(new Blob(ch,{type}),dur,rcTgt,rcDmU);else if(ok)toast('Kayıt çok kısa')};
+ rcSt=Date.now();recd.start();if(rcTgt==='dm'){$('#dmRec').hidden=false;$('#dmMic').classList.add('on')}else{$('#recBar').hidden=false;$('#micB').classList.add('on')}$('#recT').textContent=$('#dmRecT').textContent='0:00';
+ rcT=setInterval(()=>{const s=Math.floor((Date.now()-rcSt)/1000),mx=cfg.voiceMax||15;$('#recT').textContent=$('#dmRecT').textContent=`0:${pad(s)} / 0:${pad(mx)}`;if(s>=mx)micStop(true)},250)}
 function micStop(send){if(recd&&recd.state!=='inactive'){rcSend=send;recd.stop()}else micEnd()}
-function sendVoice(b,dur){const r=new FileReader();r.onload=()=>{const d=r.result;if(typeof d!=='string'||d.length>160000)return toast('Kayıt çok büyük');const k=F().push(R('voices')).key,o={};o['voices/'+k]={d,by:me.uid};o['vidx/'+k]=now();
- F().update(F().ref(F().db),o).then(()=>{post({text:'[sesli mesaj]',voice:1,vid:k,dur});lastVoice=now();atBot=true}).catch(()=>toast('Ses gönderilemedi'))};r.readAsDataURL(b)}
+function sendVoice(b,dur,tg,du){const r=new FileReader();r.onload=()=>{const d=r.result;if(typeof d!=='string'||d.length>160000)return toast('Kayıt çok büyük');const k=F().push(R('voices')).key,o={};o['voices/'+k]={d,by:me.uid};o['vidx/'+k]=now();
+ F().update(F().ref(F().db),o).then(()=>{if(tg==='dm'){dmPut(du,{t:'[sesli mesaj]',voice:1,vid:k,dur},'🎤 Sesli mesaj');lastVoice=now()}else{post({text:'[sesli mesaj]',voice:1,vid:k,dur});lastVoice=now();atBot=true}}).catch(()=>toast('Ses gönderilemedi'))};r.readAsDataURL(b)}
 $('#micB').onclick=()=>{if(recd&&recd.state==='recording')micStop(true);else micStart()};
 $('#recOk').onclick=()=>micStop(true);$('#recX').onclick=()=>micStop(false);
 /* ---- güncelleme notları ---- */
@@ -835,7 +902,7 @@ $('#accChips').innerHTML=['#FFC233','#FF6B5E','#5FD3A5','#4DD2FF','#B57BFF','#FF
 $('#accChips').onclick=e=>{const c=e.target.dataset.c;if(c){F().update(R('config'),{accent:c});$('#iAcc').value=c}};
 $('#tlB').onclick=async()=>{const s=await F().get(R('plikes')),a=[];s.forEach(c=>{a.push([c.key,Object.keys(c.val()||{}).length])});a.sort((x,y)=>y[1]-x[1]);$('#topLike').innerHTML=a.slice(0,8).map(([u,n])=>`<div class="li" data-pfo="${esc(u)}"><span>❤️ ${esc(nameOf(u))}</span><span class="small">${n} beğeni</span></div>`).join('')||'<div class="small">Henüz beğeni yok.</div>'};
 $('#topLike').onclick=e=>{const u=e.target.closest('[data-pfo]')?.dataset.pfo;if(u)openProfile(u)};
-$('#vClean').onclick=async()=>{if(!confirm('Sohbette karşılığı olmayan ses kayıtları silinsin mi?'))return;const [m,v]=await Promise.all([F().get(R('messages')),F().get(R('vidx'))]),used=new Set(),o={};let n=0;m.forEach(c=>{const x=c.val();if(x&&x.vid)used.add(x.vid)});v.forEach(c=>{if(!used.has(c.key)){o['voices/'+c.key]=null;o['vidx/'+c.key]=null;n++}});if(!n)return toast('Temizlenecek ses yok');F().update(F().ref(F().db),o);toast(n+' ses kaydı silindi');log(n+' ses kaydı temizlendi')};
+$('#vClean').onclick=()=>{if(confirm('Sohbette ve özel mesajlarda karşılığı olmayan ses kayıtları silinsin mi?'))vCleanRun()};
 
 /* ================= v6 ================= */
 let fo={},fg={},flMode=null,dmx={},dmSeen={},dmInit=0,dmOpen=null,dmOff=null,dmLast=0,dmMeta={},dmMetaOn=0,dmAdmK=null,dmAdmOff=null;const avVer={};
@@ -850,43 +917,124 @@ function renderFl(){const e=$('#pFl');if(!flMode){e.hidden=true;return}const l=O
 $('#mProf').addEventListener('click',e=>{const f=e.target.closest('[data-fl]');if(f){flMode=flMode===f.dataset.fl?null:f.dataset.fl;renderFl();return}const p=e.target.closest('[data-pfo2]');if(p)openProfile(p.dataset.pfo2)});
 /* mesajlarım / tüm mesajlar */
 function delMine(){const ks=Object.entries(msgs).filter(([,m])=>m.uid===me.uid).map(([k])=>k);if(!ks.length)return toast('Silinecek mesajın yok');if(!confirm(ks.length+' mesajın silinsin mi?'))return;bulkDel(ks);toast('Mesajların silindi')}
-$('#wipeAll').onclick=()=>{if(!staff())return;if(!confirm('TÜM sohbet mesajları silinecek. Emin misin?'))return;F().remove(R('messages')).then(()=>{F().remove(R('voices'));F().remove(R('vidx'));toast('Tüm mesajlar silindi');log('Tüm mesajlar silindi')})};
+$('#wipeAll').onclick=()=>{if(!staff())return;if(!confirm('TÜM sohbet mesajları silinecek. Emin misin?'))return;F().remove(R('messages')).then(()=>{vCleanRun(true);toast('Tüm mesajlar silindi');log('Tüm mesajlar silindi')})};
 /* özel mesajlar */
 const dmKey=(a,b)=>a<b?a+'_'+b:b+'_'+a;
 function startZ(f){f.onValue(R('dmx/'+me.uid),s=>{const o=s.val()||{},first=!dmInit;dmInit=1;let tot=0;
- for(const u in o){const v=o[u];tot+=v.un||0;if(first)dmSeen[u]=v.ts||0;else if(v.f&&v.f!==me.uid&&(v.ts||0)>(dmSeen[u]||0)){dmSeen[u]=v.ts;if(dmOpen!==u||$('#mDm').hidden){toast('✉ '+nameOf(u)+': '+(v.last||''));beep()}}}
- dmx=o;$('#dmDot').hidden=!tot;$('#dmDot').textContent=tot>99?'99+':tot;if(!$('#mDm').hidden&&!dmOpen)renderDmList()})}
+ for(const u in o){const v=o[u];tot+=v.un||0;if(first)dmSeen[u]=v.ts||0;else if(v.f&&v.f!==me.uid&&(v.ts||0)>(dmSeen[u]||0)){dmSeen[u]=v.ts;if(dmOpen!==u||$('#mDm').hidden){toast('✉ '+nameOf(u)+': '+(v.last||''));beep();notifyB('✉ '+nameOf(u),v.last||'')}}}
+ dmx=o;dmTot=tot;$('#dmDot').hidden=!tot;$('#dmDot').textContent=tot>99?'99+':tot;if(!$('#mDm').hidden&&!dmOpen)renderDmList()})}
 function renderDmList(){const cv=Object.entries(dmx).sort((a,b)=>(b[1].ts||0)-(a[1].ts||0)),on=onl().filter(([u])=>u!==me.uid&&!dmx[u]).slice(0,30),row=(u,sub,un)=>`<button class="li dmi" data-dm="${esc(u)}">${avH(u,nameOf(u),'','span')}<span class="dmt"><b>${esc(nameOf(u))}</b>${sub?`<small>${esc(sub)}</small>`:''}</span>${un?`<span class="badge st">${un}</span>`:''}</button>`;
  $('#dmList').innerHTML=(cv.length?cv.map(([u,v])=>row(u,v.last||'',v.un)).join(''):'<div class="small" style="padding:12px;text-align:center">Henüz mesajın yok. Birine tıkla ya da bir profilden "Mesaj at" de.</div>')+(on.length?'<div class="dmh">Çevrimiçi</div>'+on.map(([u])=>row(u,'',0)).join(''):'');
  cv.forEach(([u])=>needAv(u));on.forEach(([u])=>needAv(u))}
-function addDm(m){const el=document.createElement('div');el.className='dmb'+(m.f===me.uid?' mine':'');el.innerHTML=`<div class="bub">${esc(m.t)}</div><time>${hm(m.ts)}</time>`;const b=$('#dmMsgs');b.append(el);while(b.children.length>120)b.firstChild.remove();b.scrollTop=b.scrollHeight}
+function addDm(m){const el=document.createElement('div');el.className='dmb'+(m.f===me.uid?' mine':'')+(m.voice?' v':'');el.innerHTML=`<div class="bub">${dmBub(m)}</div><time>${hm(m.ts)}</time>`;const b=$('#dmMsgs');b.append(el);while(b.children.length>120)b.firstChild.remove();b.scrollTop=b.scrollHeight}
 function dmStop(){if(dmOff)dmOff();dmOff=null;dmOpen=null}
 function showDmList(){dmStop();$('#dmChat').hidden=true;$('#dmList').hidden=false;$('#dmBack').hidden=true;$('#dmTitle').textContent='Mesajlar';renderDmList()}
 function openDM(u){if(!window.FB)return;if(cfg.fDM===false&&!staff())return toast('Özel mesajlar kapalı');$('#mDm').hidden=false;if(!u||u===me.uid){showDmList();return}
- dmStop();dmOpen=u;$('#dmMsgs').innerHTML='';$('#dmList').hidden=true;$('#dmChat').hidden=false;$('#dmBack').hidden=false;$('#dmTitle').textContent=nameOf(u);
+ dmStop();dmOpen=u;$('#dmMsgs').innerHTML='';$('#dmList').hidden=true;$('#dmChat').hidden=false;$('#dmBack').hidden=false;$('#dmTitle').textContent=nameOf(u);dmWho(u);$('#dmEmo').hidden=true;
  if(dmx[u]?.un)F().update(R(`dmx/${me.uid}/${u}`),{un:0});
  dmOff=F().onChildAdded(F().query(R('dms/'+dmKey(me.uid,u)),F().orderByKey(),F().limitToLast(80)),s=>{const m=s.val();if(!m||dmOpen!==u)return;addDm(m);if(m.f!==me.uid&&!$('#mDm').hidden)F().update(R(`dmx/${me.uid}/${u}`),{un:0})});
  setTimeout(()=>$('#dmIn').focus(),60)}
 $('#dmB').onclick=()=>openDM();$('#dmBack').onclick=showDmList;
 $('#dmList').onclick=e=>{const u=e.target.closest('[data-dm]')?.dataset.dm;if(u)openDM(u)};
 $('#mDm').addEventListener('click',e=>{if(e.target.id==='mDm'||e.target.closest('[data-x]'))dmStop()});
-$('#dmForm').onsubmit=e=>{e.preventDefault();const i=$('#dmIn'),t=i.value.trim(),u=dmOpen;if(!t||!u)return;
- if(cfg.fDM===false&&!staff())return toast('Özel mesajlar kapalı');
- if(!staff()){if(cfg.pause?.on)return toast('Acil duraklama aktif');if(muteLeft()>0)return toast('Şu an mesaj atamazsın');if(now()-dmLast<1500)return toast('Biraz yavaş');if(bad(t)){i.value='';violate();return}if(cfg.noLinks&&LINKRE.test(t))return toast('Link paylaşımı kapalı')}
- const ts=now(),k=dmKey(me.uid,u),id=F().push(R('dms/'+k)).key,last=t.slice(0,40),o={};
- o[`dms/${k}/${id}`]={f:me.uid,t:t.slice(0,300),ts};o[`dmmeta/${k}`]={a:me.uid<u?me.uid:u,b:me.uid<u?u:me.uid,ts,last,f:me.uid};
- o[`dmx/${me.uid}/${u}`]={ts,last,f:me.uid,un:0};o[`dmx/${u}/${me.uid}/ts`]=ts;o[`dmx/${u}/${me.uid}/last`]=last;o[`dmx/${u}/${me.uid}/f`]=me.uid;o[`dmx/${u}/${me.uid}/un`]=F().increment(1);
- F().update(F().ref(F().db),o).catch(()=>toast('Gönderilemedi'));dmLast=now();i.value=''};
+$('#dmForm').onsubmit=e=>{e.preventDefault();const i=$('#dmIn'),t=i.value.trim(),u=dmOpen;if(!t||!u||!dmCan(u))return;if(!staff()){if(now()-dmLast<1500)return toast('Biraz yavaş');if(bad(t)){i.value='';violate();return}if(cfg.noLinks&&LINKRE.test(t))return toast('Link paylaşımı kapalı')}dmPut(u,{t:t.slice(0,300)},t.slice(0,40));dmLast=now();i.value='';$('#dmEmo').hidden=true};
 /* admin: tüm DM'leri canlı oku */
 function dmAdmSync(){$('#dmB').hidden=cfg.fDM===false&&!staff();if(me.role!=='admin'||dmMetaOn||!window.FB)return;dmMetaOn=1;F().onValue(R('dmmeta'),s=>{dmMeta=s.val()||{};renderDmAdm()})}
 function renderDmAdm(){const q=($('#dmSearch').value||'').toLowerCase(),l=Object.entries(dmMeta).filter(([,v])=>!q||(nameOf(v.a)+' '+nameOf(v.b)).toLowerCase().includes(q)).sort((a,b)=>(b[1].ts||0)-(a[1].ts||0));
  $('#dmAdmList').innerHTML=l.map(([k,v])=>`<div class="li${k===dmAdmK?' on':''}" data-dmk="${esc(k)}"><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><b>${esc(nameOf(v.a))}</b> ⇄ <b>${esc(nameOf(v.b))}</b><br><span class="small">${esc(v.last||'')}</span></span><span class="small">${hm(v.ts)}</span></div>`).join('')||'<div class="small">Henüz özel mesaj yok.</div>'}
 function dmAdmOpen(k){dmAdmK=k;if(dmAdmOff)dmAdmOff();const v=dmMeta[k]||{};$('#dmAdmT').textContent=nameOf(v.a)+' ⇄ '+nameOf(v.b);$('#dmAdmMsgs').innerHTML='';$('#dmDel').hidden=false;
- dmAdmOff=F().onChildAdded(F().query(R('dms/'+k),F().orderByKey(),F().limitToLast(150)),s=>{if(dmAdmK!==k)return;const m=s.val();if(!m)return;const el=document.createElement('div');el.className='dmb'+(m.f===v.a?'':' r');el.innerHTML=`<small>${esc(nameOf(m.f))} · ${hm(m.ts)}</small><div class="bub">${esc(m.t)}</div>`;const b=$('#dmAdmMsgs');b.append(el);b.scrollTop=b.scrollHeight});renderDmAdm()}
+ dmAdmOff=F().onChildAdded(F().query(R('dms/'+k),F().orderByKey(),F().limitToLast(150)),s=>{if(dmAdmK!==k)return;const m=s.val();if(!m)return;const el=document.createElement('div');el.className='dmb'+(m.f===v.a?'':' r');el.innerHTML=`<small>${esc(nameOf(m.f))} · ${hm(m.ts)}</small><div class="bub">${dmBub(m)}</div>`;const b=$('#dmAdmMsgs');b.append(el);b.scrollTop=b.scrollHeight});renderDmAdm()}
 $('#dmAdmList').onclick=e=>{const k=e.target.closest('[data-dmk]')?.dataset.dmk;if(k&&me.role==='admin')dmAdmOpen(k)};
 $('#dmSearch').oninput=renderDmAdm;
 $('#dmDel').onclick=()=>{const k=dmAdmK,v=dmMeta[k];if(!k||!v||me.role!=='admin'||!confirm('Bu sohbet silinsin mi?'))return;if(dmAdmOff)dmAdmOff();dmAdmOff=null;dmAdmK=null;F().update(F().ref(F().db),{['dms/'+k]:null,['dmmeta/'+k]:null,[`dmx/${v.a}/${v.b}`]:null,[`dmx/${v.b}/${v.a}`]:null});$('#dmAdmMsgs').innerHTML='';$('#dmAdmT').textContent='Sohbet seç';$('#dmDel').hidden=true;log('DM sohbeti silindi')};
 $('#dmDelAll').onclick=()=>{if(me.role!=='admin'||!confirm('TÜM özel mesajlar silinsin mi?'))return;['dms','dmmeta','dmx'].forEach(p=>F().remove(R(p)));if(dmAdmOff)dmAdmOff();dmAdmOff=null;dmAdmK=null;$('#dmAdmMsgs').innerHTML='';$('#dmDel').hidden=true;toast('Tüm DM\'ler silindi');log('Tüm DM\'ler silindi')};
+
+
+/* ================= v7 ================= */
+let rcTgt='chat',rcDmU=null,dmTot=0,setCol='',whOn=0,whl=[],whUn=0;
+/* çoklu rank */
+function rkList(u){const r=users[u]||{},o=Object.keys(r.ranks||{}).filter(k=>RK[k]&&r.ranks[k]);if(r.rank&&RK[r.rank]&&!o.includes(r.rank))o.push(r.rank);return RANKS.map(x=>x[0]).filter(k=>o.includes(k))}
+function rkMain(u){const l=rkList(u);return l.length?l[l.length-1]:''}
+function rkTags(u){return rkList(u).map(k=>{const x=RK[k];return `<span class="tag rkt" style="background:${x[3]}">${x[2]} ${x[1]}</span>`}).join('')}
+function rkChipsH(u){const l=rkList(u);return RANKS.map(r=>`<button type="button" class="chip${l.includes(r[0])?' on':''}" data-rkt="${r[0]}">${r[2]} ${r[1]}</button>`).join('')}
+function rkPaint(u){sh('#rkChips',rkChipsH(u))}
+$('#pop').addEventListener('click',e=>{const b=e.target.closest('[data-rkt]');if(!b||!popU)return;toggleRank(popU,b.dataset.rkt);b.classList.toggle('on')});
+/* hafif avatar: base64 yerine tek seferlik blob adresi (kasmayı azaltır) */
+const bu={};
+function avSrc(u){const d=avs[u];if(!okImg(d))return'';const c=bu[u];if(c&&c.d===d)return c.url;try{const b=atob(d.split(',')[1]),a=new Uint8Array(b.length);for(let i=0;i<b.length;i++)a[i]=b.charCodeAt(i);const url=URL.createObjectURL(new Blob([a],{type:d.slice(5,d.indexOf(';'))}));if(c)URL.revokeObjectURL(c.url);bu[u]={d,url};return url}catch(e){return d}}
+/* mobil / hafif mod */
+const mq=matchMedia('(max-width:720px)'),setMob=()=>document.body.classList.toggle('mob',mq.matches);setMob();mq.addEventListener?.('change',setMob);
+function applyLite(){document.body.classList.toggle('lite',(navigator.hardwareConcurrency||8)<=4||(navigator.deviceMemory||8)<=2||localStorage.c_lite==='1')}applyLite();
+snd=localStorage.c_snd!=='0';$('#snd').innerHTML=`<i class="fa-solid fa-volume-${snd?'high':'xmark'}"></i>`;
+$('#snd').addEventListener('click',()=>{localStorage.c_snd=snd?1:0;$('#sSnd').checked=snd});
+/* dokununca mesaj araçları (telefon) */
+stream.addEventListener('click',e=>{if(!matchMedia('(hover:none)').matches)return;if(e.target.closest('.tools,[data-vid],.rxp,.rxc'))return;const b=e.target.closest('.bub'),was=b?.classList.contains('tp');$$('.bub.tp').forEach(x=>x.classList.remove('tp'));if(b&&!was&&b.querySelector('.tools'))b.classList.add('tp')});
+/* dalga efekti */
+addEventListener('pointerdown',e=>{if(document.body.classList.contains('lite'))return;const t=e.target.closest?.('.btn:not(#adm),.chip');if(!t||t.disabled)return;const r=t.getBoundingClientRect(),z=Math.max(r.width,r.height)*2,x=document.createElement('span');x.className='rip';x.style.cssText=`width:${z}px;height:${z}px;left:${e.clientX-r.left-z/2}px;top:${e.clientY-r.top-z/2}px`;t.append(x);setTimeout(()=>x.remove(),600)},{passive:true});
+/* tarayıcı bildirimi + başlıkta okunmamış sayısı */
+function notifyB(t,b){try{if(document.hidden&&localStorage.c_nt==='1'&&window.Notification&&Notification.permission==='granted')new Notification(t,{body:String(b||'').slice(0,120)})}catch(e){}}
+setInterval(()=>{const n=dmTot+(me.role==='admin'?whUn:0);document.title=(n?'('+n+') ':'')+(cfg.title||'Anonim Chat');$('#dmMic').hidden=cfg.fVoice===false&&!staff();if(dmOpen&&!$('#mDm').hidden)dmWho(dmOpen)},3000);
+/* admin: fısıltı bildirimleri */
+const wnm=(u,n)=>users[u]?.name||n||u;
+function whBadge(){const n=whUn>99?'99+':whUn;['#whDot','#whTab'].forEach(s=>{const e=$(s);e.hidden=!whUn;e.textContent=n})}
+function renderWh(){sh('#whList',whl.slice().reverse().map(w=>`<div class="li" style="cursor:default"><span style="min-width:0"><b>${esc(wnm(w.from,w.fn))}</b> → <b>${esc(wnm(w.to,w.tn))}</b><br><span class="small" style="white-space:pre-wrap;word-break:break-word">${esc(w.text)}</span></span><span class="small">${hm(w.ts)}</span></div>`).join('')||'<div class="small">Henüz fısıltı yok.</div>')}
+function wnCard(w){let s=$('#wnS');if(!s){s=document.createElement('div');s.id='wnS';s.className='wnS';document.body.append(s)}
+ const c=document.createElement('div');c.className='wnc';c.innerHTML=`<i class="fa-solid fa-user-secret"></i><div style="min-width:0"><b>🔒 ${esc(wnm(w.from,w.fn))} → ${esc(wnm(w.to,w.tn))}</b><span>${esc((w.text||'').slice(0,160))}</span></div>`;
+ const kill=()=>{if(c.classList.contains('out'))return;c.classList.add('out');setTimeout(()=>c.remove(),300)};c.onclick=()=>{kill();openPanel('dm')};s.append(c);while(s.children.length>3)s.firstChild.remove();setTimeout(kill,7000)}
+function whSync(){if(me.role!=='admin'||whOn||!window.FB)return;whOn=1;const f=F(),t0=now();
+ f.onChildAdded(f.query(R('whisperlog'),f.orderByKey(),f.limitToLast(60)),s=>{const w=s.val();if(!w)return;whl.push(w);if(whl.length>60)whl.shift();renderWh();
+  if(me.role==='admin'&&w.ts>t0-1500&&w.from!==me.uid){beep();wnCard(w);notifyB('🔒 '+wnm(w.from,w.fn)+' → '+wnm(w.to,w.tn),w.text);if(!($('#panel').classList.contains('open')&&$('#t-dm').classList.contains('on'))){whUn++;whBadge()}}})}
+const _das=dmAdmSync;dmAdmSync=function(){_das();whSync()};
+const _tab=tab;tab=function(t){_tab(t);if(t==='dm'&&me.role==='admin'){whUn=0;whBadge()}};
+$('#whClr').onclick=()=>{if(me.role!=='admin'||!confirm('Fısıltı kayıtları silinsin mi?'))return;F().remove(R('whisperlog'));whl=[];renderWh();whUn=0;whBadge()};
+renderWh();
+/* ses kayıtlarını temizle (sohbet + DM'de kullanılanlar korunur) */
+async function vCleanRun(silent){const [m,v,dd]=await Promise.all([F().get(R('messages')),F().get(R('vidx')),F().get(R('dms'))]),used=new Set(),o={};let n=0;
+ m.forEach(c=>{const x=c.val();if(x&&x.vid)used.add(x.vid)});dd.forEach(ch=>{ch.forEach(c=>{const x=c.val();if(x&&x.vid)used.add(x.vid)})});
+ v.forEach(c=>{if(!used.has(c.key)){o['voices/'+c.key]=null;o['vidx/'+c.key]=null;n++}});
+ if(!n){if(!silent)toast('Temizlenecek ses yok');return}F().update(F().ref(F().db),o);if(!silent){toast(n+' ses kaydı silindi');log(n+' ses kaydı temizlendi')}}
+/* DM: gönderim, profil şeridi, emoji, sesli mesaj */
+const dmBub=m=>m.voice&&/^[\w-]{10,30}$/.test(m.vid||'')?voiceH(m):esc(m.t);
+function dmCan(u,voice){if(cfg.fDM===false&&!staff())return toast('Özel mesajlar kapalı'),false;
+ if(!staff()){if(cfg.pause?.on)return toast('Acil duraklama aktif'),false;if(muteLeft()>0)return toast('Şu an mesaj atamazsın'),false;if(users[u]?.noDM&&roleOf(u)==='user')return toast('Bu kişi özel mesaj kabul etmiyor'),false;if(voice&&cfg.fVoice===false)return toast('Sesli mesaj kapalı'),false}return true}
+function dmPut(u,m,last){const ts=now(),k=dmKey(me.uid,u),id=F().push(R('dms/'+k)).key,o={};
+ o[`dms/${k}/${id}`]={f:me.uid,ts,...m};o[`dmmeta/${k}`]={a:me.uid<u?me.uid:u,b:me.uid<u?u:me.uid,ts,last,f:me.uid};
+ o[`dmx/${me.uid}/${u}`]={ts,last,f:me.uid,un:0};o[`dmx/${u}/${me.uid}/ts`]=ts;o[`dmx/${u}/${me.uid}/last`]=last;o[`dmx/${u}/${me.uid}/f`]=me.uid;o[`dmx/${u}/${me.uid}/un`]=F().increment(1);
+ return F().update(F().ref(F().db),o).catch(()=>toast('Gönderilemedi'))}
+function dmWho(u){const r=users[u]||{},role=roleOf(u),on=!!pres[u]&&now()-pres[u].t<90000,L=lvl(u),w=$('#dmWho'),hu=hue(u),bn=bns[u];
+ if(window.FB&&!(u in bns)){bns[u]='';F().get(R('banners/'+u)).then(s=>{bns[u]=s.val()||'';if(dmOpen===u)dmWho(u)}).catch(()=>{})}
+ w.style.backgroundImage=okImg(bn)?`url("${bn}")`:`linear-gradient(120deg,hsl(${hu} 55% 32%),hsl(${(hu+60)%360} 60% 42%))`;
+ sh('#dmWho',`${avH(u,nameOf(u))}<div class="dmwi"><b>${esc(nameOf(u))}</b><small><i class="fa-solid fa-circle" style="font-size:8px;color:${on?'var(--gn)':'var(--mu)'}"></i> ${on?'Çevrimiçi':'Çevrimdışı'}${r.stat?' · '+esc(r.stat):''}</small><div class="tg">${(role==='admin'?'<span class="tag">Yönetici</span>':role==='mod'?'<span class="tag mod">Mod</span>':'')+rkTags(u)}<span class="tag lvt">${L.e} ${esc(L.n)}</span></div></div><i class="fa-solid fa-chevron-right"></i>`);needAv(u)}
+$('#dmWho').onclick=()=>{if(dmOpen)openProfile(dmOpen)};$('#dmWho').onkeydown=e=>{if(e.key==='Enter'&&dmOpen)openProfile(dmOpen)};
+$('#dmEmo').innerHTML=EM.map(e=>`<button type="button">${e}</button>`).join('');
+$('#dmEmo').onclick=e=>{if(e.target.tagName==='BUTTON'){const i=$('#dmIn');i.value+=e.target.textContent;i.focus()}};
+$('#dmEmoB').onclick=()=>$('#dmEmo').hidden=!$('#dmEmo').hidden;
+$('#dmMic').onclick=()=>{if(recd&&recd.state==='recording'&&rcTgt==='dm')micStop(true);else micStart('dm')};
+$('#dmRecOk').onclick=()=>micStop(true);$('#dmRecX').onclick=()=>micStop(false);
+['#dmMsgs','#dmAdmMsgs'].forEach(s=>$(s).addEventListener('click',e=>{const v=e.target.closest('[data-vid]');if(v)playVoice(v)}));
+const _dst=dmStop;dmStop=function(){if(recd&&rcTgt==='dm')micStop(false);_dst()};
+/* ayarlar */
+const PCOL=['#FFC233','#FF6B5E','#5FD3A5','#4DD2FF','#B57BFF','#FF5C9A','#FF8A2B','#7FE3FF'];
+function paintCol(){$('#sCol').innerHTML=PCOL.map(c=>`<button type="button" class="swc${setCol===c?' on':''}" data-c="${c}" style="background:${c}" aria-label="Renk"></button>`).join('')+`<button type="button" class="chip${setCol?'':' on'}" data-c="">Yok</button>`}
+function fillSet(full){const u=me.uid,r=users[u]||{},hu=hue(u),bn=bns[u];
+ if(window.FB){if(!(u in bns)){bns[u]='';F().get(R('banners/'+u)).then(s=>{bns[u]=s.val()||'';if(!$('#mSet').hidden)fillSet()}).catch(()=>{})}if(!(u in avs))needAv(u)}
+ $('#sBn').style.background=okImg(bn)?`url("${bn}") center/cover`:`linear-gradient(120deg,hsl(${hu} 55% 32%),hsl(${(hu+60)%360} 60% 42%))`;
+ const av=$('#sAv');av.dataset.av=u;av.style.setProperty('--c',`hsl(${hu} 70% 70%)`);av.innerHTML=esc([...me.name][0]||'?').toUpperCase()+(okImg(avs[u])?`<img class="ai" alt="" src="${avSrc(u)}">`:'');
+ $('#sRk').innerHTML=rkTags(u)||'<span class="small">Henüz rankın yok.</span>';
+ const can=staff()||cfg.fProf!==false;['sAvB','sBnB','sAvR','sBnR','sSave'].forEach(i=>$('#'+i).disabled=!can);$('#sAvR').hidden=!okImg(avs[u]);$('#sBnR').hidden=!okImg(bn);
+ if(full){$('#sNick').value=me.name;$('#sStat').value=r.stat||'';$('#sBio').value=r.bio||'';setCol=/^#[0-9a-f]{6}$/i.test(r.pc||'')?r.pc:'';$('#sDM').checked=!r.noDM;$('#sSnd').checked=snd;$('#sNt').checked=localStorage.c_nt==='1'&&!!window.Notification&&Notification.permission==='granted';$('#sLite').checked=localStorage.c_lite==='1';paintCol()}}
+$('#setB').onclick=()=>{fillSet(1);$('#mSet').hidden=false};
+$('#mSet').addEventListener('click',e=>{if(e.target.id==='mSet')e.target.hidden=true});
+$('#sCol').onclick=e=>{const b=e.target.closest('[data-c]');if(!b)return;setCol=b.dataset.c;paintCol()};
+$('#sAvB').onclick=()=>$('#fAv').click();$('#sBnB').onclick=()=>$('#fBn').click();$('#sAvR').onclick=()=>setImg('avatars',null);$('#sBnR').onclick=()=>setImg('banners',null);
+$('#sNickB').onclick=()=>setNick($('#sNick').value);
+$('#sSave').onclick=()=>{if(!staff()&&cfg.fProf===false)return toast('Profil düzenleme kapalı');const bio=$('#sBio').value.trim().slice(0,140),st=$('#sStat').value.trim().slice(0,40);if(!staff()&&(bad(bio)||bad(st)))return toast('Uygunsuz ifade var');F().update(R('users/'+me.uid),{bio:bio||null,stat:st||null,pc:setCol||null});toast('Profil kaydedildi')};
+$('#sDM').onchange=e=>F().update(R('users/'+me.uid),{noDM:e.target.checked?null:true});
+$('#sSnd').onchange=e=>{snd=e.target.checked;localStorage.c_snd=snd?1:0;$('#snd').innerHTML=`<i class="fa-solid fa-volume-${snd?'high':'xmark'}"></i>`;if(snd)beep()};
+$('#sNt').onchange=e=>{if(!e.target.checked){localStorage.c_nt='0';return}if(!window.Notification){e.target.checked=false;return toast('Tarayıcın bildirimi desteklemiyor')}Notification.requestPermission().then(p=>{if(p==='granted')localStorage.c_nt='1';else{localStorage.c_nt='0';e.target.checked=false;toast('Bildirim izni verilmedi')}})};
+$('#sLite').onchange=e=>{localStorage.c_lite=e.target.checked?'1':'0';applyLite();toast(e.target.checked?'Hafif mod açık':'Hafif mod kapalı')};
+$('#sDel').onclick=delMine;
+const _si=setImg;setImg=async function(k,f){await _si(k,f);if(!$('#mSet').hidden)fillSet()};
 
 paintMe();
 </script>
