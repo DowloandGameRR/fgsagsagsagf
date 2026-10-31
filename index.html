@@ -1168,7 +1168,7 @@ function cnSeek(force){if(!cnOK||!cn)return;const p=cnPos(),st=cnYT.getPlayerSta
 setInterval(()=>{if(cnIn&&cnOK)try{cnSeek()}catch(e){}},2000);
 setInterval(()=>{if(cnIn)f().set(R('cinema/viewers/'+me.uid),{n:me.name,j:cnJ,t:now()})},30000);
 function cnSync(){const on=!!(cn&&cn.on);$('#nvCn').classList.toggle('live',on);if(!on){if(cnIn){cnLeave();toast('Sinema kapandı')}return}
- if(!cnIn&&sessionStorage.cn_left!==String(cn.key)){toast('🍿 Sinema başladı!');cnJoin()}else cnLoad();$('#cnA').hidden=me.role!=='admin'}
+ if(!cnIn){if(sessionStorage.cn_seen!==String(cn.key)){sessionStorage.cn_seen=cn.key;toast('Sinema başladı, alttan Sinema’ya dokun')}}else cnLoad();$('#cnA').hidden=me.role!=='admin'}
 function cnDraw(){const v=Object.entries(cnV).filter(([,x])=>now()-x.t<90000).sort((a,b)=>a[1].j-b[1].j||(a[0]<b[0]?-1:1));
  $('#cnL').innerHTML=`<b>🎬 İzleyenler (${v.length})</b>`+v.map(([u,x])=>`<div>${roleOf(u)==='admin'?'👑 ':''}${esc(x.n)}</div>`).join('');
  const N=60,seat=Array(N).fill(null);v.slice(0,N).forEach(([u,x])=>{let i=hue(u)*7%N;while(seat[i])i=(i+1)%N;seat[i]=[u,x];needAv(u)});
@@ -1623,6 +1623,100 @@ $('#saveMode').addEventListener('click',()=>{if(me.role!=='admin'||selMode==='no
  f.set(R('cinema/state'),{on:false});f.remove(R('cinema/viewers'));f.remove(R('cinema/rx'));f.update(R('config'),{music:null,pause:null});f.remove(R('game'));f.remove(R('poll'));log('Bakım: etkinlikler kapatıldı')},true);
 new MutationObserver(()=>document.body.classList.toggle('gated',$('#gate').classList.contains('show'))).observe($('#gate'),{attributes:true,attributeFilter:['class']});
 setInterval(()=>{if(!document.body.classList.contains('gated')||staff())return;document.getElementById('mcQ')?.click();document.querySelector('.pg:not([hidden]) [data-b]')?.click()},1000);
+})();
+</script>
+ <!-- ===== v12 ===== -->
+<style>
+/* ---- Instagram tarzı alt menü ---- */
+#nv{order:99;position:relative;z-index:56;justify-content:space-around;gap:0;padding:6px 4px calc(6px + env(safe-area-inset-bottom));border:0;border-top:1px solid var(--ln);background:#0b0714f5;overflow:visible}
+#nv button{flex:1;flex-direction:column;gap:3px;padding:6px 2px;border:0!important;background:none!important;border-radius:12px;font-size:10px;color:var(--mu);animation:none!important;transform:none!important;box-shadow:none!important}
+#nv button i{font-size:21px;color:inherit;transition:transform .2s,color .2s}
+#nv button.on{color:var(--tx)}#nv button.on i{color:var(--ac);transform:translateY(-2px) scale(1.15)}
+#nv button:not(.live)::after{display:none}#nv .live::after{top:4px;right:calc(50% - 18px)}
+.comp{padding-bottom:10px}
+.pg{inset:0 0 var(--nvh,64px) 0}
+body.gated #nv{display:none}
+/* ---- admin RGB yazının üstüne çıkmasın ---- */
+.m .mh{position:relative;z-index:3}
+.m .mh b,.m .mh .tag{position:relative;z-index:3}
+.m.adm .bub::after{content:none!important}
+.m.adm .bub::before{inset:-2px!important;opacity:.35!important;filter:blur(10px)!important}
+.m.adm .av::before{display:none!important}
+/* ---- performans ---- */
+.orb{filter:none!important;opacity:1!important;background:radial-gradient(circle,var(--oc),transparent 65%)!important}
+.orb.a{--oc:#6d28d955}.orb.b{--oc:#a855f73a}.orb.c{--oc:#4c1d953a}
+body.incn .orb,body.incn #stars,body.incn #cg,body.incn::before,body.incn::after{display:none!important}
+body.incn .stream,body.incn .stream *{animation-play-state:paused!important}
+.cn-st.flat,.cn-st.flat .cn-sc{animation:none!important;box-shadow:none!important}
+@media(pointer:coarse),(max-width:720px){
+ .top,.comp,.panel,.modal,.cn-l,.cn-rx,#nv,.gmc{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+ #cg,#stars,.orb.c{display:none!important}
+ .m.adm .bub::before{display:none!important}
+ .bub{box-shadow:none!important}
+ .m:not(.adm) .av{animation:none!important}
+ .cn-dt,.cn-sn,.cn-gl,.cn-lt{display:none!important}
+ .cn-sc{animation:none!important;box-shadow:0 0 0 4px #0a0612!important}
+ .cn-st{animation:none!important}.ch{box-shadow:none}.ch::after{display:none}
+}
+/* ---- yatay mod (sinema / minecraft) ---- */
+@media(orientation:landscape) and (max-height:520px){
+ #nv{display:none}.pg{inset:0}
+ #pg-cn .pgh{position:absolute;top:0;left:0;right:0;padding:3px 8px;background:#0b0714aa}
+ #pg-cn .pgb{position:absolute;inset:0}
+ .cn-st.flat .cn-sc{width:min(100vw,177vh)}
+ .cn-l{display:none}.cn-rx{bottom:4px;transform:translateX(-50%) scale(.85)}
+ .mc-hb button{width:30px;height:30px}.mc-hb{bottom:4px}.mc-j{width:100px;height:100px;bottom:20px}.mc-b{bottom:16px}
+}
+/* ---- bakım ekranı: çok daha hareketli ---- */
+.mt-fx{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.mt-fx i{position:absolute;bottom:-60px;left:var(--l);width:var(--s);height:var(--s);border:1.5px solid #8b5cf677;border-radius:30%;animation:mtup var(--d) linear infinite;animation-delay:var(--w)}
+@keyframes mtup{to{transform:translateY(-115vh) rotate(360deg);opacity:0}}
+.mt-scan{position:absolute;left:0;right:0;height:150px;background:linear-gradient(transparent,#8b5cf622,transparent);animation:mtscan 5s linear infinite;pointer-events:none}
+@keyframes mtscan{from{top:-150px}to{top:100%}}
+.gate .gin{z-index:2}
+.mt-gears{display:flex;justify-content:center;align-items:center;gap:12px;margin-bottom:14px;color:#a78bfa}
+.mt-gears i{font-size:26px;animation:rot 4s linear infinite}.mt-gears i:nth-child(2){font-size:40px;animation-direction:reverse;animation-duration:3s}.mt-gears i:nth-child(3){animation-duration:5s}
+.mt-pc{font:800 44px var(--h);font-variant-numeric:tabular-nums;background:linear-gradient(90deg,#fff,#c4a8ff);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:6px}
+.mt-dots span{display:inline-block;animation:mtd 1.2s infinite}.mt-dots span:nth-child(2){animation-delay:.2s}.mt-dots span:nth-child(3){animation-delay:.4s}
+@keyframes mtd{0%,60%,100%{transform:none;opacity:.4}30%{transform:translateY(-6px);opacity:1}}
+@keyframes glt{0%,91%,100%{text-shadow:none;transform:none}93%{text-shadow:3px 0 #f0a,-3px 0 #0ff;transform:translateX(2px)}96%{text-shadow:-3px 0 #f0a,3px 0 #0ff;transform:translateX(-2px)}}
+#gate.show .gin h2{animation:glt 4s infinite}
+#gate.show .gin>i{animation:lbob 3s ease-in-out infinite,mtpulse 2.4s ease-in-out infinite}
+@keyframes mtpulse{50%{box-shadow:0 0 90px #8b5cf6cc}}
+body.lite .mt-fx,body.lite .mt-scan{display:none}
+</style>
+<script>
+(()=>{
+const E=h=>{const d=document.createElement('div');d.innerHTML=h.trim();return d.firstChild};
+/* alt menü */
+const nv=$('#nv');document.body.append(nv);
+nv.insertAdjacentHTML('afterbegin','<button data-h class="on"><i class="fa-solid fa-comments"></i>Sohbet</button>');
+const sz=()=>document.documentElement.style.setProperty('--nvh',(nv.offsetHeight||64)+'px');sz();addEventListener('resize',sz);
+document.addEventListener('click',e=>{const b=e.target.closest('#nv button');
+ if(b){nv.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));if(b.dataset.h!=null)document.querySelector('.pg:not([hidden]) [data-b]')?.click()}
+ else if(e.target.closest('.pg [data-b]'))nv.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x.dataset.h!=null))},true);
+/* bakım ekranı */
+{const g=$('#gate');
+ g.prepend(E(`<div class="mt-fx">${Array.from({length:16},()=>`<i style="--l:${Math.random()*100|0}%;--s:${10+Math.random()*30|0}px;--d:${8+Math.random()*10|0}s;--w:-${Math.random()*14|0}s"></i>`).join('')}</div>`),E('<div class="mt-scan"></div>'));
+ $('.gin').prepend(E('<div class="mt-gears"><i class="fa-solid fa-gear"></i><i class="fa-solid fa-gear"></i><i class="fa-solid fa-gear"></i></div>'));
+ $('.mt-bar').before(E('<div class="mt-pc" id="mtP">0%</div>'));
+ $('#mtS').insertAdjacentHTML('afterend','<div class="mt-dots small" style="margin:-14px 0 20px"><span>●</span><span>●</span><span>●</span></div>');
+ let p=3;setInterval(()=>{if(!g.classList.contains('show')||document.hidden)return;p+=Math.random()*1.6;if(p>99)p=4;$('#mtP').textContent=Math.floor(p)+'%'},180)}
+/* sinema: telefonda otomatik düz mod + kasmayı azalt */
+{const pc=$('#pg-cn'),mob=matchMedia('(pointer:coarse)').matches;
+ new MutationObserver(()=>{const on=!pc.hidden;document.body.classList.toggle('incn',on);
+  if(on&&mob&&!pc.dataset.fl){pc.dataset.fl=1;$('#cnSt').classList.add('flat');dispatchEvent(new Event('resize'))}
+  if(!on){delete pc.dataset.fl;unl()}}).observe(pc,{attributes:true,attributeFilter:['hidden']})}
+/* yatay çevirme */
+let lk=0;
+async function land(){try{if(!lk){await document.documentElement.requestFullscreen();await screen.orientation.lock('landscape');lk=1}else{await unl(1)}}catch(e){toast('Telefonu yan çevir (otomatik döndürme açık olsun)')}}
+async function unl(f){if(!lk&&!f)return;lk=0;try{screen.orientation.unlock()}catch(e){}try{if(document.fullscreenElement)await document.exitFullscreen()}catch(e){}}
+$('#pg-cn .cn-rx').insertAdjacentHTML('beforeend','<button id="cnLd" class="ib sm" aria-label="Yan çevir"><i class="fa-solid fa-rotate"></i></button>');
+$('#cnLd').onclick=land;
+new MutationObserver(ms=>{ms.forEach(m=>{m.addedNodes.forEach(n=>{if(n.classList?.contains('mc')){const b=E('<button class="btn sm" aria-label="Yan çevir"><i class="fa-solid fa-rotate"></i>Yan çevir</button>'),x=n.querySelector('.mc-x');x.insertBefore(b,x.lastElementChild);b.onclick=land}});m.removedNodes.forEach(n=>{if(n.classList?.contains('mc')&&$('#pg-cn').hidden)unl()})})}).observe(document.body,{childList:true});
+const rs=()=>setTimeout(()=>dispatchEvent(new Event('resize')),250);
+addEventListener('orientationchange',rs);screen.orientation?.addEventListener?.('change',rs);
+document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement)lk=0});
 })();
 </script>
 </body>
