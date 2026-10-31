@@ -269,6 +269,33 @@ body.lite .acts>*,body.lite .tab.on>*{animation:none}
  .emo{grid-template-columns:repeat(auto-fill,minmax(36px,1fr))}.wnS{top:calc(58px + env(safe-area-inset-top));right:8px;left:8px;width:auto}
 }
 @media(max-width:480px){.top{flex-wrap:wrap}.wnS{top:calc(96px + env(safe-area-inset-top))}.brand{flex:1 1 100%}.brand p{display:none}.acts{flex:1 1 100%;justify-content:space-between}#me{flex:1;max-width:none}}
+
+/* admin rgb profil kartı */
+.pcard.adm{border:3px solid transparent;background:linear-gradient(var(--sf),var(--sf)) padding-box,conic-gradient(from var(--a),#ff2d55,#ff9500,#ffe600,#34ff6a,#00e0ff,#3d5bff,#c13dff,#ff2d55) border-box;animation:pop .35s cubic-bezier(.2,1.3,.4,1),spin 3s linear infinite;box-shadow:0 0 40px #c13dff55,0 0 90px #00e0ff22,0 24px 70px #000c}
+.pcard.adm .pav{border:4px solid transparent;background:linear-gradient(var(--c),var(--c)) padding-box,conic-gradient(from var(--a),#ff2d55,#ff9500,#ffe600,#34ff6a,#00e0ff,#3d5bff,#c13dff,#ff2d55) border-box;animation:spin 2.4s linear infinite;box-shadow:0 0 22px #c13dff99}
+.pcard.adm #pNm{background:linear-gradient(90deg,#ff4d6d,#ffd93d,#4dff88,#4dd2ff,#b44dff,#ff4d6d);background-size:200% 100%;animation:slide 2.4s linear infinite;-webkit-background-clip:text;background-clip:text;color:transparent}
+body.lite .pcard.adm,body.lite .pcard.adm .pav,body.lite .pcard.adm #pNm{animation:none}
+
+/* ===== v8: ek animasyonlar ===== */
+@keyframes bob{50%{transform:translateY(-3px)}}
+@keyframes glowp{50%{opacity:.55}}
+@keyframes wob{25%{transform:rotate(-10deg)}75%{transform:rotate(10deg)}}
+@keyframes shine{to{transform:translateX(120%)}}
+.btn.pri:not(:disabled)::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,#0000 35%,#fff6 50%,#0000 65%);transform:translateX(-120%);animation:shine 3.5s ease-in-out infinite}
+.ib:hover i{animation:wob .4s}
+.m:hover .av{animation:bob 1s ease-in-out infinite}
+.bub{transition:transform .2s}.m:hover .bub{transform:translateY(-1px)}
+.rxc{transition:transform .15s}.rxc:hover{transform:scale(1.15)}.rxc.me{animation:pop .3s}
+.panel.open .card{animation:up .4s both}
+.card:hover{transform:translateY(-2px)}
+.pst>div{transition:transform .2s}.pst>div:hover{transform:translateY(-3px)}
+.down{animation:pop .25s,bob 1.6s ease-in-out .3s infinite}
+.badge{animation:pop .3s,glowp 1.6s ease-in-out infinite}
+.gin>i{animation:bob 3s ease-in-out infinite}
+.pill.me{transition:transform .2s}.pill.me:hover{transform:scale(1.05)}
+.chip:active,.swc:active{transform:scale(.9)}
+body.lite .btn.pri::after,body.lite .badge,body.lite .gin>i,body.lite .down,body.mob .btn.pri::after{animation:none}
+@media(hover:none){.m:hover .av{animation:none}}
 </style>
 </head>
 <body>
@@ -391,7 +418,7 @@ body.lite .acts>*,body.lite .tab.on>*{animation:none}
 <div id="haltBar" class="hbar" hidden><i class="fa-solid fa-triangle-exclamation"></i><span>Acil duraklama aktif</span><button class="btn sm" id="hbOff">Kaldır</button></div>
 <div id="pop" class="pop" hidden></div>
 <div id="ann" class="ann" hidden><i class="fa-solid fa-bullhorn"></i><div><span id="annT"></span><small id="annBy"></small></div><button class="ib sm" id="annX" aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button><i id="annBar" class="bnbar"></i></div>
-<div id="toasts"></div><div id="yt" style="position:fixed;bottom:0;right:0;width:2px;height:2px;opacity:.01;pointer-events:none"></div>
+<div id="toasts"></div><div id="ytw" style="position:fixed;bottom:0;right:0;width:200px;height:200px;opacity:.01;pointer-events:none;overflow:hidden;z-index:-1"><div id="yt"></div></div>
 
 <script>
 const ADMIN_PASSWORD="16153015";
@@ -442,7 +469,7 @@ function applyCfg(){
  if(show&&(b.hidden||bnKey!==key)){bnKey=key;b.hidden=false;const bar=$('#bnBar');bar.hidden=!dur;bar.style.animation='none';void bar.offsetWidth;if(dur)bar.style.animation=`drain ${left}ms linear forwards`}else if(!show)b.hidden=true;
  $('#pin').hidden=!cfg.pinned;if(cfg.pinned)$('#pinT').innerHTML=`<b>${esc(cfg.pinned.by)}:</b> ${esc(cfg.pinned.text)}`;$('#unpin').hidden=!staff();
  $('#slowB').hidden=!cfg.slow;$('#slowB').innerHTML=`<i class="fa-solid fa-gauge-simple-high"></i> Yavaş mod ${cfg.slow} sn`;
- annSync();fxSync();musicSync();sfxSync();featSync();warnAllSync();gifHint();tick();renderPanel();if(profU)renderProf();
+ if(cfg.clearEv&&cfg.clearEv!==window._ce){if(window._ce)$$('.m.wh').forEach(x=>x.remove());window._ce=cfg.clearEv}annSync();fxSync();musicSync();sfxSync();featSync();warnAllSync();gifHint();tick();renderPanel();if(profU)renderProf();
 }
 function setGate(){
  const w=cfg.mode==='scheduled'&&cfg.openAt>now(),m=cfg.mode==='maintenance',st=m?'m':w?'w':'';
@@ -590,7 +617,8 @@ $('#bcB').onclick=()=>{const t=$('#bcIn').value.trim();if(!t)return toast('Duyur
  F().update(R('config'),{ann:{id:now(),text:t.slice(0,200),at:now(),dur:d,by:me.name,tone:$('#bcTone').value}});$('#bcIn').value='';toast(`Duyuru ${d} sn görünecek`);log(`Duyuru (${d} sn): ${t.slice(0,50)}`)};
 $('#unpin').onclick=$('#unpin2').onclick=()=>F().update(R('config'),{pinned:null});
 $('#qLock').onclick=()=>F().update(R('config'),{locked:!cfg.locked});
-$('#qClr').onclick=()=>{if(confirm('Tüm sohbet silinsin mi?'))F().remove(R('messages')).then(()=>{$('#empty').style.display='';vCleanRun(true)})};
+function wipeWh(){const f=F(),c=()=>{};f.remove(R('whisperlog')).catch(c);f.remove(R('whispers')).catch(c);whl=[];renderWh();whUn=0;whBadge();$$('.m.wh').forEach(x=>x.remove());f.update(R('config'),{clearEv:now()})}
+$('#qClr').onclick=()=>{if(confirm('Tüm sohbet ve fısıltılar silinsin mi?'))F().remove(R('messages')).then(()=>{$('#empty').style.display='';vCleanRun(true);wipeWh()})};
 $('#qExp').onclick=()=>{const t=Object.entries(msgs).map(([,m])=>`[${m.time||''}] ${m.sys?'SİSTEM':nameOf(m.uid)}: ${m.text}`).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/plain'}));a.download='sohbet-'+new Date().toISOString().slice(0,10)+'.txt';a.click()};
 /* site tab */
 function fillSite(){$('#iNoEmo').checked=!!cfg.noEmoji;$('#iWel').value=cfg.welcome||'';$('#iBnDur').value=cfg.bannerDur||0;$('#iAcc').value=cfg.accent||'#FFC233';$('#iMax').value=cfg.maxLen||300;$('#iNoLink').checked=!!cfg.noLinks;$('#iFx').checked=cfg.fx!==false;$('#pNick').value=me.name;$('#iTitle').value=cfg.title;$('#iSub').value=cfg.subtitle;$('#iBn').value=cfg.banner;$('#iBnOn').checked=cfg.bannerOn;$('#iTone').value=cfg.tone;$('#mMsg').value=cfg.maintMsg;setMode(cfg.mode);if(cfg.mode==='scheduled'&&cfg.openAt>now()){$('#when').value='';$('#prev').textContent='Şu an kayıtlı: '+fmt(cfg.openAt)}}
@@ -702,7 +730,7 @@ const NO=':not(.adm):not(.mdr)';
 document.head.append(Object.assign(document.createElement('style'),{textContent:RANKS.map(([k,n,e,c,d,s])=>`.m[data-rk="${k}"]${NO} .bub{border-color:${c};background:linear-gradient(135deg,${d},var(--sf));box-shadow:0 0 12px ${c}55;border-radius:${s}}.m[data-rk="${k}"]${NO} .bub::after{content:"${e}";position:absolute;right:-7px;top:-9px;font-size:12px}.m[data-rk="${k}"]${NO} .mh b{color:${c}}`).join('')}));
 const rkOpts=s=>'<option value="">Rank yok</option>'+RANKS.map(r=>`<option value="${r[0]}"${s===r[0]?' selected':''}>${r[2]} ${r[1]}</option>`).join('');
 
-function toggleRank(u,k){if(me.role!=='admin'||!RK[k])return;const r=users[u]||{},has=rkList(u).includes(k),o={};o['users/'+u+'/ranks/'+k]=has?null:true;if(r.rank){o['users/'+u+'/rank']=null;if(r.rank!==k&&RK[r.rank])o['users/'+u+'/ranks/'+r.rank]=true}F().update(F().ref(F().db),o);log(`${nameOf(u)} → ${RK[k][1]} ${has?'rankı alındı':'rankı verildi'}`);toast(has?'Rank kaldırıldı':'Rank verildi')}
+function toggleRank(u,k){if(me.role!=='admin'||!RK[k])return;const r=users[u]||{},has=rkList(u).includes(k),o={};o['users/'+u+'/ranks/'+k]=has?null:now();if(r.rank){o['users/'+u+'/rank']=null;if(r.rank!==k&&RK[r.rank])o['users/'+u+'/ranks/'+r.rank]=1}F().update(F().ref(F().db),o);log(`${nameOf(u)} → ${RK[k][1]} ${has?'rankı alındı':'rankı verildi'}`);toast(has?'Rank kaldırıldı':'Rank verildi')}
 $('#rkChips').onclick=e=>{const k=e.target.closest('[data-rkt]')?.dataset.rkt;if(k&&sel)toggleRank(sel,k)};
 function rename(u,n){if(me.role!=='admin'||!u)return;n=n.trim().replace(/\s+/g,' ');if(n.length<2||n.length>20)return toast('2-20 karakter');if(Object.entries(users).some(([k,r])=>k!==u&&(r.name||'').toLowerCase()===n.toLowerCase()))return toast('Bu rumuz kullanımda');const o=nameOf(u);F().update(R('users/'+u),{name:n});log(`${o} → ${n} olarak değiştirildi`);$('#rnIn').value='';toast('Rumuz değiştirildi')}
 /* seviye */
@@ -747,13 +775,13 @@ const _fs=fillSite;fillSite=function(){_fs();$('#fR').checked=cfg.fReact!==false
 const ytId=s=>{s=s.trim();const m=s.match(/(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/|\/live\/)([\w-]{11})/)||s.match(/^([\w-]{11})$/);return m&&m[1]};
 function loadYT(cb){if(window.YT&&YT.Player)return cb();ytq.push(cb);if(!window._ytl){window._ytl=1;const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.append(s);window.onYouTubeIframeAPIReady=()=>ytq.splice(0).forEach(f=>f())}}
 function setVol(){if(!yt||!ytOK)return;yt.setVolume(Math.round(mVol*((cfg.music?.vol??100)/100)));mMute||!mVol?yt.mute():yt.unMute();$('#musM').innerHTML=`<i class="fa-solid fa-volume-${mMute||!mVol?'xmark':'high'}"></i>`}
-function musGo(){const m=cfg.music;if(!yt||!ytOK||!m)return;let t=(now()-m.at)/1000;const d=yt.getDuration();if(d>0&&m.loop)t%=d;yt.seekTo(Math.max(0,t),true);yt.playVideo();setVol()}
+function musGo(){const m=cfg.music;if(!m)return;if(!yt||!ytOK){mKey=null;musicSync();return}let t=(now()-m.at)/1000;const d=yt.getDuration();if(d>0&&m.loop)t%=d;yt.seekTo(Math.max(0,t),true);yt.playVideo();setVol()}
 const chk=()=>{if(yt&&ytOK&&yt.getPlayerState()!==1&&cfg.music)$('#musGo').hidden=false};
 function startTrack(){const c=cfg.music;if(!c||!c.id||!ytOK)return;yt.loadVideoById({videoId:c.id,startSeconds:Math.max(0,Math.floor((now()-c.at)/1000))});setVol();setTimeout(chk,2500)}
 function musicSync(){const m=cfg.music,bar=$('#mus');$('#yNow').textContent=m?'Çalıyor: '+m.id:'';
  if(!m||!m.id){mKey=null;bar.hidden=true;if(yt&&ytOK)try{yt.stopVideo()}catch(e){}return}
- bar.hidden=false;if(mKey===m.key){setVol();return}mKey=m.key;$('#musT').textContent='Müzik yükleniyor…';$('#musGo').hidden=true;
- loadYT(()=>{if(yt&&ytOK)startTrack();else if(!yt)yt=new YT.Player('yt',{width:'1',height:'1',playerVars:{controls:0,playsinline:1,rel:0},events:{onReady:()=>{ytOK=1;startTrack()},onStateChange:e=>{if(e.data===1){$('#musGo').hidden=true;$('#musT').textContent='🎵 '+(yt.getVideoData().title||'Çalıyor')}else if(e.data===0&&cfg.music?.loop)musGo()},onError:e=>{$('#musT').textContent='Video açılamadı';if(me.role==='admin'){toast('Bu video gömülemiyor ('+e.data+')');F().update(R('config'),{music:null})}}}})})}
+ bar.hidden=false;if(mKey===m.key){setVol();return}mKey=m.key;$('#musT').textContent='Müzik yükleniyor…';$('#musGo').hidden=true;setTimeout(()=>{if(mKey===m.key&&/yükleniyor/.test($('#musT').textContent)){$('#musT').textContent='🎵 Müzik hazır – dinlemek için ▶ bas';$('#musGo').hidden=false}},5000);
+ loadYT(()=>{if(yt&&ytOK)startTrack();else if(!yt)yt=new YT.Player('yt',{width:'200',height:'200',playerVars:{controls:0,playsinline:1,rel:0},events:{onReady:()=>{ytOK=1;startTrack()},onStateChange:e=>{if(e.data===-1||e.data===2||e.data===5)$('#musGo').hidden=false;if(e.data===1){$('#musGo').hidden=true;$('#musT').textContent='🎵 '+(yt.getVideoData().title||'Çalıyor')}else if(e.data===0&&cfg.music?.loop)musGo()},onError:e=>{$('#musT').textContent='Video açılamadı';if(me.role==='admin'){toast('Bu video gömülemiyor ('+e.data+')');F().update(R('config'),{music:null})}}}})})}
 $('#musGo').onclick=musGo;$('#musV').value=mVol;$('#musV').oninput=e=>{mVol=+e.target.value;localStorage.c_vol=mVol;setVol()};$('#musM').onclick=()=>{mMute=!mMute;localStorage.c_mm=mMute?1:0;setVol()};
 addEventListener('pointerdown',()=>{if(mKey&&yt&&ytOK&&yt.getPlayerState()!==1&&!mMute)musGo()},{passive:true});
 $('#yPlay').onclick=()=>{const id=ytId($('#yIn').value);if(!id)return toast('Geçerli YouTube linki yapıştır');const k=now();F().update(R('config'),{music:{id,at:k,key:k,by:me.name,loop:$('#yLoop').checked,vol:+$('#yVol').value}});toast('Müzik başladı');log('Müzik açıldı: '+id)};
@@ -792,7 +820,7 @@ function startX(f){
 
 /* ================= v5 ================= */
 let avs={},bns={},avp=new Set(),profU=null,profOff=[],pl={},pv={},ups=[],upTop='',lastVoice=0,lastGif=0,lastGifU='',lastTxt='',lastTxtAt=0,recd=null,rcCh=[],rcSt=0,rcT=0,rcStr=null,rcSend=false,rcBusy=false,vCache={},vAud=null,vBtn=null,profAt=0,wIv=0;
-const okImg=d=>typeof d==='string'&&d.length<90000&&/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+\/=]+$/.test(d);
+const okImg=d=>typeof d==='string'&&d.length<(d.startsWith('data:image/gif')?850000:90000)&&/^data:image\/(jpeg|png|webp|gif);base64,[A-Za-z0-9+\/=]+$/.test(d);
 const avH=(u,n,style='',tag='div')=>`<${tag} class="av" data-av="${esc(u)}" style="--c:hsl(${hue(u)} 70% 70%);${style}">${esc([...n][0]||'?').toUpperCase()}${okImg(avs[u])?`<img class="ai" alt="" src="${avSrc(u)}">`:''}</${tag}>`;
 function paintAv(u){const d=avs[u];$$(`[data-av="${CSS.escape(u)}"]`).forEach(a=>{a.querySelector('.ai')?.remove();if(okImg(d)){const i=document.createElement('img');i.className='ai';i.alt='';i.src=avSrc(u);a.append(i)}})}
 function needAv(u){if(!u||!window.FB||u in avs||avp.has(u))return;avp.add(u);F().get(R('avatars/'+u)).then(s=>{avs[u]=s.val()||'';avp.delete(u);paintAv(u)}).catch(()=>{avp.delete(u)})}
@@ -802,7 +830,7 @@ function img2(file,w,h,q){return new Promise((res,rej)=>{if(!file||!/^image\//.t
 async function setImg(kind,file){const u=me.uid;if(!staff()&&cfg.fProf===false)return toast('Profil düzenleme kapalı');
  if(file===null){F().set(R(kind+'/'+u),null);if(kind==='avatars')F().update(R('users/'+u),{av:0});if(kind==='avatars'){avs[u]='';paintAv(u)}else bns[u]='';renderProf();return}
  if(now()-profAt<4000)return toast('Biraz bekle');const av=kind==='avatars';
- try{const d=await img2(file,av?128:480,av?128:160,av?.82:.75);if(d.length>80000)return toast('Resim çok büyük, daha sade bir resim dene');profAt=now();await F().set(R(kind+'/'+u),d);if(av)F().update(R('users/'+u),{av:now()});if(av){avs[u]=d;paintAv(u)}else bns[u]=d;renderProf();toast('Profil güncellendi')}catch(e){toast(typeof e==='string'?e:'Yüklenemedi')}}
+ try{let d;if(me.role==='admin'&&file.type==='image/gif'){if(file.size>(av?3e5:6e5))return toast('GIF çok büyük (profil 300KB, banner 600KB)');d=await new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=()=>no('GIF okunamadı');r.readAsDataURL(file)})}else d=await img2(file,av?128:480,av?128:160,av?.82:.75);if(d.length>(d.startsWith('data:image/gif')?850000:80000))return toast('Resim çok büyük, daha sade bir resim dene');profAt=now();await F().set(R(kind+'/'+u),d);if(av)F().update(R('users/'+u),{av:now()});if(av){avs[u]=d;paintAv(u)}else bns[u]=d;renderProf();toast('Profil güncellendi')}catch(e){toast(typeof e==='string'?e:'Yüklenemedi')}}
 $('#fAv').onchange=e=>{const f=e.target.files[0];e.target.value='';if(f)setImg('avatars',f)};
 $('#fBn').onchange=e=>{const f=e.target.files[0];e.target.value='';if(f)setImg('banners',f)};
 function resetProf(u){F().update(F().ref(F().db),{['avatars/'+u]:null,['banners/'+u]:null,['users/'+u+'/av']:0});avs[u]='';bns[u]='';paintAv(u);if(profU===u)renderProf()}
@@ -817,8 +845,8 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#mProf').hidden)closePro
 function renderProf(){const u=profU;if(!u)return;const r=users[u]||{},own=u===me.uid,n=nameOf(u),role=roleOf(u),rk=RK[r.rank],L=lvl(u),a=acts[u]||{},likeOn=cfg.fLike!==false,can=own&&(cfg.fProf!==false||staff()),bn=bns[u],hu=hue(u);
  $('#pBn').style.background=okImg(bn)?`url("${bn}") center/cover`:`linear-gradient(120deg,hsl(${hu} 55% 32%),hsl(${(hu+60)%360} 60% 42%))`;
  const av=$('#pAv');av.dataset.av=u;av.style.setProperty('--c',`hsl(${hu} 70% 70%)`);av.innerHTML=esc([...n][0]||'?').toUpperCase()+(okImg(avs[u])?`<img class="ai" alt="" src="${avSrc(u)}">`:'');
- $('#pNm').textContent=n;{const on=!!pres[u]&&now()-pres[u].t<90000,pc=/^#[0-9a-f]{6}$/i.test(r.pc||'')?r.pc:'';$('#mProf .pcard').style.setProperty('--pc',pc||'transparent');const st=$('#pStat');st.hidden=false;st.innerHTML=`<i class="fa-solid fa-circle" style="color:${on?'var(--gn)':'var(--mu)'}"></i>${on?'Çevrimiçi':'Çevrimdışı'}${r.stat?' · '+esc(r.stat):''}`;const bi=$('#pBio');bi.hidden=!r.bio;bi.textContent=r.bio||''}
- $('#pTg').innerHTML=(role==='admin'?'<span class="tag">Yönetici</span>':role==='mod'?'<span class="tag mod">Mod</span>':'')+rkTags(u)+`<span class="tag lvt">${L.e} ${esc(L.n)}</span>`;
+ $('#pNm').textContent=n;$('#mProf .pcard').classList.toggle('adm',role==='admin');{const on=!!pres[u]&&now()-pres[u].t<90000,pc=/^#[0-9a-f]{6}$/i.test(r.pc||'')?r.pc:'';$('#mProf .pcard').style.setProperty('--pc',pc||'transparent');const st=$('#pStat');st.hidden=false;st.innerHTML=`<i class="fa-solid fa-circle" style="color:${on?'var(--gn)':'var(--mu)'}"></i>${on?'Çevrimiçi':'Çevrimdışı'}${r.stat?' · '+esc(r.stat):''}`;const bi=$('#pBio');bi.hidden=!r.bio;bi.textContent=r.bio||''}
+ $('#pTg').innerHTML=(role==='admin'?'<span class="tag">Yönetici</span>':role==='mod'?'<span class="tag mod">Mod</span>':'')+rkTags(u,1)+`<span class="tag lvt">${L.e} ${esc(L.n)}</span>`;
  $('#pMsg').textContent=a.n||0;$('#pFo').textContent=Object.keys(fo).length;$('#pFg').textContent=Object.keys(fg).length;$('#pLk').textContent=Object.keys(pl).length;$('#pVs').textContent=Object.keys(pv).length;$('#pLkW').hidden=$('#pVsW').hidden=!likeOn;
  let b='';
  if(own){b+='<button class="btn sm" data-pa="set"><i class="fa-solid fa-gear"></i>Ayarlar</button>'}
@@ -917,7 +945,7 @@ function renderFl(){const e=$('#pFl');if(!flMode){e.hidden=true;return}const l=O
 $('#mProf').addEventListener('click',e=>{const f=e.target.closest('[data-fl]');if(f){flMode=flMode===f.dataset.fl?null:f.dataset.fl;renderFl();return}const p=e.target.closest('[data-pfo2]');if(p)openProfile(p.dataset.pfo2)});
 /* mesajlarım / tüm mesajlar */
 function delMine(){const ks=Object.entries(msgs).filter(([,m])=>m.uid===me.uid).map(([k])=>k);if(!ks.length)return toast('Silinecek mesajın yok');if(!confirm(ks.length+' mesajın silinsin mi?'))return;bulkDel(ks);toast('Mesajların silindi')}
-$('#wipeAll').onclick=()=>{if(!staff())return;if(!confirm('TÜM sohbet mesajları silinecek. Emin misin?'))return;F().remove(R('messages')).then(()=>{vCleanRun(true);toast('Tüm mesajlar silindi');log('Tüm mesajlar silindi')})};
+$('#wipeAll').onclick=()=>{if(!staff())return;if(!confirm('TÜM sohbet mesajları silinecek. Emin misin?'))return;F().remove(R('messages')).then(()=>{vCleanRun(true);wipeWh();toast('Tüm mesajlar silindi');log('Tüm mesajlar silindi')})};
 /* özel mesajlar */
 const dmKey=(a,b)=>a<b?a+'_'+b:b+'_'+a;
 function startZ(f){f.onValue(R('dmx/'+me.uid),s=>{const o=s.val()||{},first=!dmInit;dmInit=1;let tot=0;
@@ -952,10 +980,10 @@ $('#dmDelAll').onclick=()=>{if(me.role!=='admin'||!confirm('TÜM özel mesajlar 
 
 /* ================= v7 ================= */
 let rcTgt='chat',rcDmU=null,dmTot=0,setCol='',whOn=0,whl=[],whUn=0;
-/* çoklu rank */
-function rkList(u){const r=users[u]||{},o=Object.keys(r.ranks||{}).filter(k=>RK[k]&&r.ranks[k]);if(r.rank&&RK[r.rank]&&!o.includes(r.rank))o.push(r.rank);return RANKS.map(x=>x[0]).filter(k=>o.includes(k))}
-function rkMain(u){const l=rkList(u);return l.length?l[l.length-1]:''}
-function rkTags(u){return rkList(u).map(k=>{const x=RK[k];return `<span class="tag rkt" style="background:${x[3]}">${x[2]} ${x[1]}</span>`}).join('')}
+/* çoklu rank: ilk verilen yanında, diğerleri +N, profilde hepsi */
+function rkList(u){const r=users[u]||{},rs=r.ranks||{},o=Object.keys(rs).filter(k=>RK[k]&&rs[k]).sort((a,b)=>(+rs[a]||0)-(+rs[b]||0));if(r.rank&&RK[r.rank]&&!o.includes(r.rank))o.unshift(r.rank);return o}
+function rkMain(u){const l=rkList(u);return l.length?l[0]:''}
+function rkTags(u,all){const l=rkList(u),t=k=>{const x=RK[k];return `<span class="tag rkt" style="background:${x[3]}">${x[2]} ${x[1]}</span>`};if(all)return l.map(t).join('');return l.length?t(l[0])+(l.length>1?`<span class="tag lvt" title="${esc(l.slice(1).map(k=>RK[k][1]).join(', '))}">+${l.length-1}</span>`:''):''}
 function rkChipsH(u){const l=rkList(u);return RANKS.map(r=>`<button type="button" class="chip${l.includes(r[0])?' on':''}" data-rkt="${r[0]}">${r[2]} ${r[1]}</button>`).join('')}
 function rkPaint(u){sh('#rkChips',rkChipsH(u))}
 $('#pop').addEventListener('click',e=>{const b=e.target.closest('[data-rkt]');if(!b||!popU)return;toggleRank(popU,b.dataset.rkt);b.classList.toggle('on')});
@@ -1020,7 +1048,7 @@ function fillSet(full){const u=me.uid,r=users[u]||{},hu=hue(u),bn=bns[u];
  if(window.FB){if(!(u in bns)){bns[u]='';F().get(R('banners/'+u)).then(s=>{bns[u]=s.val()||'';if(!$('#mSet').hidden)fillSet()}).catch(()=>{})}if(!(u in avs))needAv(u)}
  $('#sBn').style.background=okImg(bn)?`url("${bn}") center/cover`:`linear-gradient(120deg,hsl(${hu} 55% 32%),hsl(${(hu+60)%360} 60% 42%))`;
  const av=$('#sAv');av.dataset.av=u;av.style.setProperty('--c',`hsl(${hu} 70% 70%)`);av.innerHTML=esc([...me.name][0]||'?').toUpperCase()+(okImg(avs[u])?`<img class="ai" alt="" src="${avSrc(u)}">`:'');
- $('#sRk').innerHTML=rkTags(u)||'<span class="small">Henüz rankın yok.</span>';
+ $('#sRk').innerHTML=rkTags(u,1)||'<span class="small">Henüz rankın yok.</span>';
  const can=staff()||cfg.fProf!==false;['sAvB','sBnB','sAvR','sBnR','sSave'].forEach(i=>$('#'+i).disabled=!can);$('#sAvR').hidden=!okImg(avs[u]);$('#sBnR').hidden=!okImg(bn);
  if(full){$('#sNick').value=me.name;$('#sStat').value=r.stat||'';$('#sBio').value=r.bio||'';setCol=/^#[0-9a-f]{6}$/i.test(r.pc||'')?r.pc:'';$('#sDM').checked=!r.noDM;$('#sSnd').checked=snd;$('#sNt').checked=localStorage.c_nt==='1'&&!!window.Notification&&Notification.permission==='granted';$('#sLite').checked=localStorage.c_lite==='1';paintCol()}}
 $('#setB').onclick=()=>{fillSet(1);$('#mSet').hidden=false};
