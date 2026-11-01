@@ -1416,7 +1416,7 @@ sw(document.body);new MutationObserver(ms=>ms.forEach(m=>{m.type==='characterDat
    toast('Reel paylaşıldı');rm.hidden=true}catch(e){toast('Paylaşılamadı')}busy=0}}
 /* ---------- oyunlar kartları + MINECRAFT ---------- */
 $('#gmBB').innerHTML='<i class="fa-solid fa-cubes gi"></i><b>Block Blast</b><small>Online skor tablosu</small>';
-$('#gmL').append(E('<button class="gmc" id="gmMC"><i class="fa-solid fa-cube gi"></i><b>Minecraft</b><small>Online ortak dünya · 14 blok</small></button>'));$('#gmMC').onclick=()=>mcStart();
+$('#gmL').append(E('<button class="gmc" id="gmMC"><i class="fa-solid fa-cube gi"></i><b>Minecraft</b><small>Minecraft</small></button>'));$('#gmMC').onclick=()=>mcStart();
 let MC=null;
 function mcStart(){if(MC)return;const ov=E(`<div class="mc"><canvas></canvas><div class="mc-c"></div><div class="mc-x"><button class="btn sm" id="mcQ"><i class="fa-solid fa-arrow-left"></i>Çık</button><span class="pill" id="mcN">1 oyuncu</span></div><div class="mc-hb" id="mcH"></div><div class="mc-hl" id="mcHl">Tıkla ve oyna<br><small>WASD hareket · Boşluk zıpla · Sol tık kır · Sağ tık koy<br>1-9 ya da tekerlek ile blok seç</small></div><div class="mc-t"><div class="mc-j" id="mcJ"><i></i></div><div class="mc-b"><button id="mcBk">Kır</button><button id="mcPl">Koy</button><button id="mcJp">Zıpla</button></div></div></div>`);
  document.body.append(ov);MC={ov,ev:[],off:[]};$('#mcQ').onclick=mcStop;
