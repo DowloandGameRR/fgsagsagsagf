@@ -1424,7 +1424,7 @@ function mcStart(){if(MC)return;const ov=E(`<div class="mc"><canvas></canvas><di
 function mcStop(){if(!MC)return;const m=MC;MC=null;cancelAnimationFrame(m.rid);m.ev.forEach(([t,e,f,o])=>t.removeEventListener(e,f,o));m.off.forEach(f=>{try{f()}catch(e){}});try{F().remove(R('mc/players/'+me.uid));F().remove(R('gplay/'+me.uid))}catch(e){}
  try{m.rd&&m.rd.dispose()}catch(e){}if(document.pointerLockElement)document.exitPointerLock();m.ov.remove()}
 function mcRun(ov){
- const q=s=>ov.querySelector(s),W=2048,H=40,CS=16,Bk=new Uint8Array(W*H*W),ix=(x,y,z)=>(y*W+z)*W+x,B=(x,y,z)=>y<0?1:(y>=H||x<0||z<0||x>=W||z>=W)?0:Bk[ix(x,y,z)],SB=(x,y,z,v)=>{if(y>=0&&y<H&&x>=0&&z>=0&&x<W&&z<W)Bk[ix(x,y,z)]=v},
+ const q=s=>ov.querySelector(s),W=500,H=40,CS=16,Bk=new Uint8Array(W*H*W),ix=(x,y,z)=>(y*W+z)*W+x,B=(x,y,z)=>y<0?1:(y>=H||x<0||z<0||x>=W||z>=W)?0:Bk[ix(x,y,z)],SB=(x,y,z,v)=>{if(y>=0&&y<H&&x>=0&&z>=0&&x<W&&z<W)Bk[ix(x,y,z)]=v},
  on=(t,e,f,o)=>{t.addEventListener(e,f,o);MC.ev.push([t,e,f,o])};
  const hs=(x,z)=>{let h=Math.imul(x,374761393)+Math.imul(z,668265263)|0;h=Math.imul(h^(h>>>13),1274126177);h^=h>>>16;return(h>>>0)/4294967296},
  vn=(x,z)=>{const a=Math.floor(x),b=Math.floor(z),u=x-a,v=z-b,s=u*u*(3-2*u),t=v*v*(3-2*v);return(hs(a,b)*(1-s)+hs(a+1,b)*s)*(1-t)+(hs(a,b+1)*(1-s)+hs(a+1,b+1)*s)*t},hg=(x,z)=>10+Math.floor(vn(x/18,z/18)*12+vn(x/7,z/7)*3);
