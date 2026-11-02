@@ -1163,7 +1163,7 @@ nv.onclick=e=>{const g=e.target.closest('[data-g]')?.dataset.g;if(!g)return;if(g
 /* ---------- 3) SİNEMA (3D + senkron YouTube) ---------- */
 let cn=null,cnIn=false,cnYT=null,cnOK=0,cnVk=null,cnV={},cnJ=0;
 pg('cn','Sinema',`<div class="cn-st" id="cnSt"><div class="cn-rm" id="cnRm"><div class="cn-fl"></div><div class="cn-wl l"></div><div class="cn-wl r"></div><div class="cn-ce"></div><div class="cn-sc" id="cnS"><div id="cnYT"></div><div class="cn-sh"></div></div><div class="cn-cu l"></div><div class="cn-cu r"></div><div id="cnSeats"></div></div></div><div class="cn-l" id="cnL"></div><div class="cn-rx"><button>😂</button><button>❤️</button><button>🔥</button><button>👏</button><button>😮</button><button>🍿</button><button id="cnM" aria-label="Ses">🔊</button><button id="cnF" aria-label="Düz mod">⛶</button></div>`,
-`<span id="cnA" hidden><button class="ib sm" data-c="t">⏯</button><button class="ib sm" data-c="-">−10</button><button class="ib sm" data-c="+">+10</button><button class="ib sm" data-c="x">✕</button></span> <button class="btn sm" id="cnX">Çık</button>`,fitCn,()=>cnLeave());
+`<span id="cnA" hidden><button class="ib sm" data-c="t">⏯</button><button class="ib sm" data-c="-">−10</button><input id="cnSeek" type="range" min="0" max="100" value="0" step="1" aria-label="Ortak video konumu" style="width:120px;vertical-align:middle"><button class="ib sm" data-c="+">+10</button><button class="ib sm" data-c="x">✕</button></span> <button class="btn sm" id="cnX">Çık</button>`,fitCn,()=>cnLeave());
 const cnPos=()=>cn?cn.paused?cn.pos||0:Math.max(0,(now()-cn.at)/1000):0;
 function cnJoin(){cnIn=true;sessionStorage.removeItem('cn_left');cnJ=now();go('cn');const r=R('cinema/viewers/'+me.uid);f().set(r,{n:me.name,j:cnJ,t:now()});f().onDisconnect(r).remove();cnVk=null;$('#cnS').innerHTML='<div id="cnYT"></div><div class="cn-sh"></div>';cnLoad();fitCn()}
 function cnLeave(){if(!cnIn)return;cnIn=false;if(cn)sessionStorage.cn_left=cn.key;f().remove(R('cinema/viewers/'+me.uid));try{cnYT&&cnYT.destroy()}catch(e){}cnYT=null;cnOK=0;cnVk=null;if(cur==='cn')go(null)}
@@ -1177,6 +1177,11 @@ function cnSeek(force){if(!cnOK||!cn)return;const p=cnPos(),st=cnYT.getPlayerSta
  if(st===1){const d=p-t;if(Math.abs(d)>5&&n-cnLs>15000){cnLs=n;cnYT.seekTo(p,true)}else try{cnYT.setPlaybackRate(d>1.5?1.1:d<-1.5?.9:1)}catch(e){}return}
  if(st!==0)cnYT.playVideo()}
 setInterval(()=>{if(cnIn&&cnOK)try{cnSeek()}catch(e){}},2000);
+setInterval(()=>{const el=$('#cnSeek');if(!el||!cnIn||!cnOK||!cnYT)return;try{const d=cnYT.getDuration()||0;if(d>0){el.max=Math.floor(d);if(document.activeElement!==el)el.value=Math.min(d,Math.floor(cnPos()))}}catch(e){}},1000);
+$('#cnSeek').addEventListener('pointerdown',e=>e.stopPropagation());
+$('#cnSeek').addEventListener('click',e=>e.stopPropagation());
+$('#cnSeek').addEventListener('change',e=>{if(me.role!=='admin'||!cn||!cn.on)return;const p=Math.max(0,+e.target.value||0);cn.paused?cnSet({pos:p}):cnSet({at:now()-p*1000});});
+
 setInterval(()=>{if(cnIn)f().set(R('cinema/viewers/'+me.uid),{n:me.name,j:cnJ,t:now()})},30000);
 function cnSync(){const on=!!(cn&&cn.on);$('#nvCn').classList.toggle('live',on);if(!on){if(cnIn){cnLeave();toast('Sinema kapandı')}return}
  if(!cnIn){if(sessionStorage.cn_seen!==String(cn.key)){sessionStorage.cn_seen=cn.key;toast('Sinema başladı, alttan Sinema’ya dokun')}}else cnLoad();$('#cnA').hidden=me.role!=='admin'}
