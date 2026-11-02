@@ -315,8 +315,9 @@ body.lite .btn.pri::after,body.lite .badge,body.lite .gin>i,body.lite .down,body
 <div id="rbar" class="bar rep" hidden><span id="rT" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span><button id="rX" aria-label="İptal"><i class="fa-solid fa-xmark"></i></button></div>
 <div id="emo" class="emo" hidden></div><div id="fun" class="fun" hidden></div><div id="typ" class="typ" hidden></div>
 <div id="recBar" class="bar rec" hidden><span class="rdot"></span><b id="recT">0:00</b><span style="flex:1"></span><button type="button" class="btn sm" id="recX">İptal</button><button type="button" class="btn sm pri" id="recOk"><i class="fa-solid fa-paper-plane"></i>Gönder</button></div>
+<input type="file" id="chatImg" accept="image/*" hidden>
 <form id="form" class="comp in" autocomplete="off">
- <button type="button" id="emoB" class="ib" aria-label="Emoji"><i class="fa-regular fa-face-smile"></i></button><button type="button" id="funB" class="ib" aria-label="Çıkartma ve sesler"><i class="fa-solid fa-wand-magic-sparkles"></i></button><button type="button" id="micB" class="ib" aria-label="Sesli mesaj"><i class="fa-solid fa-microphone"></i></button>
+ <button type="button" id="chatImgB" class="ib" aria-label="Fotoğraf gönder"><i class="fa-regular fa-image"></i></button><button type="button" id="emoB" class="ib" aria-label="Emoji"><i class="fa-regular fa-face-smile"></i></button><button type="button" id="funB" class="ib" aria-label="Çıkartma ve sesler"><i class="fa-solid fa-wand-magic-sparkles"></i></button><button type="button" id="micB" class="ib" aria-label="Sesli mesaj"><i class="fa-solid fa-microphone"></i></button>
  <input id="msg" maxlength="300" placeholder="Bir şey yaz…"><span id="cnt" class="cnt"></span>
  <button class="btn pri" id="sendB" aria-label="Gönder"><i class="fa-solid fa-paper-plane"></i></button>
 </form>
@@ -404,7 +405,7 @@ body.lite .btn.pri::after,body.lite .badge,body.lite .gin>i,body.lite .down,body
 <div id="mUpd" class="modal" hidden><div class="ucard"><div class="ph"><h3><i class="fa-solid fa-clipboard-list"></i>Güncelleme notları</h3><button class="ib" data-x aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button></div><div id="uBody" class="ubody"></div></div></div>
 <div id="mDm" class="modal" hidden><div class="dmc"><div class="ph"><button class="ib sm" id="dmBack" hidden aria-label="Geri"><i class="fa-solid fa-arrow-left"></i></button><h3 id="dmTitle">Mesajlar</h3><button class="ib" data-x aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button></div>
  <div id="dmList" class="dml"></div>
- <div id="dmChat" class="dmch" hidden><div id="dmWho" class="dmwho" role="button" tabindex="0" aria-label="Profili aç"></div><div id="dmMsgs" class="dmm"></div><div id="dmEmo" class="emo" hidden></div><div id="dmRec" class="dmrec" hidden><span class="rdot"></span><b id="dmRecT">0:00</b><span style="flex:1"></span><button type="button" class="btn sm" id="dmRecX">İptal</button><button type="button" class="btn sm pri" id="dmRecOk"><i class="fa-solid fa-paper-plane"></i>Gönder</button></div><form id="dmForm" class="dmf" autocomplete="off"><button type="button" class="ib" id="dmEmoB" aria-label="Emoji"><i class="fa-regular fa-face-smile"></i></button><button type="button" class="ib" id="dmMic" aria-label="Sesli mesaj"><i class="fa-solid fa-microphone"></i></button><input id="dmIn" maxlength="300" placeholder="Mesaj yaz…"><button class="btn pri" aria-label="Gönder"><i class="fa-solid fa-paper-plane"></i></button></form></div>
+ <div id="dmChat" class="dmch" hidden><div id="dmWho" class="dmwho" role="button" tabindex="0" aria-label="Profili aç"></div><div id="dmMsgs" class="dmm"></div><div id="dmEmo" class="emo" hidden></div><div id="dmRec" class="dmrec" hidden><span class="rdot"></span><b id="dmRecT">0:00</b><span style="flex:1"></span><button type="button" class="btn sm" id="dmRecX">İptal</button><button type="button" class="btn sm pri" id="dmRecOk"><i class="fa-solid fa-paper-plane"></i>Gönder</button></div><input type="file" id="dmImg" accept="image/*" hidden><form id="dmForm" class="dmf" autocomplete="off"><button type="button" class="ib" id="dmImgB" aria-label="Fotoğraf gönder"><i class="fa-regular fa-image"></i></button><button type="button" class="ib" id="dmEmoB" aria-label="Emoji"><i class="fa-regular fa-face-smile"></i></button><button type="button" class="ib" id="dmMic" aria-label="Sesli mesaj"><i class="fa-solid fa-microphone"></i></button><input id="dmIn" maxlength="300" placeholder="Mesaj yaz…"><button class="btn pri" aria-label="Gönder"><i class="fa-solid fa-paper-plane"></i></button></form></div>
  <div class="small dmn">ℹ️ Özel mesajlar yönetim tarafından görülebilir.</div></div></div>
 <div id="mSet" class="modal" hidden><div class="setc"><div class="ph"><h3><i class="fa-solid fa-gear"></i> Ayarlar</h3><button class="ib" data-x aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button></div><div class="setb">
 <div class="sbn" id="sBn"></div><div class="spav"><div class="pav" id="sAv"></div><div class="row"><button class="btn sm pri" id="sAvB"><i class="fa-solid fa-camera"></i>Fotoğraf</button><button class="btn sm" id="sBnB"><i class="fa-solid fa-image"></i>Banner</button><button class="btn sm ghost" id="sAvR">Fotoğrafı kaldır</button><button class="btn sm ghost" id="sBnR">Banner'ı kaldır</button></div></div>
@@ -421,7 +422,8 @@ body.lite .btn.pri::after,body.lite .badge,body.lite .gin>i,body.lite .down,body
 <div id="toasts"></div><div id="ytw" style="position:fixed;bottom:0;right:0;width:200px;height:200px;opacity:.01;pointer-events:none;overflow:hidden;z-index:-1"><div id="yt"></div></div>
 
 <script>
-const ADMIN_PASSWORD="16153015";
+let ADMIN_PASSWORD='';
+const ADMIN_PASSWORD_READY=fetch('./sifre.txt',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('sifre.txt okunamadı');return r.text()}).then(v=>{ADMIN_PASSWORD=v.trim();if(!ADMIN_PASSWORD)throw new Error('Boş yönetici parolası');return true}).catch(()=>false);
 const DEF={title:"Anonim Chat",subtitle:"Özgürce ve canlı sohbet et",banner:"Küfür ve hakaret yasaktır.",bannerOn:true,tone:"info",mode:"normal",openAt:0,maintMsg:"",slow:0,locked:false,pinned:null,bannerDur:0,ann:null,welcome:"",noEmoji:false,fxEvent:null,bannerAt:0,accent:"#FFC233",maxLen:300,noLinks:false,fx:true,
 badWords:['amk','aq','mk','sik','sikerim','sikim','orospu','piç','yarrak','yarak','ibne','göt','kahpe','puşt','yavşak','oç']};
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
@@ -504,7 +506,8 @@ const stream=$('#stream');
 const io=new IntersectionObserver(es=>es.forEach(x=>x.target.classList.toggle('pz',!x.isIntersecting)),{root:stream,rootMargin:'120px'});
 let sT=0;const toBot=()=>{if(!sT)sT=requestAnimationFrame(()=>{sT=0;stream.scrollTop=stream.scrollHeight})};
 const okGif=u=>/^https:\/\/(media\d?\.giphy\.com|i\.giphy\.com|media\.tenor\.com|c\.tenor\.com)\/[^\s"'<>]+\.(gif|webp|png|jpe?g)(\?[^\s"'<>]*)?$/i.test(u||'');
-const bubIn=m=>m.voice&&/^[\w-]{10,30}$/.test(m.vid||'')?voiceH(m):m.st?`<span class="bigE">${esc(m.st)}</span>`:m.gif&&okGif(m.gif)?`<img class="gif" loading="lazy" referrerpolicy="no-referrer" src="${esc(m.gif)}" alt="GIF">`:esc(m.text);
+const okChatImg=v=>typeof v==='string'&&v.length<500000&&/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(v);
+const bubIn=m=>m.img&&okChatImg(m.img)?`<img class="gif" loading="lazy" src="${m.img}" alt="Gönderilen fotoğraf">`:m.voice&&/^[\w-]{10,30}$/.test(m.vid||'')?voiceH(m):m.st?`<span class="bigE">${esc(m.st)}</span>`:m.gif&&okGif(m.gif)?`<img class="gif" loading="lazy" referrerpolicy="no-referrer" src="${esc(m.gif)}" alt="GIF">`:esc(m.text);
 function addMsg(k,m){
  if(!m||msgs[k])return;if(m.sys){if(me.role==='admin')F().remove(R('messages/'+k));return}msgs[k]=m;$('#empty').style.display='none';
  const isNew=m.ts>boot-1500,mine=m.uid===me.uid,el=document.createElement('div');el.dataset.k=k;
@@ -553,6 +556,10 @@ $('#form').onsubmit=e=>{e.preventDefault();const i=$('#msg'),t=i.value.trim();if
  else if(c){let x;if(/^zar/i.test(c[1])){const n=Math.max(2,Math.min(100,+c[2]||6)),v=1+Math.floor(Math.random()*n);x=`${me.name} ${n===6?'zar':n+' yüzlü zar'} attı: ${v} çıktı! ${v===n?'🎉':'🎲'}`}else x=`${me.name} yazı-tura attı: ${Math.random()<.5?'YAZI':'TURA'} geldi! 🪙`;post({text:x,cmd:1})}
  else{post({text:t.slice(0,cfg.maxLen||300),reply:reply||null});gameCheck(t);lastTxt=t;lastTxtAt=now()}
  lastSent=now();fly();$('#rX').click();atBot=true;stopTyping()};
+async function imageAsData(file){if(!file||!file.type.startsWith('image/'))throw new Error('Geçerli bir fotoğraf seç');if(file.size>12*1024*1024)throw new Error('Fotoğraf 12 MB altında olmalı');const bmp=await createImageBitmap(file);const scale=Math.min(1,1000/Math.max(bmp.width,bmp.height));const c=document.createElement('canvas');c.width=Math.max(1,Math.round(bmp.width*scale));c.height=Math.max(1,Math.round(bmp.height*scale));const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(bmp,0,0,c.width,c.height);bmp.close?.();let q=.78,data='';for(let i=0;i<5;i++){data=c.toDataURL('image/jpeg',q);if(data.length<420000)break;q-=.12}if(data.length>=420000)throw new Error('Fotoğraf küçültülemedi; daha küçük bir fotoğraf seç');return data}
+$('#chatImgB').onclick=()=>$('#chatImg').click();
+$('#chatImg').onchange=async e=>{const f=e.target.files?.[0];e.target.value='';if(!f||!window.FB||!allow('📷 Fotoğraf'))return;try{const img=await imageAsData(f);post({img,text:'📷 Fotoğraf'});lastSent=now();fly();toast('Fotoğraf gönderildi')}catch(err){toast(err.message||'Fotoğraf gönderilemedi')}};
+
 $('#msg').oninput=e=>{const l=e.target.value.length;const mx=cfg.maxLen||300;$('#cnt').textContent=l>mx-60?mx-l:''};
 const EM='😀 😂 🤣 😊 😍 🥰 😘 😎 🤔 🙄 😴 😭 😡 🥺 😅 😉 🙂 😏 😬 🤯 🥳 🤩 😱 😇 🤗 🤫 🫡 👍 👎 👏 🙌 🙏 💪 👀 🔥 ✨ 💯 ❤️ 💔 💜 🖤 💀 👻 🤡 🎉 🎂 ☕ 🍕 🍔 🍟 🍫 🍿 🐱 🐶 🦊 🐸 🌙 ⭐ 🌈 ⚡'.split(' ');
 $('#emo').innerHTML=EM.map(e=>`<button type="button">${e}</button>`).join('');
@@ -572,7 +579,8 @@ $('#fNick').onsubmit=e=>{e.preventDefault();setNick($('#nick').value,nickFirst)}
 $('#pNickB').onclick=()=>setNick($('#pNick').value);$('#pNick').onkeydown=e=>{if(e.key==='Enter')setNick(e.target.value)};
 const adminClick=()=>staff()?openPanel():open('#mLogin');
 $('#adm').onclick=adminClick;$('#gLogin').onclick=adminClick;
-$('#fLogin').onsubmit=e=>{e.preventDefault();if(now()<lockT)return toast('Çok fazla deneme, biraz bekle');
+$('#fLogin').onsubmit=async e=>{e.preventDefault();if(now()<lockT)return toast('Çok fazla deneme, biraz bekle');
+ if(!await ADMIN_PASSWORD_READY)return toast('Yönetici şifresi dosyadan okunamadı');
  if($('#pw').value.trim()!==ADMIN_PASSWORD){if(++fails>=3){lockT=now()+30000;fails=0}return toast('Şifre yanlış')}
  me.role='admin';F().update(R('users/'+me.uid),{role:'admin',name:me.name,mutedUntil:0,bans:0});$('#pw').value='';$('#mLogin').hidden=true;paintMe();openPanel()};
 $('#logout').onclick=()=>{F().update(R('users/'+me.uid),{role:'user'});me.role='user';closePanel();paintMe()};
@@ -963,6 +971,9 @@ function openDM(u){if(!window.FB)return;if(cfg.fDM===false&&!staff())return toas
  dmOff=F().onChildAdded(F().query(R('dms/'+dmKey(me.uid,u)),F().orderByKey(),F().limitToLast(80)),s=>{const m=s.val();if(!m||dmOpen!==u)return;addDm(m);if(m.f!==me.uid&&!$('#mDm').hidden)F().update(R(`dmx/${me.uid}/${u}`),{un:0})});
  setTimeout(()=>$('#dmIn').focus(),60)}
 $('#dmB').onclick=()=>openDM();$('#dmBack').onclick=showDmList;
+$('#dmImgB').onclick=()=>$('#dmImg').click();
+$('#dmImg').onchange=async e=>{const f=e.target.files?.[0],u=dmOpen;e.target.value='';if(!f||!u||!dmCan(u))return;try{const img=await imageAsData(f);dmPut(u,{img,t:'📷 Fotoğraf'},'📷 Fotoğraf');toast('Fotoğraf gönderildi')}catch(err){toast(err.message||'Fotoğraf gönderilemedi')}};
+
 $('#dmList').onclick=e=>{const u=e.target.closest('[data-dm]')?.dataset.dm;if(u)openDM(u)};
 $('#mDm').addEventListener('click',e=>{if(e.target.id==='mDm'||e.target.closest('[data-x]'))dmStop()});
 $('#dmForm').onsubmit=e=>{e.preventDefault();const i=$('#dmIn'),t=i.value.trim(),u=dmOpen;if(!t||!u||!dmCan(u))return;if(!staff()){if(now()-dmLast<1500)return toast('Biraz yavaş');if(bad(t)){i.value='';violate();return}if(cfg.noLinks&&LINKRE.test(t))return toast('Link paylaşımı kapalı')}dmPut(u,{t:t.slice(0,300)},t.slice(0,40));dmLast=now();i.value='';$('#dmEmo').hidden=true};
@@ -1022,7 +1033,7 @@ async function vCleanRun(silent){const [m,v,dd]=await Promise.all([F().get(R('me
  v.forEach(c=>{if(!used.has(c.key)){o['voices/'+c.key]=null;o['vidx/'+c.key]=null;n++}});
  if(!n){if(!silent)toast('Temizlenecek ses yok');return}F().update(F().ref(F().db),o);if(!silent){toast(n+' ses kaydı silindi');log(n+' ses kaydı temizlendi')}}
 /* DM: gönderim, profil şeridi, emoji, sesli mesaj */
-const dmBub=m=>m.voice&&/^[\w-]{10,30}$/.test(m.vid||'')?voiceH(m):esc(m.t);
+const dmBub=m=>m.img&&okChatImg(m.img)?`<img class="gif" loading="lazy" src="${m.img}" alt="Gönderilen fotoğraf">`:m.voice&&/^[\w-]{10,30}$/.test(m.vid||'')?voiceH(m):esc(m.t);
 function dmCan(u,voice){if(cfg.fDM===false&&!staff())return toast('Özel mesajlar kapalı'),false;
  if(!staff()){if(cfg.pause?.on)return toast('Acil duraklama aktif'),false;if(muteLeft()>0)return toast('Şu an mesaj atamazsın'),false;if(users[u]?.noDM&&roleOf(u)==='user')return toast('Bu kişi özel mesaj kabul etmiyor'),false;if(voice&&cfg.fVoice===false)return toast('Sesli mesaj kapalı'),false}return true}
 function dmPut(u,m,last){const ts=now(),k=dmKey(me.uid,u),id=F().push(R('dms/'+k)).key,o={};
