@@ -507,7 +507,7 @@ setInterval(tick,1000);setInterval(()=>{if($('#panel').classList.contains('open'
 /* ---------- messages ---------- */
 const stream=$('#stream');
 const io=new IntersectionObserver(es=>es.forEach(x=>x.target.classList.toggle('pz',!x.isIntersecting)),{root:stream,rootMargin:'120px'});
-let savedKeys={},searchHits=[],searchIndex=-1,sT=0;const toBot()={if(!sT)sT=requestAnimationFrame(()=>{sT=0;stream.scrollTop=stream.scrollHeight})};
+let savedKeys={},searchHits=[],searchIndex=-1,sT=0;const toBot=()=>{if(!sT)sT=requestAnimationFrame(()=>{sT=0;stream.scrollTop=stream.scrollHeight})};
 const okGif=u=>/^https:\/\/(media\d?\.giphy\.com|i\.giphy\.com|media\.tenor\.com|c\.tenor\.com)\/[^\s"'<>]+\.(gif|webp|png|jpe?g)(\?[^\s"'<>]*)?$/i.test(u||'');
 const okChatImg=v=>typeof v==='string'&&v.length<500000&&/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(v);
 const bubIn=m=>m.img&&okChatImg(m.img)?`<img class="gif" loading="lazy" src="${m.img}" alt="Gönderilen fotoğraf">`:m.voice&&/^[\w-]{10,30}$/.test(m.vid||'')?voiceH(m):m.st?`<span class="bigE">${esc(m.st)}</span>`:m.gif&&okGif(m.gif)?`<img class="gif" loading="lazy" referrerpolicy="no-referrer" src="${esc(m.gif)}" alt="GIF">`:esc(m.text);
