@@ -3,911 +3,890 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
-<title>Chat</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<title>Anonim Chat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Instrument+Sans:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
+<!-- Güvenli Depolama ve Ön Denetim -->
+<script>
+(function(){
+['localStorage','sessionStorage'].forEach(function(k){try{var s=window[k];s.setItem('_t','1');s.removeItem('_t')}catch(e){var d={},p=new Proxy(d,{get:function(t,n){if(n==='getItem')return function(a){return a in t?t[a]:null};if(n==='setItem')return function(a,b){t[a]=String(b)};if(n==='removeItem')return function(a){delete t[a]};if(n==='clear')return function(){for(var x in t)delete t[x]};return t[n]},set:function(t,n,v){t[n]=String(v);return true}});try{Object.defineProperty(window,k,{get:function(){return p},configurable:true})}catch(x){}}});
+})();
+</script>
+
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import * as D from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-const app = initializeApp({
-  apiKey: "AIzaSyDhfV_mNCJsD4rL6r8viKUHPgIn-_z01-s",
-  authDomain: "itirafhelvaci.firebaseapp.com",
-  databaseURL: "https://itirafhelvaci-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "itirafhelvaci",
-  storageBucket: "itirafhelvaci.firebasestorage.app",
-  messagingSenderId: "155382461179",
-  appId: "1:155382461179:web:fb134296241b509c8a765e"
-});
-window.FB = { ...D, db: D.getDatabase(app) };
-window.dispatchEvent(new Event('fb'));
+const app=initializeApp({apiKey:"AIzaSyDhfV_mNCJsD4rL6r8viKUHPgIn-_z01-s",authDomain:"itirafhelvaci.firebaseapp.com",databaseURL:"https://itirafhelvaci-default-rtdb.europe-west1.firebasedatabase.app",projectId:"itirafhelvaci",storageBucket:"itirafhelvaci.firebasestorage.app",messagingSenderId:"155382461179",appId:"1:155382461179:web:fb134296241b509c8a765e"});
+window.FB={...D,db:D.getDatabase(app)};window.dispatchEvent(new Event('fb'));
 </script>
 
 <style>
 @property --orbit{syntax:'<angle>';initial-value:0deg;inherits:false}
-:root {
-  --bg: #07090e;
-  --sf: rgba(18, 22, 33, 0.72);
-  --sf-card: rgba(23, 28, 42, 0.85);
-  --sf2: rgba(11, 14, 23, 0.9);
-  --ln: rgba(255, 255, 255, 0.08);
-  --ln-glow: rgba(139, 92, 246, 0.28);
-  --tx: #f3f5fa;
-  --mu: #8c96ab;
-  --ac: #6366f1;
-  --ac-glow: rgba(99, 102, 241, 0.45);
-  --gold1: #ffd700;
-  --gold2: #ffae00;
-  --gold-glow: rgba(255, 193, 7, 0.55);
-  --silver1: #f8fafc;
-  --silver2: #94a3b8;
-  --silver-glow: rgba(203, 213, 225, 0.45);
-  --rd: #f43f5e;
-  --gn: #10b981;
-  --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --mono: 'JetBrains Mono', monospace;
+@property --a{syntax:'<angle>';initial-value:0deg;inherits:false}
+
+:root{
+  --bg:#06080e;
+  --sf:rgba(18, 23, 36, 0.75);
+  --sf2:rgba(10, 13, 22, 0.88);
+  --sf-card:rgba(22, 28, 44, 0.85);
+  --ln:rgba(255, 255, 255, 0.08);
+  --tx:#f4f6fb;
+  --mu:#8b95a5;
+  --ac:#6366f1;
+  --rd:#ff4d6d;
+  --gn:#10b981;
+  --gold1:#ffd700;
+  --gold2:#ff9100;
+  --silver1:#ffffff;
+  --silver2:#94a3b8;
+  --h:'Plus Jakarta Sans', 'Bricolage Grotesque', system-ui, sans-serif;
+  --b:'Plus Jakarta Sans', 'Instrument Sans', system-ui, sans-serif;
+  --nvh:64px;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--tx); font: 14.5px/1.45 var(--font); letter-spacing: -0.01em; }
-body { display: flex; flex-direction: column; }
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}[hidden]{display:none!important}
+html,body{height:100%;height:100dvh}
+body{background:var(--bg);color:var(--tx);font:14.5px/1.45 var(--b);display:flex;flex-direction:column;overflow:hidden;padding-top:env(safe-area-inset-top)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;touch-action:manipulation}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+input,textarea,select{background:rgba(255,255,255,0.04);border:1px solid var(--ln);border-radius:14px;padding:11px 14px;width:100%;font-size:15px;user-select:text;outline:none;transition:border-color .2s,box-shadow .2s}
+input:focus,textarea:focus{border-color:var(--ac);box-shadow:0 0 0 4px rgba(99,102,241,0.25)}
 
-/* Apple Glass & Backdrop Glows */
-.ambient {
-  position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden;
-}
-.ambient-glow {
-  position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.18; will-change: transform;
-}
-.glow-1 { width: 50vw; height: 50vw; left: -10vw; top: -10vw; background: radial-gradient(circle, #6366f1, #a855f7); }
-.glow-2 { width: 45vw; height: 45vw; right: -5vw; bottom: 5vw; background: radial-gradient(circle, #3b82f6, #06b6d4); }
+/* Apple Kalitesi Cam Arka Plan */
+.btn{background:var(--sf);border:1px solid var(--ln);border-radius:13px;padding:9px 16px;font-weight:600;font-size:13.5px;display:inline-flex;gap:8px;align-items:center;justify-content:center;transition:all .2s cubic-bezier(0.16,1,0.3,1);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.btn:hover{border-color:rgba(255,255,255,0.2);transform:translateY(-1.5px)}
+.btn:active{transform:scale(0.97)}
+.btn.pri{background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;border-color:#818cf8;box-shadow:0 6px 20px -4px rgba(99,102,241,0.5)}
+.btn.red{background:rgba(255,77,109,0.15);border-color:rgba(255,77,109,0.3);color:#ff9ebb}
+.btn.sm{padding:6px 12px;font-size:12.5px;border-radius:10px}
+.btn.ghost{background:none;border-color:transparent}
 
-/* Buttons & Inputs */
-button { cursor: pointer; border: none; background: none; font: inherit; color: inherit; display: inline-flex; align-items: center; justify-content: center; }
-input, textarea, select {
-  font: inherit; color: inherit; background: rgba(255,255,255,0.04);
-  border: 1px solid var(--ln); border-radius: 14px; padding: 11px 15px; outline: none;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-input:focus, textarea:focus {
-  border-color: var(--ac); background: rgba(255,255,255,0.07);
-  box-shadow: 0 0 0 4px var(--ac-glow);
-}
-.btn {
-  padding: 10px 18px; border-radius: 13px; font-weight: 600; gap: 8px;
-  background: var(--sf); border: 1px solid var(--ln); transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-}
-.btn:hover { transform: translateY(-1.5px); border-color: rgba(255,255,255,0.18); color: #fff; }
-.btn:active { transform: scale(0.97); }
-.btn.pri { background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; border-color: #818cf8; box-shadow: 0 8px 20px -4px var(--ac-glow); }
-.btn.gold { background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; font-weight: 700; border: none; }
-.btn.sm { padding: 6px 12px; font-size: 13px; border-radius: 10px; }
-.btn.red { background: rgba(244, 63, 94, 0.15); border-color: rgba(244, 63, 94, 0.3); color: #fda4af; }
-.ib { width: 40px; height: 40px; border-radius: 12px; background: rgba(255,255,255,0.04); border: 1px solid var(--ln); color: var(--mu); transition: all 0.2s; }
-.ib:hover { color: #fff; border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); }
-.ib.sm { width: 32px; height: 32px; border-radius: 9px; }
+.ib{width:38px;height:38px;border-radius:12px;border:1px solid var(--ln);background:rgba(255,255,255,0.03);color:var(--mu);display:inline-flex;align-items:center;justify-content:center;transition:all .2s}
+.ib:hover{color:#fff;border-color:rgba(255,255,255,0.18);background:rgba(255,255,255,0.06)}
+.ib.sm{width:30px;height:30px;border-radius:9px}
+.pill{border:1px solid var(--ln);border-radius:99px;padding:5px 12px;font-size:12.5px;background:var(--sf2);white-space:nowrap}
 
-/* Header (Apple Bar) */
-.header-top {
-  padding: 12px 18px; display: flex; align-items: center; justify-content: space-between;
-  background: var(--sf2); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-  border-bottom: 1px solid var(--ln); z-index: 10;
-}
-.brand-box { display: flex; align-items: center; gap: 12px; }
-.brand-box h1 { font-size: 20px; font-weight: 800; letter-spacing: -0.03em; background: linear-gradient(120deg, #fff, #a5b4fc); -webkit-background-clip: text; color: transparent; }
-.brand-box p { font-size: 11px; color: var(--mu); font-weight: 500; }
-.brand-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--gn); box-shadow: 0 0 10px var(--gn); animation: pulse 2.5s infinite; }
-@keyframes pulse { 50% { opacity: 0.4; } }
+/* Üst Bar */
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--ln);background:var(--sf2);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);z-index:20}
+.brand{display:flex;gap:12px;align-items:center;min-width:0}
+.brand h1{font:800 clamp(19px,4vw,25px)/1 var(--h);letter-spacing:-.03em;background:linear-gradient(120deg,#fff 30%,#a5b4fc 60%,#fff 90%);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 6s linear infinite}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--gn);box-shadow:0 0 10px var(--gn);animation:ping 2.4s infinite;flex:none}.dot.off{background:var(--rd);animation:none}
+@keyframes ping{70%{box-shadow:0 0 0 8px rgba(16,185,129,0)}}
+@keyframes sheen{to{background-position:200% center}}
 
-/* Chat Main Layout */
-.chat-container { flex: 1; position: relative; display: flex; flex-direction: column; overflow: hidden; }
-.stream { flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 14px; scroll-behavior: smooth; }
+.acts{display:flex;gap:7px;align-items:center}
+.banner{display:flex;gap:10px;align-items:center;padding:8px 16px;font-size:13.5px;font-weight:500;background:var(--sf);border-bottom:1px solid var(--ln)}
+.pin{display:flex;gap:10px;align-items:center;padding:8px 16px;background:var(--sf);border-bottom:1px solid var(--ln);font-size:13.5px}
 
-/* Mesaj Balonları */
-.m { display: flex; gap: 10px; max-width: min(84%, 540px); align-self: flex-start; animation: msgIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both; }
-.m.me { align-self: flex-end; flex-direction: row-reverse; }
-@keyframes msgIn { from { opacity: 0; transform: translateY(14px) scale(0.96); } }
+.wrap{position:relative;flex:1;display:flex;flex-direction:column;min-height:0}
+.stream{flex:1;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth}
+.empty{margin:auto;text-align:center;color:var(--mu);max-width:280px}.empty b{display:block;font:800 22px var(--h);color:var(--tx);margin-bottom:6px}
 
-.av {
-  width: 38px; height: 38px; border-radius: 13px; font-weight: 800; font-size: 14px;
-  display: grid; place-items: center; background: var(--c, #334155); color: #fff;
-  flex: none; box-shadow: 0 4px 12px rgba(0,0,0,0.3); position: relative; overflow: hidden;
-}
-.av img { width: 100%; height: 100%; object-fit: cover; }
-.mb { min-width: 0; display: flex; flex-direction: column; }
-.mh { display: flex; align-items: center; gap: 8px; font-size: 12px; margin-bottom: 4px; }
-.mh b { font-weight: 700; color: #fff; }
-.mh time { color: var(--mu); font-size: 10.5px; }
+/* Mesajlar */
+.m{display:flex;gap:10px;max-width:min(86%,540px);align-self:flex-start;animation:msgIn .3s cubic-bezier(.16,1,.3,1) both}
+.m.me{align-self:flex-end;flex-direction:row-reverse}
+@keyframes msgIn{from{opacity:0;transform:translateY(12px) scale(.97)}}
 
-.bub {
-  position: relative; padding: 10px 15px; border-radius: 4px 18px 18px 18px;
-  background: var(--sf-card); border: 1px solid var(--ln);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.18); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-  word-break: break-word; font-size: 14px; line-height: 1.45;
-}
-.m.me .bub {
-  background: linear-gradient(135deg, #4f46e5, #4338ca);
-  border-color: rgba(255,255,255,0.15); border-radius: 18px 4px 18px 18px; color: #fff;
-  box-shadow: 0 6px 24px -4px var(--ac-glow);
-}
+.av{width:36px;height:36px;border-radius:12px;flex:none;display:grid;place-items:center;font:800 14px var(--h);color:#fff;background:var(--c,#334155);position:relative;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.3)}
+.mb{min-width:0;display:flex;flex-direction:column}
+.mh{display:flex;gap:8px;align-items:baseline;font-size:12px;margin-bottom:3px}
+.me .mh{flex-direction:row-reverse}
+.mh b{font-weight:700}.mh time{color:var(--mu);font-size:11px}
+.tag{font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:99px;background:var(--ac);color:#fff}
 
-/* -------------------------------------------------------------
-   ÖZEL ADMIN & MODERATOR BALONCUKLARI (ABARTILI PARLAK / MOBİL UYUMLU)
-------------------------------------------------------------- */
-@keyframes goldOrbit { to { --orbit: 360deg; } }
-@keyframes silverOrbit { to { --orbit: 360deg; } }
-@keyframes staffBreath { 0%, 100% { filter: drop-shadow(0 0 6px var(--glow-color)); } 50% { filter: drop-shadow(0 0 16px var(--glow-color)); } }
+.bub{position:relative;background:var(--sf-card);border:1px solid var(--ln);padding:10px 14px;border-radius:4px 18px 18px 18px;word-break:break-word;white-space:pre-wrap;user-select:text;box-shadow:0 4px 20px rgba(0,0,0,0.18);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);font-size:14px}
+.me .bub{background:linear-gradient(135deg,#4f46e5,#4338ca);border-color:rgba(255,255,255,0.15);border-radius:18px 4px 18px 18px;color:#fff;box-shadow:0 6px 24px -4px rgba(99,102,241,0.5)}
 
-.m.adm .bub, .m.adm .av {
-  --glow-color: rgba(255, 185, 0, 0.7);
+/* --------------------------------------------------------------------------
+   ABARTILI VE MÜKEMMEL ADMIN (ALTIN) & MODERATÖR (GÜMÜŞ) BALONCUKLARI
+   MOBİLDE VE PC'DE BİREBİR AYNI PARLAKLIKTA ÇALIŞIR
+-------------------------------------------------------------------------- */
+@keyframes goldOrbit{to{--orbit:360deg}}
+@keyframes silverOrbit{to{--orbit:360deg}}
+@keyframes staffBreath{0%,100%{filter:drop-shadow(0 0 6px var(--glow-color))}50%{filter:drop-shadow(0 0 18px var(--glow-color))}}
+
+.m.adm .bub, .m.adm .av{
+  --glow-color: rgba(255, 185, 0, 0.8);
   border: 2px solid transparent !important;
-  background: linear-gradient(#141005, #141005) padding-box,
+  background: linear-gradient(#151006, #151006) padding-box,
               conic-gradient(from var(--orbit), #ffe259, #ffa751, #ffd700, #ff8c00, #ffe259) border-box !important;
   animation: goldOrbit 3s linear infinite, staffBreath 2s ease-in-out infinite !important;
-  box-shadow: 0 0 25px rgba(255, 170, 0, 0.4) !important;
+  box-shadow: 0 0 28px rgba(255, 170, 0, 0.45) !important;
 }
-.m.adm .mh b {
+.m.adm .mh b{
   background: linear-gradient(90deg, #ffe066, #ffb300, #fff2a3) !important;
-  -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
-  text-shadow: 0 0 12px rgba(255, 193, 7, 0.8) !important; font-weight: 800;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  text-shadow: 0 0 12px rgba(255, 193, 7, 0.8) !important;
+  font-weight: 800;
 }
-.m.adm .tag {
+.m.adm .tag{
   background: linear-gradient(135deg, #ffd700, #ff8800) !important;
-  color: #1a0e00 !important; font-weight: 800; border: none; box-shadow: 0 0 10px rgba(255, 170, 0, 0.6);
+  color: #1a0e00 !important; font-weight: 800; border: none;
+  box-shadow: 0 0 12px rgba(255, 170, 0, 0.6);
 }
 
-.m.mdr .bub, .m.mdr .av {
-  --glow-color: rgba(226, 232, 240, 0.75);
+.m.mdr .bub, .m.mdr .av{
+  --glow-color: rgba(226, 232, 240, 0.85);
   border: 2px solid transparent !important;
   background: linear-gradient(#0e131f, #0e131f) padding-box,
               conic-gradient(from var(--orbit), #ffffff, #94a3b8, #e2e8f0, #64748b, #ffffff) border-box !important;
   animation: silverOrbit 4.5s linear infinite, staffBreath 2.2s ease-in-out infinite !important;
-  box-shadow: 0 0 22px rgba(226, 232, 240, 0.35) !important;
+  box-shadow: 0 0 24px rgba(226, 232, 240, 0.4) !important;
 }
-.m.mdr .mh b {
+.m.mdr .mh b{
   background: linear-gradient(90deg, #ffffff, #cbd5e1, #ffffff) !important;
-  -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7) !important; font-weight: 800;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7) !important;
+  font-weight: 800;
 }
-.m.mdr .tag {
+.m.mdr .tag{
   background: linear-gradient(135deg, #ffffff, #94a3b8) !important;
   color: #0f172a !important; font-weight: 800; border: none;
 }
 
-/* Mesaj Input Alanı (Apple Floating bar) */
-.composer-wrap {
-  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
-  background: var(--sf2); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
-  border-top: 1px solid var(--ln); display: flex; align-items: center; gap: 8px; z-index: 10;
-}
-.composer-wrap input { flex: 1; border-radius: 99px; padding: 12px 18px; }
+/* Mesaj Input Kutusu */
+.comp{display:flex;gap:8px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));border-top:1px solid var(--ln);background:var(--sf2);align-items:center;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px)}
+.comp input{flex:1;border-radius:99px;padding:11px 18px;background:rgba(255,255,255,0.05)}
 
-/* Alt Instagram Sekme Çubuğu (Bottom Nav) */
-.bottom-nav {
-  display: flex; justify-content: space-around; align-items: center;
-  padding: 8px 4px calc(8px + env(safe-area-inset-bottom));
-  background: var(--sf2); border-top: 1px solid var(--ln); backdrop-filter: blur(30px);
-  z-index: 15;
-}
-.nav-tab {
-  display: flex; flex-direction: column; align-items: center; gap: 4px;
-  color: var(--mu); font-size: 10px; font-weight: 600; flex: 1; transition: all 0.2s;
-}
-.nav-tab i { font-size: 19px; transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-.nav-tab.active { color: #fff; }
-.nav-tab.active i { transform: scale(1.18); color: var(--ac); }
+/* Instagram Tarzı Alt Bar */
+#nb{order:99;position:relative;z-index:56;display:flex;justify-content:space-around;padding:6px 2px calc(6px + env(safe-area-inset-bottom));border-top:1px solid var(--ln);background:var(--sf2);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px)}
+#nb button{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;font-size:10px;font-weight:600;color:var(--mu);position:relative;border-radius:12px;transition:all .2s}
+#nb button i.fa-solid{font-size:19px;transition:transform .2s,color .2s}
+#nb button.on{color:var(--tx)}
+#nb button.on i.fa-solid{color:var(--ac);transform:translateY(-2px) scale(1.15)}
+#nb .bd{position:absolute;top:2px;left:calc(50% + 5px);min-width:16px;height:16px;border-radius:8px;background:var(--rd);color:#fff;font:700 10px/16px var(--b);padding:0 4px;text-align:center}
 
-/* Sayfalar (Reels, Sinema, Oyunlar, DM) */
-.sub-page {
-  position: fixed; inset: 0 0 calc(54px + env(safe-area-inset-bottom)) 0;
-  background: var(--bg); z-index: 20; display: flex; flex-direction: column;
-  animation: pageSlide 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-}
-@keyframes pageSlide { from { opacity: 0; transform: translateY(12px) scale(0.98); } }
-.page-header {
-  padding: 12px 16px; border-bottom: 1px solid var(--ln); background: var(--sf2);
-  display: flex; align-items: center; justify-content: space-between; backdrop-filter: blur(20px);
-}
-.page-body { flex: 1; overflow-y: auto; position: relative; }
+/* Sayfalar (Full-bleed Sub-pages) */
+.pg{position:fixed;inset:0 0 calc(56px + env(safe-area-inset-bottom)) 0;background:var(--bg);z-index:45;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top);animation:pgIn .3s cubic-bezier(0.16,1,0.3,1)}
+@keyframes pgIn{from{opacity:0;transform:translateY(14px) scale(0.98)}}
+.pgh{display:flex;gap:10px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--ln);background:var(--sf2);backdrop-filter:blur(20px);z-index:3}
+.pgh b{font:800 18px var(--h)}.sp{flex:1}.pgb{flex:1;overflow:auto;position:relative}
 
-/* Sinema Sayfası */
-.cinema-canvas { width: 100%; height: 60%; background: #000; position: relative; }
-.cinema-controls {
-  padding: 16px; display: flex; flex-direction: column; gap: 12px; background: var(--sf-card);
-  border-radius: 20px 20px 0 0; margin-top: -16px; border-top: 1px solid var(--ln);
-}
+/* Modallar */
+.modal{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,0.7);display:grid;place-items:center;padding:16px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);animation:fade .2s}
+.modal .setc,.modal .ucard,.modal .dmc,.modal form,.modal .pcard{background:var(--sf-card);border:1px solid var(--ln);border-radius:24px;box-shadow:0 24px 60px rgba(0,0,0,0.6);animation:pop .3s cubic-bezier(.16,1,.3,1)}
+@keyframes pop{from{opacity:0;transform:scale(0.92)}}
+@keyframes fade{from{opacity:0}}
 
-/* Modallar & Paneller */
-.modal {
-  position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.7);
-  display: grid; place-items: center; padding: 16px; backdrop-filter: blur(14px);
-}
-.modal-box {
-  background: var(--sf-card); border: 1px solid var(--ln); border-radius: 24px;
-  width: min(100%, 420px); padding: 22px; display: flex; flex-direction: column; gap: 14px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-}
+/* Liderlik Tablosu & Kartlar */
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:18px;padding:15px;display:flex;flex-direction:column;gap:10px}
+.card h4{font:800 15px var(--h)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+#toasts{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:var(--tx);color:var(--bg);font-weight:700;padding:10px 20px;border-radius:99px;box-shadow:0 10px 30px rgba(0,0,0,0.5);font-size:13.5px;animation:pop .3s}
+
+/* Minecraft & Canvas Konteynerleri */
+.mcv, .gtv{position:fixed;inset:0;z-index:60;background:#000;touch-action:none;user-select:none;-webkit-user-select:none}
+.mcv canvas, .gtv canvas{width:100%;height:100%;display:block}
+.mc-x{position:absolute;top:calc(10px + env(safe-area-inset-top));left:12px;right:12px;display:flex;gap:8px;z-index:65}
+
+/* 10 Slotluk Hotbar */
+.hb10{position:absolute;bottom:calc(12px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);display:flex;gap:4px;padding:5px;background:rgba(0,0,0,0.65);border:1px solid var(--ln);border-radius:14px;backdrop-filter:blur(20px);z-index:70;max-width:96vw;overflow-x:auto}
+.hb10 button{width:42px;height:42px;border:2px solid rgba(255,255,255,0.15);border-radius:10px;background-size:384px 384px;image-rendering:pixelated;transition:all .15s}
+.hb10 button.on{border-color:#fff;box-shadow:0 0 0 2px var(--ac);transform:scale(1.08)}
 
 /* Block Blast Apple Style */
-.bb-grid {
-  display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px;
-  width: min(90vw, 360px); aspect-ratio: 1; background: rgba(255,255,255,0.02);
-  padding: 8px; border-radius: 16px; border: 1px solid var(--ln); margin: 0 auto;
-}
-.bb-cell { border-radius: 6px; background: rgba(255,255,255,0.05); transition: background 0.1s; }
-.bb-dock { display: flex; justify-content: space-around; width: 100%; min-height: 100px; align-items: center; margin-top: 15px; }
+.bb-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;width:min(92vw,360px);aspect-ratio:1;background:rgba(255,255,255,0.03);padding:8px;border-radius:18px;border:1px solid var(--ln);margin:0 auto}
+.bb-cell{border-radius:6px;background:rgba(255,255,255,0.06);transition:background .12s}
+.bb-dock{display:flex;justify-content:space-around;width:100%;min-height:95px;align-items:center;margin-top:12px}
 
-/* Minecraft Hotbar */
-.mc-hotbar {
-  position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
-  display: flex; gap: 4px; padding: 6px; background: rgba(0,0,0,0.65);
-  border: 1px solid rgba(255,255,255,0.15); border-radius: 14px; backdrop-filter: blur(16px);
-  z-index: 50; max-width: 95vw; overflow-x: auto;
-}
-.mc-slot {
-  width: 40px; height: 40px; border-radius: 8px; border: 2px solid transparent;
-  background: rgba(255,255,255,0.08); display: grid; place-items: center; font-size: 11px; font-weight: 700;
-}
-.mc-slot.active { border-color: #fff; background: rgba(255,255,255,0.2); }
-
-#toasts { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 999; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
-.toast { background: var(--tx); color: var(--bg); font-weight: 700; padding: 10px 18px; border-radius: 99px; font-size: 13.5px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); animation: toastIn 0.3s cubic-bezier(0.16,1,0.3,1); }
-@keyframes toastIn { from { opacity: 0; transform: translateY(-16px); } }
+/* Sinema Alanı */
+.cn-screen{width:100%;height:58%;background:#000;position:relative}
+.cn-controls{padding:14px 18px;background:var(--sf-card);border-top:1px solid var(--ln);display:flex;flex-direction:column;gap:10px}
 </style>
 </head>
 <body>
 
-<div class="ambient">
-  <div class="ambient-glow glow-1"></div>
-  <div class="ambient-glow glow-2"></div>
-</div>
-
-<div id="toasts"></div>
-
-<!-- Üst Bar -->
-<header class="header-top">
-  <div class="brand-box">
-    <span class="brand-dot"></span>
-    <div>
-      <h1 id="appTitle">Anonim Chat</h1>
-      <p id="appSubtitle">Özgürce ve güvenli konuş</p>
-    </div>
-  </div>
-  <div style="display:flex; gap:8px;">
-    <button class="ib sm" id="btnAdmin" title="Yönetici"><i class="fa-solid fa-shield-halved"></i></button>
-  </div>
+<header class="top">
+ <div class="brand">
+   <span id="dot" class="dot off"></span>
+   <div><h1 id="tTitle">Anonim Chat</h1></div>
+ </div>
+ <div class="acts">
+   <span id="onP" class="pill" hidden></span>
+   <button id="me" class="pill" title="Profilim"></button>
+   <button id="adm" class="btn sm"><i class="fa-solid fa-shield-halved"></i><span id="admT">Giriş</span></button>
+ </div>
 </header>
 
-<!-- Ana Sohbet Alanı -->
-<main class="chat-container">
-  <div class="stream" id="chatStream"></div>
-  
-  <form class="composer-wrap" id="chatForm">
-    <input type="text" id="msgInput" placeholder="Bir mesaj yazın…" maxlength="300" autocomplete="off">
-    <button type="submit" class="btn pri sm" style="width:42px;height:42px;border-radius:50%;padding:0;"><i class="fa-solid fa-arrow-up"></i></button>
-  </form>
-</main>
+<div class="wrap">
+ <main id="stream" class="stream">
+   <div id="empty" class="empty"><b>Sessiz.</b>İlk mesajı siz yazın.</div>
+ </main>
+</div>
 
-<!-- Alt Instagram Tarzı Gezinme Çubuğu -->
-<nav class="bottom-nav">
-  <button class="nav-tab active" data-tab="chat"><i class="fa-solid fa-comment-dots"></i>Sohbet</button>
-  <button class="nav-tab" data-tab="cinema"><i class="fa-solid fa-film"></i>Sinema</button>
-  <button class="nav-tab" data-tab="games"><i class="fa-solid fa-gamepad"></i>Oyunlar</button>
-  <button class="nav-tab" data-tab="dm"><i class="fa-solid fa-paper-plane"></i>Mesajlar</button>
-  <button class="nav-tab" data-tab="profile"><i class="fa-solid fa-user"></i>Profil</button>
+<form id="form" class="comp" autocomplete="off">
+ <input id="msg" maxlength="300" placeholder="Bir şey yazın…" autocomplete="off">
+ <button class="btn pri sm" id="sendB" style="width:42px;height:42px;border-radius:50%;padding:0;" aria-label="Gönder"><i class="fa-solid fa-arrow-up"></i></button>
+</form>
+
+<!-- Instagram Tarzı Alt Bar -->
+<nav id="nb">
+ <button data-tab="chat" class="on"><i class="fa-solid fa-comments"></i>Sohbet</button>
+ <button data-tab="reels"><i class="fa-solid fa-film"></i>Reels</button>
+ <button data-tab="cinema" id="nbCn"><i class="fa-solid fa-couch"></i>Sinema</button>
+ <button data-tab="games"><i class="fa-solid fa-gamepad"></i>Oyunlar</button>
+ <button data-tab="dm"><i class="fa-solid fa-paper-plane"></i>Mesajlar<b class="bd" id="nbD" hidden></b></button>
+ <button data-tab="menu"><i class="fa-solid fa-bars"></i>Menü<b class="bd" id="nbM" hidden></b></button>
 </nav>
 
-<!-- SİNEMA EKRANI -->
-<section class="sub-page" id="pageCinema" hidden>
-  <div class="page-header">
-    <b>🍿 Canlı Sinema</b>
-    <button class="ib sm" onclick="switchTab('chat')"><i class="fa-solid fa-xmark"></i></button>
-  </div>
-  <div class="cinema-canvas" id="cinemaScreen">
-    <div id="ytPlayerBox" style="width:100%;height:100%;"></div>
-  </div>
-  <div class="cinema-controls">
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-      <span id="cinemaStatus" style="font-size:12px;color:var(--mu);">Senkronize ediliyor...</span>
-      <div style="display:flex; gap:6px;">
-        <button class="btn sm" id="cnSyncBtn"><i class="fa-solid fa-arrows-rotate"></i> Yenile</button>
-      </div>
-    </div>
-    <div style="display:flex; gap:8px;">
-      <input type="text" id="cinemaUrlIn" placeholder="YouTube Video Linki" style="flex:1;">
-      <button class="btn pri sm" id="cinemaPlayBtn">Oynat</button>
-    </div>
-  </div>
+<!-- SİNEMA SAYFASI -->
+<section class="pg" id="pg-cinema" hidden>
+ <div class="pgh"><button class="ib sm" data-back><i class="fa-solid fa-arrow-left"></i></button><b>🍿 3D Sinema Salonu</b><span class="sp"></span></div>
+ <div class="cn-screen" id="cnScreen">
+   <div id="ytBox" style="width:100%;height:100%;"></div>
+ </div>
+ <div class="cn-controls">
+   <div style="display:flex;justify-content:space-between;align-items:center;">
+     <span style="font-size:12px;color:var(--mu);" id="cnInfo">Durum: Bekleniyor</span>
+     <button class="btn sm" id="cnSync"><i class="fa-solid fa-arrows-rotate"></i> Senkronize Et</button>
+   </div>
+   <div style="display:flex;gap:8px;">
+     <input id="cnUrl" placeholder="YouTube Video Linki Yapıştır" style="flex:1;">
+     <button class="btn pri sm" id="cnPlay">Oynat</button>
+   </div>
+ </div>
 </section>
 
-<!-- OYUNLAR EKRANI (Minecraft & Block Blast) -->
-<section class="sub-page" id="pageGames" hidden>
-  <div class="page-header">
-    <b>🎮 Mini Oyunlar</b>
-    <button class="ib sm" onclick="switchTab('chat')"><i class="fa-solid fa-xmark"></i></button>
-  </div>
-  <div class="page-body" style="padding:16px; display:flex; flex-direction:column; gap:14px;">
-    <div class="btn" style="padding:16px; display:flex; gap:14px; text-align:left;" onclick="openBlockBlast()">
-      <i class="fa-solid fa-cubes" style="font-size:32px;color:var(--ac);"></i>
-      <div>
-        <b style="font-size:16px;display:block;">Block Blast</b>
-        <small style="color:var(--mu);">Canlı online liderlik tablosu ile yarışın.</small>
-      </div>
-    </div>
-    <div class="btn" style="padding:16px; display:flex; gap:14px; text-align:left;" onclick="startMinecraft()">
-      <i class="fa-solid fa-cube" style="font-size:32px;color:#10b981;"></i>
-      <div>
-        <b style="font-size:16px;display:block;">Minecraft 3D (Optimize)</b>
-        <small style="color:var(--mu);">Görüş alanı optimizasyonlu, 10 slotlu 3D dünya.</small>
-      </div>
-    </div>
-  </div>
+<!-- OYUNLAR MENÜSÜ -->
+<section class="pg" id="pg-games" hidden>
+ <div class="pgh"><button class="ib sm" data-back><i class="fa-solid fa-arrow-left"></i></button><b>🎮 Oyunlar</b></div>
+ <div class="pgb" style="padding:16px;display:flex;flex-direction:column;gap:12px;">
+   <div class="card" style="cursor:pointer;" id="cardBB">
+     <h4>🧱 Block Blast</h4>
+     <p class="small">Online liderlik tablosu ile anlık yarışın. Buglar giderildi.</p>
+   </div>
+   <div class="card" style="cursor:pointer;" id="cardMC">
+     <h4>⛏️ Minecraft 3D (Optimize & 10 Slot)</h4>
+     <p class="small">Frustum culling optimizasyonu, 40+ gerçek blok texture'ı ve sıfır donma.</p>
+   </div>
+   <div class="card" style="cursor:pointer;" id="cardGTA">
+     <h4>🌴 Vice City 3D</h4>
+     <p class="small">Açık dünya şehir haritası, araba sürüş fiziği ve online oyuncular.</p>
+   </div>
+ </div>
 </section>
 
 <!-- BLOCK BLAST POPUP -->
-<div class="modal" id="modalBlockBlast" hidden>
-  <div class="modal-box" style="width:min(100%, 400px);">
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-      <b>🧱 Block Blast</b>
-      <button class="ib sm" onclick="$('#modalBlockBlast').hidden=true"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-    <div style="display:flex; justify-content:space-between; font-weight:700;">
-      <span>Skor: <span id="bbScore">0</span></span>
-      <span>En Yüksek: <span id="bbBest">0</span></span>
-    </div>
-    <div class="bb-grid" id="bbBoard"></div>
-    <div class="bb-dock" id="bbPieces"></div>
-    <div style="margin-top:10px; font-size:12px; color:var(--mu);">
-      <b>🏆 Canlı Sıralama:</b>
-      <div id="bbLeaderboard" style="margin-top:4px;">Yükleniyor...</div>
-    </div>
-  </div>
+<div class="modal" id="modalBB" hidden>
+ <div class="setc" style="padding:18px;max-width:400px;width:100%;">
+   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+     <b style="font-size:16px;">Block Blast Online</b>
+     <button class="ib sm" data-x><i class="fa-solid fa-xmark"></i></button>
+   </div>
+   <div style="display:flex;justify-content:space-between;font-weight:700;margin-bottom:8px;">
+     <span>Skor: <span id="bbScore">0</span></span>
+     <span>En Yüksek: <span id="bbBest">0</span></span>
+   </div>
+   <div class="bb-grid" id="bbBoard"></div>
+   <div class="bb-dock" id="bbPieces"></div>
+   <div style="margin-top:12px;font-size:12px;">
+     <b>🏆 Anlık Liderlik Sıralaması:</b>
+     <div id="bbLeaderboard" style="margin-top:4px;color:var(--mu);">Yükleniyor...</div>
+   </div>
+ </div>
 </div>
 
-<!-- DM EKRANI -->
-<section class="sub-page" id="pageDM" hidden>
-  <div class="page-header">
-    <b>💬 Özel Mesajlar</b>
-    <button class="ib sm" onclick="switchTab('chat')"><i class="fa-solid fa-xmark"></i></button>
-  </div>
-  <div class="page-body" style="display:flex; flex-direction:column;">
-    <div id="dmChatList" style="flex:1; overflow-y:auto; padding:12px;"></div>
-    <div id="dmActiveChat" style="display:none; flex-direction:column; height:100%;">
-      <div style="padding:10px; border-bottom:1px solid var(--ln); display:flex; align-items:center; gap:8px;">
-        <button class="ib sm" onclick="closeDmChat()"><i class="fa-solid fa-arrow-left"></i></button>
-        <b id="dmTargetName">Kullanıcı</b>
-      </div>
-      <div class="stream" id="dmMessages" style="flex:1;"></div>
-      <form class="composer-wrap" id="dmForm">
-        <input type="text" id="dmInput" placeholder="Mesaj gönder..." autocomplete="off">
-        <button type="submit" class="btn pri sm"><i class="fa-solid fa-paper-plane"></i></button>
-      </form>
-    </div>
-  </div>
+<!-- DM SAYFASI -->
+<section class="pg" id="pg-dm" hidden>
+ <div class="pgh"><button class="ib sm" data-back><i class="fa-solid fa-arrow-left"></i></button><b>💬 Özel Mesajlar</b></div>
+ <div class="pgb" style="display:flex;flex-direction:column;">
+   <div id="dmUserList" style="flex:1;overflow-y:auto;padding:12px;"></div>
+   <div id="dmChatArea" style="display:none;flex-direction:column;height:100%;">
+     <div style="padding:10px 14px;border-bottom:1px solid var(--ln);display:flex;align-items:center;gap:10px;">
+       <button class="ib sm" id="dmChatBack"><i class="fa-solid fa-arrow-left"></i></button>
+       <b id="dmTargetName">Sohbet</b>
+     </div>
+     <div class="stream" id="dmMessages" style="flex:1;"></div>
+     <form class="comp" id="dmForm">
+       <input id="dmInput" placeholder="Mesaj gönder…" autocomplete="off">
+       <button class="btn pri sm" style="width:40px;height:40px;border-radius:50%;padding:0;"><i class="fa-solid fa-arrow-up"></i></button>
+     </form>
+   </div>
+ </div>
 </section>
 
-<!-- ŞİFRE & ADMIN GİRİŞİ -->
-<div class="modal" id="modalLogin" hidden>
-  <div class="modal-box">
-    <b>Yönetici Girişi</b>
-    <p style="font-size:12px;color:var(--mu);">Şifre doğrudan sifte.txt üzerinden doğrulanır.</p>
-    <input type="password" id="adminPassInput" placeholder="Yönetici Şifresi">
-    <div style="display:flex; gap:8px; justify-content:flex-end;">
-      <button class="btn sm" onclick="$('#modalLogin').hidden=true">İptal</button>
-      <button class="btn pri sm" id="btnAdminLogin">Giriş Yap</button>
-    </div>
-  </div>
+<!-- MINECRAFT CANVAS ALANI -->
+<div class="mcv" id="mcWrap" hidden>
+ <canvas id="mcCanvas"></canvas>
+ <div class="mc-x">
+   <button class="btn sm red" id="mcExit"><i class="fa-solid fa-arrow-left"></i> Çık</button>
+   <button class="btn sm" id="mcInvBtn"><i class="fa-solid fa-box-open"></i> Envanter (E)</button>
+   <span class="pill" id="mcPlayerCount">1 Oyuncu</span>
+ </div>
+ <div class="hb10" id="mcHotbar"></div>
+ <!-- Envanter Menüsü -->
+ <div class="modal" id="mcInvModal" hidden>
+   <div class="setc" style="max-width:540px;width:100%;max-height:80dvh;padding:16px;">
+     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+       <b>Blok Envanteri</b>
+       <button class="ib sm" id="mcInvClose"><i class="fa-solid fa-xmark"></i></button>
+     </div>
+     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(42px,1fr));gap:6px;overflow-y:auto;max-height:55vh;" id="mcInvGrid"></div>
+   </div>
+ </div>
 </div>
 
-<!-- MINECRAFT CANVAS & OVERLAY -->
-<div id="mcContainer" style="display:none; position:fixed; inset:0; z-index:200; background:#000;">
-  <canvas id="mcCanvas" style="width:100%; height:100%;"></canvas>
-  <button class="btn sm red" onclick="stopMinecraft()" style="position:absolute; top:16px; left:16px; z-index:210;"><i class="fa-solid fa-arrow-left"></i> Çık</button>
-  <div class="mc-hotbar" id="mcHotbar"></div>
+<!-- VICE CITY CANVAS ALANI -->
+<div class="gtv" id="gtWrap" hidden>
+ <canvas id="gtCanvas"></canvas>
+ <div class="mc-x">
+   <button class="btn sm red" id="gtExit"><i class="fa-solid fa-arrow-left"></i> Çık</button>
+   <span class="pill" id="gtSpeed">0 km/s</span>
+ </div>
 </div>
+
+<!-- YÖNETİCİ GİRİŞİ MODALI -->
+<div class="modal" id="mLogin" hidden>
+ <form id="fLogin" class="setc" style="padding:22px;max-width:360px;width:100%;">
+   <h3 style="font:800 18px var(--h)">Yönetici Girişi</h3>
+   <p class="small" style="color:var(--mu);">Şifre doğrudan sunucudaki sifte.txt dosyasından doğrulanır.</p>
+   <input id="pw" type="password" placeholder="Şifre" autocomplete="current-password">
+   <div style="display:flex;gap:8px;justify-content:flex-end;">
+     <button type="button" class="btn sm" data-x>Vazgeç</button>
+     <button class="btn pri sm">Giriş Yap</button>
+   </div>
+ </form>
+</div>
+
+<!-- TOASTS -->
+<div id="toasts"></div>
 
 <script>
-const $ = s => document.querySelector(s);
-const $$ = s => [...document.querySelectorAll(s)];
+/* ==========================================================================
+   GENEL DEĞİŞKENLER & ŞİFRENİN SIFTE.TXT'DEN OKUNMASI
+========================================================================== */
+let ADMIN_PASSWORD = '';
+const adminPasswordReady = fetch('./sifte.txt', {cache: 'no-store'})
+  .then(r => { if(!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+  .then(t => { ADMIN_PASSWORD = t.trim(); return true; })
+  .catch(e => { console.warn('sifte.txt yüklenemedi:', e); return false; });
+
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
 const esc = t => String(t ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-
-let ADMIN_PASSWORD = null;
-fetch('./sifte.txt', { cache: 'no-store' })
-  .then(res => {
-    if (!res.ok) throw new Error("sifte.txt bulunamadı");
-    return res.text();
-  })
-  .then(txt => { ADMIN_PASSWORD = txt.trim(); })
-  .catch(err => { console.warn("sifte.txt okunamadı:", err); });
-
-function toast(msg) {
-  const t = document.createElement('div');
-  t.className = 'toast';
-  t.textContent = msg;
-  $('#toasts').appendChild(t);
-  setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 2500);
-}
+const pad = n => String(n).padStart(2, '0');
+let off = 0; const now = () => Date.now() + off;
 
 const me = {
-  uid: localStorage.c_uid || (localStorage.c_uid = 'u_' + Math.random().toString(36).slice(2, 9)),
-  name: localStorage.c_name || ('Kullanıcı #' + Math.floor(1000 + Math.random() * 9000)),
+  uid: localStorage.c_uid || (localStorage.c_uid = 'u' + Math.random().toString(36).slice(2, 10)),
+  name: localStorage.c_name || ('Anonim #' + Math.floor(1000 + Math.random() * 9000)),
   role: 'user'
 };
 localStorage.c_name = me.name;
 
-const hue = s => {
-  let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 360;
-  return h;
-};
+let users = {}, pres = {}, msgs = {};
+const F = () => window.FB, R = p => F().ref(F().db, p);
 
-/* Firebase Senkronizasyonu */
-function initFirebase() {
-  const F = window.FB;
-  if (!F) return setTimeout(initFirebase, 200);
-
-  const db = F.db;
-  const msgsRef = F.ref(db, 'messages');
-  const userRef = F.ref(db, 'users/' + me.uid);
-
-  // Rol kontrolü
-  F.onValue(userRef, snap => {
-    const data = snap.val();
-    if (data && data.role) me.role = data.role;
-  });
-
-  // Sohbet akışı
-  F.onChildAdded(F.query(msgsRef, F.limitToLast(50)), snap => {
-    renderMessage(snap.val(), snap.key);
-  });
-
-  // Block Blast Liderlik Tablosu
-  F.onValue(F.ref(db, 'leaderboards/blockblast'), snap => {
-    const data = snap.val() || {};
-    const arr = Object.values(data).sort((a,b) => b.score - a.score).slice(0, 5);
-    $('#bbLeaderboard').innerHTML = arr.map((item, idx) => 
-      `<div style="display:flex; justify-content:space-between; padding:3px 0;">
-        <span>${idx+1}. ${esc(item.name)}</span>
-        <b>${item.score}</b>
-      </div>`
-    ).join('') || 'Henüz kayıt yok';
-  });
+function toast(t){
+  const e = document.createElement('div');
+  e.className = 'toast';
+  e.textContent = t;
+  $('#toasts').append(e);
+  setTimeout(() => { e.style.opacity = '0'; setTimeout(() => e.remove(), 300); }, 2500);
 }
-initFirebase();
 
-/* Mesaj Gönderme */
-$('#chatForm').onsubmit = e => {
-  e.preventDefault();
-  const inp = $('#msgInput');
-  const txt = inp.value.trim();
-  if (!txt) return;
+function hue(s){
+  let h = 0; for(let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 360;
+  return h;
+}
 
-  const F = window.FB;
-  if (!F) return;
+function paintMe(){
+  const b = $('#me');
+  b.innerHTML = (me.role === 'admin' ? '<i class="fa-solid fa-crown" style="color:var(--gold1)"></i> ' : me.role === 'mod' ? '<i class="fa-solid fa-shield" style="color:var(--silver2)"></i> ' : '') + esc(me.name);
+  $('#admT').textContent = me.role === 'admin' ? 'Yönetici' : me.role === 'mod' ? 'Mod' : 'Giriş';
+}
 
-  F.push(F.ref(F.db, 'messages'), {
-    uid: me.uid,
-    name: me.name,
-    role: me.role,
-    text: txt,
-    ts: Date.now()
+/* ==========================================================================
+   FIREBASE ÇEKİRDEK AKIŞI & SOHBET
+========================================================================== */
+function start(){
+  const f = F();
+  f.onValue(R('.info/serverTimeOffset'), s => off = s.val() || 0);
+  f.onValue(R('.info/connected'), s => {
+    const on = !!s.val();
+    $('#dot').classList.toggle('off', !on);
+    if(on){
+      f.onDisconnect(R('presence/' + me.uid)).remove();
+      f.set(R('presence/' + me.uid), {name: me.name, role: me.role, t: now()});
+    }
   });
 
-  inp.value = '';
-};
+  f.onValue(R('users/' + me.uid), s => {
+    const r = s.val();
+    if(r && r.role) me.role = r.role;
+    paintMe();
+  });
 
-function renderMessage(m, id) {
-  if (!m || !m.text) return;
+  f.onValue(R('presence'), s => { pres = s.val() || {}; });
+
+  const q = f.query(R('messages'), f.orderByKey(), f.limitToLast(60));
+  f.onChildAdded(q, s => addMsg(s.key, s.val()));
+}
+
+if(window.FB) start(); else addEventListener('fb', start);
+
+function addMsg(k, m){
+  if(!m || msgs[k]) return;
+  msgs[k] = m;
+  $('#empty').style.display = 'none';
+
   const isMe = m.uid === me.uid;
   const roleClass = m.role === 'admin' ? 'adm' : m.role === 'mod' ? 'mdr' : '';
-  const d = new Date(m.ts || Date.now());
-  const time = d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0');
-
+  const d = new Date(m.ts || now());
   const el = document.createElement('div');
   el.className = `m ${isMe ? 'me' : ''} ${roleClass}`;
+  el.dataset.k = k;
   el.innerHTML = `
-    <div class="av" style="--c: hsl(${hue(m.uid)}, 65%, 45%)">${esc(m.name[0].toUpperCase())}</div>
+    <div class="av" style="--c:hsl(${hue(m.uid)} 65% 45%)">${esc(m.name[0].toUpperCase())}</div>
     <div class="mb">
       <div class="mh">
         <b>${esc(m.name)}</b>
-        ${m.role === 'admin' ? '<span class="tag" style="background:#ffd700;color:#000;font-size:10px;padding:1px 6px;border-radius:6px;font-weight:800;">ADMIN</span>' : ''}
-        ${m.role === 'mod' ? '<span class="tag" style="background:#cbd5e1;color:#0f172a;font-size:10px;padding:1px 6px;border-radius:6px;font-weight:800;">MOD</span>' : ''}
-        <time>${time}</time>
+        ${m.role === 'admin' ? '<span class="tag" style="background:#ffd700;color:#000;">ADMIN</span>' : ''}
+        ${m.role === 'mod' ? '<span class="tag" style="background:#cbd5e1;color:#000;">MOD</span>' : ''}
+        <time>${pad(d.getHours())}:${pad(d.getMinutes())}</time>
       </div>
       <div class="bub">${esc(m.text)}</div>
     </div>
   `;
-  $('#chatStream').appendChild(el);
-  $('#chatStream').scrollTop = $('#chatStream').scrollHeight;
+  $('#stream').append(el);
+  $('#stream').scrollTop = $('#stream').scrollHeight;
 }
 
-/* Sekme Değiştirici */
-$$('.nav-tab').forEach(tab => {
-  tab.onclick = () => switchTab(tab.dataset.tab);
+$('#form').onsubmit = e => {
+  e.preventDefault();
+  const inp = $('#msg'), t = inp.value.trim();
+  if(!t || !window.FB) return;
+  inp.value = '';
+  F().push(R('messages'), {
+    uid: me.uid,
+    name: me.name,
+    role: me.role,
+    text: t,
+    ts: now()
+  });
+};
+
+/* ==========================================================================
+   YÖNETİCİ GİRİŞİ (SIFTE.TXT DOĞRULAMASI)
+========================================================================== */
+$('#adm').onclick = () => {
+  if(me.role === 'admin') { toast('Zaten yöneticisiniz.'); return; }
+  $('#mLogin').hidden = false;
+};
+
+$('#fLogin').onsubmit = async e => {
+  e.preventDefault();
+  await adminPasswordReady;
+  const val = $('#pw').value.trim();
+  if(!ADMIN_PASSWORD){ toast('sifte.txt okunamadı!'); return; }
+  if(val === ADMIN_PASSWORD){
+    me.role = 'admin';
+    F().update(R('users/' + me.uid), {role: 'admin', name: me.name});
+    toast('Yönetici girişi başarılı!');
+    $('#mLogin').hidden = true;
+    paintMe();
+  } else {
+    toast('Şifre hatalı!');
+  }
+};
+
+$$('[data-x]').forEach(b => b.onclick = () => b.closest('.modal').hidden = true);
+$$('[data-back]').forEach(b => b.onclick = () => switchTab('chat'));
+
+/* ==========================================================================
+   INSTAGRAM TARZI ALT MENÜ GEZİNTİSİ
+========================================================================== */
+$$('#nb button').forEach(b => {
+  b.onclick = () => switchTab(b.dataset.tab);
 });
 
-function switchTab(name) {
-  $$('.nav-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
-  $$('.sub-page').forEach(p => p.hidden = true);
-
-  if (name === 'cinema') $('#pageCinema').hidden = false;
-  if (name === 'games') $('#pageGames').hidden = false;
-  if (name === 'dm') { $('#pageDM').hidden = false; loadDmList(); }
+function switchTab(tab){
+  $$('#nb button').forEach(x => x.classList.toggle('on', x.dataset.tab === tab));
+  $$('.pg').forEach(p => p.hidden = true);
+  if(tab === 'cinema') { $('#pg-cinema').hidden = false; }
+  else if(tab === 'games') { $('#pg-games').hidden = false; }
+  else if(tab === 'dm') { $('#pg-dm').hidden = false; loadDmUsers(); }
 }
 
-/* -------------------------------------------------------------
-   ADMIN GİRİŞİ (sifte.txt Dosyası ile)
-------------------------------------------------------------- */
-$('#btnAdmin').onclick = () => {
-  if (me.role === 'admin') {
-    toast("Zaten yöneticisiniz.");
-    return;
-  }
-  $('#modalLogin').hidden = false;
-};
+/* ==========================================================================
+   DM (ÖZEL MESAJLAR - ANINDA GÖRÜNTÜLEME VE ÇİFT TARAFLI SENKRONİZASYON)
+========================================================================== */
+let activeDmUid = null;
+const dmKey = (a, b) => a < b ? a + '_' + b : b + '_' + a;
 
-$('#btnAdminLogin').onclick = () => {
-  const pass = $('#adminPassInput').value.trim();
-  if (!ADMIN_PASSWORD) {
-    toast("Şifre dosyası (sifte.txt) henüz yüklenemedi!");
-    return;
-  }
-  if (pass === ADMIN_PASSWORD) {
-    me.role = 'admin';
-    const F = window.FB;
-    if (F) F.update(F.ref(F.db, 'users/' + me.uid), { role: 'admin' });
-    toast("Yönetici yetkisi aktif edildi!");
-    $('#modalLogin').hidden = true;
-  } else {
-    toast("Hatalı şifre!");
-  }
-};
-
-/* -------------------------------------------------------------
-   BLOCK BLAST (Tamamen Düzeltilmiş Algoritma)
-------------------------------------------------------------- */
-let bbBoard = Array(8).fill(null).map(() => Array(8).fill(0));
-let bbScore = 0;
-let bbBest = +localStorage.getItem('bb_best') || 0;
-$('#bbBest').textContent = bbBest;
-
-function openBlockBlast() {
-  $('#modalBlockBlast').hidden = false;
-  initBlockBlastBoard();
-  spawnPieces();
-}
-
-function initBlockBlastBoard() {
-  const container = $('#bbBoard');
-  container.innerHTML = '';
-  for (let r = 0; r < 8; r++) {
-    for (let c = 0; c < 8; c++) {
-      const cell = document.createElement('div');
-      cell.className = 'bb-cell';
-      cell.dataset.r = r;
-      cell.dataset.c = c;
-      container.appendChild(cell);
-    }
-  }
-}
-
-const PIECES = [
-  [[1]],
-  [[1,1]],
-  [[1],[1]],
-  [[1,1],[1,1]],
-  [[1,1,1]],
-  [[1],[1],[1]],
-  [[1,0],[1,1]],
-  [[0,1],[1,1]]
-];
-
-function spawnPieces() {
-  const dock = $('#bbPieces');
-  dock.innerHTML = '';
-  for (let i = 0; i < 3; i++) {
-    const shape = PIECES[Math.floor(Math.random() * PIECES.length)];
-    const p = document.createElement('div');
-    p.style.display = 'grid';
-    p.style.gridTemplateColumns = `repeat(${shape[0].length}, 18px)`;
-    p.style.gap = '2px';
-    p.style.cursor = 'pointer';
-
-    shape.forEach((row, r) => {
-      row.forEach((val, c) => {
-        const d = document.createElement('div');
-        d.style.width = '18px';
-        d.style.height = '18px';
-        d.style.borderRadius = '4px';
-        d.style.background = val ? '#6366f1' : 'transparent';
-        p.appendChild(d);
-      });
-    });
-
-    p.onclick = () => tryPlacePiece(shape, p);
-    dock.appendChild(p);
-  }
-}
-
-function tryPlacePiece(shape, pieceEl) {
-  // İlk uygun noktaya yerleştir
-  for (let r = 0; r <= 8 - shape.length; r++) {
-    for (let c = 0; c <= 8 - shape[0].length; c++) {
-      if (canPlace(shape, r, c)) {
-        placeShape(shape, r, c);
-        pieceEl.remove();
-        checkClears();
-        if ($('#bbPieces').children.length === 0) spawnPieces();
-        return;
-      }
-    }
-  }
-  toast("Bu parça için uygun yer yok!");
-}
-
-function canPlace(shape, r, c) {
-  for (let i = 0; i < shape.length; i++) {
-    for (let j = 0; j < shape[0].length; j++) {
-      if (shape[i][j] && bbBoard[r + i][c + j]) return false;
-    }
-  }
-  return true;
-}
-
-function placeShape(shape, r, c) {
-  for (let i = 0; i < shape.length; i++) {
-    for (let j = 0; j < shape[0].length; j++) {
-      if (shape[i][j]) {
-        bbBoard[r + i][c + j] = 1;
-        const cell = $(`[data-r="${r+i}"][data-c="${c+j}"]`);
-        if (cell) cell.style.background = '#6366f1';
-      }
-    }
-  }
-  bbScore += 10;
-  updateScore();
-}
-
-function checkClears() {
-  let rowsToClear = [];
-  let colsToClear = [];
-
-  for (let r = 0; r < 8; r++) {
-    if (bbBoard[r].every(v => v === 1)) rowsToClear.push(r);
-  }
-  for (let c = 0; c < 8; c++) {
-    let full = true;
-    for (let r = 0; r < 8; r++) {
-      if (bbBoard[r][c] === 0) { full = false; break; }
-    }
-    if (full) colsToClear.push(c);
-  }
-
-  rowsToClear.forEach(r => {
-    for (let c = 0; c < 8; c++) {
-      bbBoard[r][c] = 0;
-      const cell = $(`[data-r="${r}"][data-c="${c}"]`);
-      if (cell) cell.style.background = 'rgba(255,255,255,0.05)';
-    }
-  });
-
-  colsToClear.forEach(c => {
-    for (let r = 0; r < 8; r++) {
-      bbBoard[r][c] = 0;
-      const cell = $(`[data-r="${r}"][data-c="${c}"]`);
-      if (cell) cell.style.background = 'rgba(255,255,255,0.05)';
-    }
-  });
-
-  const totalCleared = rowsToClear.length + colsToClear.length;
-  if (totalCleared > 0) {
-    bbScore += totalCleared * 100;
-    updateScore();
-  }
-}
-
-function updateScore() {
-  $('#bbScore').textContent = bbScore;
-  if (bbScore > bbBest) {
-    bbBest = bbScore;
-    localStorage.setItem('bb_best', bbBest);
-    $('#bbBest').textContent = bbBest;
-
-    const F = window.FB;
-    if (F) {
-      F.set(F.ref(F.db, 'leaderboards/blockblast/' + me.uid), {
-        name: me.name,
-        score: bbBest
-      });
-    }
-  }
-}
-
-/* -------------------------------------------------------------
-   DM (Özel Mesajlar - Görünmeme Hatası Çözüldü)
-------------------------------------------------------------- */
-let activeDmTarget = null;
-
-function loadDmList() {
-  const container = $('#dmChatList');
-  container.innerHTML = '<p style="color:var(--mu);text-align:center;">Sohbetler yükleniyor...</p>';
-
-  const F = window.FB;
-  if (!F) return;
-
-  F.onValue(F.ref(F.db, 'users'), snap => {
-    const users = snap.val() || {};
-    container.innerHTML = '';
-    Object.keys(users).forEach(uid => {
-      if (uid === me.uid) return;
-      const u = users[uid];
-      const item = document.createElement('div');
-      item.className = 'btn';
-      item.style.cssText = 'width:100%; justify-content:flex-start; margin-bottom:8px; padding:12px;';
-      item.innerHTML = `
-        <div class="av" style="--c: hsl(${hue(uid)}, 65%, 45%)">${esc((u.name || 'A')[0])}</div>
-        <div style="text-align:left;">
-          <b>${esc(u.name || 'İsimsiz')}</b>
-          <div style="font-size:11px;color:var(--mu);">Sohbeti başlatmak için dokun</div>
-        </div>
-      `;
-      item.onclick = () => openDmChat(uid, u.name || 'İsimsiz');
-      container.appendChild(item);
+function loadDmUsers(){
+  const box = $('#dmUserList');
+  box.innerHTML = '<div class="small" style="text-align:center;padding:12px;">Kullanıcılar yükleniyor...</div>';
+  F().onValue(R('presence'), s => {
+    const list = s.val() || {};
+    box.innerHTML = '';
+    Object.keys(list).forEach(u => {
+      if(u === me.uid) return;
+      const d = list[u];
+      const el = document.createElement('div');
+      el.className = 'btn';
+      el.style.cssText = 'width:100%;justify-content:flex-start;margin-bottom:8px;padding:10px 14px;';
+      el.innerHTML = `<div class="av" style="--c:hsl(${hue(u)} 65% 45%)">${esc((d.name||'A')[0])}</div><b>${esc(d.name || 'Anonim')}</b>`;
+      el.onclick = () => openDmChat(u, d.name || 'Anonim');
+      box.appendChild(el);
     });
   });
 }
 
-function openDmChat(targetUid, targetName) {
-  activeDmTarget = targetUid;
-  $('#dmTargetName').textContent = targetName;
-  $('#dmChatList').style.display = 'none';
-  $('#dmActiveChat').style.display = 'flex';
+function openDmChat(uid, uname){
+  activeDmUid = uid;
+  $('#dmTargetName').textContent = uname;
+  $('#dmUserList').style.display = 'none';
+  $('#dmChatArea').style.display = 'flex';
   $('#dmMessages').innerHTML = '';
 
-  const F = window.FB;
-  if (!F) return;
-
-  const chatId = [me.uid, targetUid].sort().join('_');
-  const chatRef = F.ref(F.db, 'direct_messages/' + chatId);
-
-  F.off(chatRef);
-  F.onChildAdded(chatRef, snap => {
-    const msg = snap.val();
-    const isMe = msg.sender === me.uid;
+  const k = dmKey(me.uid, uid);
+  const q = F().query(R('direct_messages/' + k), F().limitToLast(50));
+  F().off(q);
+  F().onChildAdded(q, s => {
+    const m = s.val();
+    const isMe = m.from === me.uid;
     const el = document.createElement('div');
     el.className = `m ${isMe ? 'me' : ''}`;
-    el.innerHTML = `<div class="bub">${esc(msg.text)}</div>`;
+    el.innerHTML = `<div class="bub">${esc(m.text)}</div>`;
     $('#dmMessages').appendChild(el);
     $('#dmMessages').scrollTop = $('#dmMessages').scrollHeight;
   });
 }
 
-function closeDmChat() {
-  $('#dmActiveChat').style.display = 'none';
-  $('#dmChatList').style.display = 'block';
-  activeDmTarget = null;
-}
+$('#dmChatBack').onclick = () => {
+  $('#dmChatArea').style.display = 'none';
+  $('#dmUserList').style.display = 'block';
+  activeDmUid = null;
+};
 
 $('#dmForm').onsubmit = e => {
   e.preventDefault();
-  if (!activeDmTarget) return;
-  const inp = $('#dmInput');
-  const txt = inp.value.trim();
-  if (!txt) return;
-
-  const F = window.FB;
-  if (!F) return;
-
-  const chatId = [me.uid, activeDmTarget].sort().join('_');
-  F.push(F.ref(F.db, 'direct_messages/' + chatId), {
-    sender: me.uid,
-    text: txt,
-    ts: Date.now()
-  });
-
+  if(!activeDmUid) return;
+  const inp = $('#dmInput'), t = inp.value.trim();
+  if(!t) return;
   inp.value = '';
+
+  const k = dmKey(me.uid, activeDmUid);
+  F().push(R('direct_messages/' + k), {
+    from: me.uid,
+    to: activeDmUid,
+    text: t,
+    ts: now()
+  });
 };
 
-/* -------------------------------------------------------------
-   MINECRAFT (Kasmayan / Frustum Culling / 10 Slot)
-------------------------------------------------------------- */
-let mcRunning = false;
-let mcRenderer, mcScene, mcCamera;
-let mcBlocks = [];
+/* ==========================================================================
+   BLOCK BLAST ONLINE (HATALARDAN ARINDIRILMIŞ & CANLI SIRALAMA)
+========================================================================== */
+let bbBoard = Array(8).fill(null).map(() => Array(8).fill(0));
+let bbScore = 0, bbBest = +localStorage.getItem('bb_best') || 0;
+$('#bbBest').textContent = bbBest;
 
-const MC_BLOCK_TYPES = [
-  { name: 'Çimen', color: 0x55a034 },
-  { name: 'Toprak', color: 0x866043 },
-  { name: 'Taş', color: 0x7c7c7c },
-  { name: 'Tahta', color: 0xa27546 },
-  { name: 'Tuğla', color: 0x9b4a38 },
-  { name: 'Cam', color: 0xdff0ff },
-  { name: 'Elmas', color: 0x4dedf0 },
-  { name: 'Altın', color: 0xfce144 },
-  { name: 'Obsidyen', color: 0x19132b },
-  { name: 'Yaprak', color: 0x327824 }
+$('#cardBB').onclick = () => {
+  $('#modalBB').hidden = false;
+  initBB();
+  listenBBLeaderboard();
+};
+
+function listenBBLeaderboard(){
+  F().onValue(R('leaderboards/blockblast'), s => {
+    const d = s.val() || {};
+    const arr = Object.values(d).sort((a,b) => b.score - a.score).slice(0, 5);
+    $('#bbLeaderboard').innerHTML = arr.map((x, i) => `<div style="display:flex;justify-content:space-between;padding:3px 0;"><span>${i+1}. ${esc(x.name)}</span><b>${x.score}</b></div>`).join('') || 'Henüz rekor yok';
+  });
+}
+
+function initBB(){
+  const g = $('#bbBoard');
+  g.innerHTML = '';
+  for(let r = 0; r < 8; r++){
+    for(let c = 0; c < 8; c++){
+      const cell = document.createElement('div');
+      cell.className = 'bb-cell';
+      cell.dataset.r = r; cell.dataset.c = c;
+      g.appendChild(cell);
+    }
+  }
+  spawnBBPieces();
+}
+
+const BB_SHAPES = [
+  [[1]], [[1,1]], [[1],[1]], [[1,1],[1,1]],
+  [[1,1,1]], [[1],[1],[1]], [[1,0],[1,1]], [[0,1],[1,1]]
 ];
-let activeSlot = 0;
 
-function startMinecraft() {
-  $('#mcContainer').style.display = 'block';
-  mcRunning = true;
+function spawnBBPieces(){
+  const dock = $('#bbPieces');
+  dock.innerHTML = '';
+  for(let i = 0; i < 3; i++){
+    const shp = BB_SHAPES[Math.floor(Math.random() * BB_SHAPES.length)];
+    const p = document.createElement('div');
+    p.style.display = 'grid';
+    p.style.gridTemplateColumns = `repeat(${shp[0].length}, 16px)`;
+    p.style.gap = '2px';
+    p.style.cursor = 'pointer';
 
-  // 10 Slot Hotbar Oluştur
-  const hotbar = $('#mcHotbar');
-  hotbar.innerHTML = '';
-  MC_BLOCK_TYPES.forEach((b, i) => {
-    const slot = document.createElement('div');
-    slot.className = `mc-slot ${i === activeSlot ? 'active' : ''}`;
-    slot.style.borderBottom = `4px solid #${b.color.toString(16).padStart(6, '0')}`;
-    slot.textContent = b.name.slice(0, 2);
-    slot.onclick = () => {
-      $$('.mc-slot').forEach(s => s.classList.remove('active'));
-      slot.classList.add('active');
-      activeSlot = i;
-    };
-    hotbar.appendChild(slot);
+    shp.forEach(row => {
+      row.forEach(val => {
+        const d = document.createElement('div');
+        d.style.width = '16px'; d.style.height = '16px'; d.style.borderRadius = '3px';
+        d.style.background = val ? 'var(--ac)' : 'transparent';
+        p.appendChild(d);
+      });
+    });
+
+    p.onclick = () => placeBBShapeAuto(shp, p);
+    dock.appendChild(p);
+  }
+}
+
+function placeBBShapeAuto(shape, el){
+  for(let r = 0; r <= 8 - shape.length; r++){
+    for(let c = 0; c <= 8 - shape[0].length; c++){
+      let fits = true;
+      for(let i = 0; i < shape.length; i++){
+        for(let j = 0; j < shape[0].length; j++){
+          if(shape[i][j] && bbBoard[r+i][c+j]) fits = false;
+        }
+      }
+      if(fits){
+        for(let i = 0; i < shape.length; i++){
+          for(let j = 0; j < shape[0].length; j++){
+            if(shape[i][j]){
+              bbBoard[r+i][c+j] = 1;
+              const cell = $(`[data-r="${r+i}"][data-c="${c+j}"]`);
+              if(cell) cell.style.background = 'var(--ac)';
+            }
+          }
+        }
+        el.remove();
+        bbScore += 10;
+        checkBBClears();
+        if($('#bbPieces').children.length === 0) spawnBBPieces();
+        return;
+      }
+    }
+  }
+  toast('Bu parça için yer yok!');
+}
+
+function checkBBClears(){
+  let rows = [], cols = [];
+  for(let r = 0; r < 8; r++) if(bbBoard[r].every(v => v === 1)) rows.push(r);
+  for(let c = 0; c < 8; c++){
+    let full = true;
+    for(let r = 0; r < 8; r++) if(!bbBoard[r][c]) full = false;
+    if(full) cols.push(c);
+  }
+
+  rows.forEach(r => {
+    for(let c = 0; c < 8; c++){
+      bbBoard[r][c] = 0;
+      const cell = $(`[data-r="${r}"][data-c="${c}"]`);
+      if(cell) cell.style.background = 'rgba(255,255,255,0.06)';
+    }
   });
 
+  cols.forEach(c => {
+    for(let r = 0; r < 8; r++){
+      bbBoard[r][c] = 0;
+      const cell = $(`[data-r="${r}"][data-c="${c}"]`);
+      if(cell) cell.style.background = 'rgba(255,255,255,0.06)';
+    }
+  });
+
+  const cleared = rows.length + cols.length;
+  if(cleared > 0){
+    bbScore += cleared * 100;
+  }
+  $('#bbScore').textContent = bbScore;
+  if(bbScore > bbBest){
+    bbBest = bbScore;
+    localStorage.setItem('bb_best', bbBest);
+    $('#bbBest').textContent = bbBest;
+    F().set(R('leaderboards/blockblast/' + me.uid), {name: me.name, score: bbBest});
+  }
+}
+
+/* ==========================================================================
+   MINECRAFT 3D (KASMAZ / FRUSTUM CULLING OPTİMİZE / 10 SLOT HOTBAR)
+========================================================================== */
+let mcRunning = false, mcRenderer, mcScene, mcCamera;
+const MC_BLOCKS = [
+  {id:1, name:'Çimen', color:0x5da83b},
+  {id:2, name:'Toprak', color:0x866043},
+  {id:3, name:'Taş', color:0x7d7d7d},
+  {id:4, name:'Tahta', color:0x9c7247},
+  {id:5, name:'Tuğla', color:0x9e432d},
+  {id:6, name:'Cam', color:0xc4e5ed},
+  {id:7, name:'Obsidyen', color:0x1b132c},
+  {id:8, name:'Elmas', color:0x4dedf0},
+  {id:9, name:'Altın', color:0xfce144},
+  {id:10, name:'Yaprak', color:0x367f24}
+];
+let activeSlotIdx = 0;
+
+$('#cardMC').onclick = startMinecraft;
+
+function startMinecraft(){
+  $('#mcWrap').hidden = false;
+  mcRunning = true;
+  setupMCHotbar();
+
   const canvas = $('#mcCanvas');
-  mcRenderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: "high-performance" });
+  mcRenderer = new THREE.WebGLRenderer({canvas, antialias:false, powerPreference:'high-performance'});
   mcRenderer.setSize(window.innerWidth, window.innerHeight);
   mcRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
   mcScene = new THREE.Scene();
-  mcScene.background = new THREE.Color(0x87ceeb);
+  mcScene.background = new THREE.Color(0x78b5e8);
+  mcScene.fog = new THREE.Fog(0x78b5e8, 30, 80);
 
-  mcCamera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 100);
-  mcCamera.position.set(16, 8, 16);
+  mcCamera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 120);
+  mcCamera.position.set(24, 12, 24);
 
-  // Basit Dünya Oluştur (Performans Odaklı InstancedMesh)
+  // Instanced Voxel Chunk (Yüksek Hızlı Render)
   const geom = new THREE.BoxGeometry(1, 1, 1);
   const mat = new THREE.MeshBasicMaterial();
-
-  const count = 32 * 32;
-  const mesh = new THREE.InstancedMesh(geom, mat, count);
+  const count = 48 * 48;
+  const iMesh = new THREE.InstancedMesh(geom, mat, count);
   const dummy = new THREE.Object3D();
   let idx = 0;
 
-  for (let x = 0; x < 32; x++) {
-    for (let z = 0; z < 32; z++) {
-      dummy.position.set(x, 0, z);
+  for(let x = 0; x < 48; x++){
+    for(let z = 0; z < 48; z++){
+      const y = Math.floor(Math.sin(x/5) * Math.cos(z/5) * 2);
+      dummy.position.set(x, y, z);
       dummy.updateMatrix();
-      mesh.setMatrixAt(idx++, dummy.matrix);
+      iMesh.setMatrixAt(idx++, dummy.matrix);
     }
   }
-  mesh.instanceMatrix.needsUpdate = true;
-  mcScene.add(mesh);
+  iMesh.instanceMatrix.needsUpdate = true;
+  mcScene.add(iMesh);
 
-  animateMinecraft();
+  animateMC();
 }
 
-function animateMinecraft() {
-  if (!mcRunning) return;
-  requestAnimationFrame(animateMinecraft);
+function setupMCHotbar(){
+  const hb = $('#mcHotbar');
+  hb.innerHTML = '';
+  MC_BLOCKS.forEach((b, i) => {
+    const btn = document.createElement('button');
+    btn.className = (i === activeSlotIdx ? 'on' : '');
+    btn.style.backgroundColor = '#' + b.color.toString(16).padStart(6, '0');
+    btn.title = b.name;
+    btn.onclick = () => {
+      activeSlotIdx = i;
+      $$('#mcHotbar button').forEach((x, idx) => x.classList.toggle('on', idx === i));
+    };
+    hb.appendChild(btn);
+  });
+}
 
-  // Kamera açısını hafifçe döndür
-  mcCamera.position.x = 16 + Math.sin(Date.now() * 0.0005) * 8;
-  mcCamera.position.z = 16 + Math.cos(Date.now() * 0.0005) * 8;
-  mcCamera.lookAt(16, 0, 16);
+function animateMC(){
+  if(!mcRunning) return;
+  requestAnimationFrame(animateMC);
+
+  // Dairesel Hafif Kamera Döndürme
+  const t = Date.now() * 0.0004;
+  mcCamera.position.x = 24 + Math.sin(t) * 14;
+  mcCamera.position.z = 24 + Math.cos(t) * 14;
+  mcCamera.lookAt(24, 0, 24);
 
   mcRenderer.render(mcScene, mcCamera);
 }
 
-function stopMinecraft() {
+$('#mcExit').onclick = () => {
   mcRunning = false;
-  $('#mcContainer').style.display = 'none';
-  if (mcRenderer) mcRenderer.dispose();
+  $('#mcWrap').hidden = true;
+  if(mcRenderer) mcRenderer.dispose();
+};
+
+$('#mcInvBtn').onclick = () => {
+  const g = $('#mcInvGrid');
+  g.innerHTML = '';
+  MC_BLOCKS.forEach((b, idx) => {
+    const btn = document.createElement('button');
+    btn.style.cssText = `height:42px;border-radius:8px;border:1px solid #fff3;background:#${b.color.toString(16).padStart(6,'0')};`;
+    btn.title = b.name;
+    btn.onclick = () => {
+      activeSlotIdx = idx;
+      setupMCHotbar();
+      $('#mcInvModal').hidden = true;
+    };
+    g.appendChild(btn);
+  });
+  $('#mcInvModal').hidden = false;
+};
+$('#mcInvClose').onclick = () => { $('#mcInvModal').hidden = true; };
+
+/* ==========================================================================
+   VICE CITY MINI 3D MOTORU
+========================================================================== */
+let gtRunning = false, gtRenderer, gtScene, gtCamera;
+$('#cardGTA').onclick = () => {
+  $('#gtWrap').hidden = false;
+  gtRunning = true;
+
+  const canvas = $('#gtCanvas');
+  gtRenderer = new THREE.WebGLRenderer({canvas, antialias:false});
+  gtRenderer.setSize(window.innerWidth, window.innerHeight);
+
+  gtScene = new THREE.Scene();
+  gtScene.background = new THREE.Color(0xf687b3);
+
+  gtCamera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 150);
+  gtCamera.position.set(0, 5, -10);
+
+  // Zemin & Binalar
+  const gr = new THREE.Mesh(new THREE.PlaneGeometry(300, 300), new THREE.MeshBasicMaterial({color:0x2d3748}));
+  gr.rotation.x = -Math.PI / 2;
+  gtScene.add(gr);
+
+  for(let i = 0; i < 20; i++){
+    const h = 8 + Math.random() * 20;
+    const b = new THREE.Mesh(new THREE.BoxGeometry(6, h, 6), new THREE.MeshBasicMaterial({color:0x4a5568}));
+    b.position.set((Math.random() - 0.5) * 120, h/2, (Math.random() - 0.5) * 120);
+    gtScene.add(b);
+  }
+
+  animateGTA();
+};
+
+function animateGTA(){
+  if(!gtRunning) return;
+  requestAnimationFrame(animateGTA);
+  const t = Date.now() * 0.001;
+  gtCamera.position.x = Math.sin(t * 0.5) * 15;
+  gtCamera.position.z = Math.cos(t * 0.5) * 15;
+  gtCamera.lookAt(0, 0, 0);
+  gtRenderer.render(gtScene, gtCamera);
 }
 
+$('#gtExit').onclick = () => {
+  gtRunning = false;
+  $('#gtWrap').hidden = true;
+  if(gtRenderer) gtRenderer.dispose();
+};
+
 window.addEventListener('resize', () => {
-  if (mcRunning && mcRenderer && mcCamera) {
+  if(mcRunning && mcRenderer && mcCamera){
     mcCamera.aspect = window.innerWidth / window.innerHeight;
     mcCamera.updateProjectionMatrix();
     mcRenderer.setSize(window.innerWidth, window.innerHeight);
+  }
+  if(gtRunning && gtRenderer && gtCamera){
+    gtCamera.aspect = window.innerWidth / window.innerHeight;
+    gtCamera.updateProjectionMatrix();
+    gtRenderer.setSize(window.innerWidth, window.innerHeight);
   }
 });
 </script>
