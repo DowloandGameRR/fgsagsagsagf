@@ -2909,5 +2909,124 @@ const bt=()=>F().onValue(R('ig16/notes'),s=>{NT=s.val()||{};if(!$('#mDm').hidden
 if(window.FB)bt();else addEventListener('fb',bt);
 }catch(e){console.error('v16 dm',e)}})();
 </script>
+ <!-- ===================================================================
+ v17 YAMA: v16 bloğunun (son </script>) hemen SONRASINA, </body> öncesine yapıştır.
+ Başka hiçbir yeri değiştirmen gerekmiyor.
+ Firebase kurallarına: "village2": {".read": true, ".write": true, ".indexOn": ["s"]}
+ ve reels altındaki sv / rp yollarına yazma izni (reels zaten açıksa gerek yok).
+==================================================================== -->
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<style>
+/* ---------- Instagram görünümü (koyu mod) ---------- */
+:root{--bg:#000!important;--sf:#121212!important;--sf2:#000!important;--ln:#262626!important;--tx:#f5f5f5!important;--mu:#a8a8a8!important;--ac:#0095f6!important;--on:#fff!important}
+.orb,#stars,#cg,body::before,body::after{display:none!important}
+.top{background:#000!important;box-shadow:none!important;border-bottom:1px solid var(--ln)}
+.top::after{display:none}
+.brand h1{font:400 26px Pacifico,cursive!important;background:none!important;color:#fff!important;-webkit-text-fill-color:#fff!important;animation:none!important}
+#nb{background:#000!important}
+#nb button{font-size:0!important}#nb button i.fa-solid{font-size:23px!important}
+#nb button.on i.fa-solid{color:var(--tx)!important;transform:none!important}
+body.vg-open #nb button.on:not([data-k=vg]){color:var(--mu)!important}body.vg-open #nb button.on:not([data-k=vg]) i{color:var(--mu)!important}
+body.vg-open #nb [data-k=vg]{color:var(--tx)}
+#sb{display:flex!important;background:#000;gap:14px;padding:10px 14px}
+.sbi .av,.sbi[data-u] .av{width:54px;height:54px;box-shadow:0 0 0 2px #000,0 0 0 4px #ee2a7b!important}
+.stream{background:#000!important;padding:12px 14px}
+#stream .m:not(.adm):not(.mdr):not([data-rk]) .bub{background:var(--sf)!important;border:0!important;box-shadow:none!important;border-radius:20px!important;padding:8px 14px}
+#stream .m.me:not(.adm):not(.mdr):not([data-rk]) .bub{background:#3797f0!important;color:#fff}
+.comp{background:#000!important;border:0!important;border-top:1px solid var(--ln)!important;border-radius:0!important;margin:0!important}
+.comp input{background:var(--sf)!important;border:1px solid var(--ln)!important}
+.btn.pri{background:var(--ac)!important;border-color:var(--ac)!important}
+.toast{background:#f5f5f5!important;color:#000!important}
+/* ---------- mobil performans ---------- */
+.m{content-visibility:auto;contain-intrinsic-size:auto 56px}
+@media(pointer:coarse),(max-width:720px){*{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}.panel,.modal{background:#000e}}
+/* ---------- reels ek butonlar ---------- */
+.rs button .fa-regular,.rs button .fa-solid{font-size:24px}
+.rs [data-sv] .fa-solid{color:#fff}
+/* ---------- köy ---------- */
+#vg17{position:fixed;inset:0 0 calc(58px + env(safe-area-inset-bottom)) 0;z-index:55;background:#000;overflow:auto;padding-top:env(safe-area-inset-top);overscroll-behavior:contain}
+#vg17[hidden]{display:none}body.gated #vg17{display:none}
+.vgh{display:flex;gap:10px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--ln);position:sticky;top:0;background:#000;z-index:2}.vgh b{font:700 17px var(--b);flex:1}
+.vt{padding:12px 14px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.vr{background:var(--sf);border-radius:99px;padding:6px 14px;font-weight:600}
+.vs{background:linear-gradient(45deg,#f9ce34,#ee2a7b,#6228d7);color:#fff;border-radius:99px;padding:6px 14px;font-weight:600}
+.vf{margin:0 12px;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:10px;border-radius:20px;background:#6fbf5a;box-shadow:inset 0 0 0 4px #4f9a3f}
+.vp{aspect-ratio:1;border-radius:12px;background:#8bd272;display:grid;place-items:center;font-size:clamp(26px,9vw,44px);position:relative;color:#2d6a1f;transition:transform .15s}
+.vp:active{transform:scale(.9)}.vp i{position:absolute;right:3px;bottom:3px;font:700 11px Inter,sans-serif;font-style:normal;background:#0009;color:#fff;border-radius:99px;padding:0 6px}
+.vp.rd{animation:vbob 1.2s ease-in-out infinite}@keyframes vbob{50%{transform:translateY(-3px)}}
+.vc{margin:12px;display:flex;gap:8px}.vc .btn{flex:1;justify-content:center}
+.vl{padding:4px 14px 24px}.vl h3{margin:14px 0 8px;font-size:15px}
+.vw{display:flex;align-items:center;gap:12px;padding:8px 0;width:100%;text-align:left}.vw .g{flex:1;min-width:0}.vw small{color:var(--mu);display:block}
+.v17s{position:fixed;inset:0;z-index:310;background:#0008;display:flex;align-items:flex-end}
+.v17s>div{background:var(--sf);width:100%;max-height:80dvh;overflow:auto;border-radius:20px 20px 0 0;padding:14px 14px calc(14px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:8px;animation:v17u .28s cubic-bezier(.2,.9,.3,1)}
+@keyframes v17u{from{transform:translateY(60%)}}
+.v17s .op{display:flex;gap:12px;align-items:center;padding:10px;border-radius:12px;background:var(--bg);text-align:left;width:100%}.v17s .op span{font-size:30px}.v17s .op small{display:block;color:var(--mu)}
+.cg{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}.cg button{aspect-ratio:9/12;background:var(--bg) center/cover;border-radius:6px;color:#fff;font-size:11px;padding:6px;text-align:left;display:flex;align-items:flex-end;text-shadow:0 1px 4px #000}
+</style>
+<script>
+(()=>{try{
+const E=h=>{const d=document.createElement('div');d.innerHTML=h.trim();return d.firstChild},n=o=>Object.keys(o||{}).length;
+let RX={},V=null,VL=[],cur=null,vOff=null;
+const day=()=>Math.floor((now()+108e5)/864e5);
+/* ================= REELS: kaydet + repost ================= */
+const rlF=$('#rlF');
+const paint=s=>{const r=RX[s.dataset.k];if(!r)return;const sv=s.querySelector('[data-sv]'),rp=s.querySelector('[data-rp]');if(!sv||!rp)return;
+ sv.firstChild.className=(r.sv&&r.sv[me.uid]?'fa-solid':'fa-regular')+' fa-bookmark';sv.lastChild.textContent=n(r.sv)||'';
+ rp.style.color=r.rp&&r.rp[me.uid]?'#2ecc71':'';rp.lastChild.textContent=n(r.rp)||''};
+const rail=s=>{const r=s.querySelector('.rs');if(!r)return;if(!s.querySelector('[data-sv]'))r.insertAdjacentHTML('beforeend','<button data-sv><i class="fa-regular fa-bookmark"></i><b></b></button><button data-rp><i class="fa-solid fa-retweet"></i><b></b></button>');paint(s)};
+const all=()=>rlF.querySelectorAll('.rv').forEach(rail);
+new MutationObserver(all).observe(rlF,{childList:true});
+rlF.addEventListener('click',e=>{const b=e.target.closest('[data-sv],[data-rp]');if(!b)return;e.stopPropagation();const k=b.closest('.rv').dataset.k,f=b.hasAttribute('data-sv')?'sv':'rp',r=RX[k]||{},on=!!(r[f]&&r[f][me.uid]);
+ F().set(R(`reels/${k}/${f}/${me.uid}`),on?null:true);toast(f==='sv'?(on?'Kayıttan çıkarıldı':'Kaydedildi'):(on?'Paylaşım kaldırıldı':'Profilinde paylaşıldı'))},true);
+/* ================= KÖY OYUNU ================= */
+const B={h:{n:'Ev',e:'🏠',c:40,r:6},f:{n:'Çiftlik',e:'🌾',c:90,r:15},m:{n:'Değirmen',e:'🌀',c:180,r:32},k:{n:'Saray',e:'🏰',c:420,r:70}},MAXL=5,CAPH=8;
+const cost=(t,l)=>Math.round(B[t].c*Math.pow(l+1,1.6)),inc=v=>Object.values(v?.b||{}).reduce((a,x)=>a+B[x[0]].r*(+x.slice(1)||1),0),score=b=>Object.values(b||{}).reduce((a,x)=>a+(+x.slice(1)||1)*10+5,0);
+const pend=v=>v?Math.floor(inc(v)*Math.min(CAPH,Math.max(0,(now()-(v.t||now()))/36e5))):0;
+const ov=E('<section id="vg17" hidden><div class="vgh"><button class="ib" id="vgX" aria-label="Geri"><i class="fa-solid fa-arrow-left"></i></button><b>Köyüm</b><button class="btn sm" id="vgC"><i class="fa-regular fa-bookmark"></i> Koleksiyon</button></div><div id="vgB"></div></section>');document.body.append(ov);
+const nb=$('#nb');nb.querySelector('[data-k=dm]').insertAdjacentHTML('beforebegin','<button data-k="vg" id="nbVg"><i class="fa-solid fa-house-flag"></i><b class="bd" id="vgBd" hidden></b></button>');
+const open=()=>{if(document.body.classList.contains('gated'))return;cur=null;ov.hidden=false;document.body.classList.add('vg-open');draw();gpSet17('Köy')},close=()=>{ov.hidden=true;document.body.classList.remove('vg-open');if(vOff){vOff();vOff=null}cur=null};
+const gpSet17=g=>{try{F().set(R('gplay/'+me.uid),{n:me.name,g,t:now()});F().onDisconnect(R('gplay/'+me.uid)).remove()}catch(e){}};
+nb.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.k==='vg'){e.stopPropagation();open()}else close()},true);
+$('#vgX').onclick=()=>{if(cur){cur=null;if(vOff){vOff();vOff=null}draw()}else close()};
+function sheet(h,fn){const s=E(`<div class="v17s"><div>${h}</div></div>`);s.onclick=e=>{if(e.target===s)s.remove()};document.body.append(s);fn&&fn(s.firstChild,s);return s}
+const plots=(b,own)=>Array.from({length:16},(_,i)=>{const x=b&&b[i];return x?`<div class="vp${own&&pend(V)>=10?' rd':''}" data-i="${i}">${B[x[0]].e}<i>${x.slice(1)}</i></div>`:`<div class="vp" data-i="${i}">${own?'+':''}</div>`}).join('');
+function draw(){const el=$('#vgB');if(ov.hidden)return;if(cur)return drawVisit();
+ if(!V){el.innerHTML='<div class="small" style="padding:30px;text-align:center">Köyün hazırlanıyor…</div>';return}
+ const done=(V.d||0)===day();
+ el.innerHTML=`<div class="vt"><span class="vr">🪙 <b>${V.g||0}</b></span><span class="vr">⏱ +${inc(V)}/sa</span><span class="vs">🔥 ${V.st||0} gün</span></div>
+ <div class="vf" id="vf">${plots(V.b,1)}</div>
+ <div class="vc"><button class="btn pri" id="vCol">🧺 Topla (<span id="vPd">${pend(V)}</span>)</button><button class="btn" id="vDl" ${done?'disabled':''}>${done?'Ödül alındı':'🎁 Günlük ödül'}</button></div>
+ <div class="vl"><h3>Köyleri keşfet</h3>${VL.filter(a=>a[0]!==me.uid).map(([u,x])=>`<button class="vw" data-v="${esc(u)}">${avH(u,x.n)}<div class="g"><b>${esc(x.n||'Anonim')}</b><small>Puan ${x.s||0} · ${n(x.lk)} beğeni</small></div><span class="small">Ziyaret ›</span></button>`).join('')||'<div class="small">Henüz başka köy yok.</div>'}</div>`}
+function drawVisit(){const el=$('#vgB'),d=cur.d,u=cur.u;if(!d){el.innerHTML='<div class="small" style="padding:30px;text-align:center">Köy yükleniyor…</div>';return}
+ const lk=d.lk&&d.lk[me.uid],gf=localStorage['c_gf_'+u]==day();
+ el.innerHTML=`<div class="vt">${avH(u,d.n)}<b>${esc(d.n)}</b><span class="vr">⭐ ${d.s||0}</span></div><div class="vf">${plots(d.b,0)}</div>
+ <div class="vc"><button class="btn ${lk?'':'pri'}" id="vLk">${lk?'❤️ Beğenildi':'🤍 Beğen'} (${n(d.lk)})</button><button class="btn" id="vGf" ${gf?'disabled':''}>${gf?'Hediye gönderildi':'🎁 10 altın hediye et'}</button></div>
+ <div class="vl"><button class="btn" id="vPr" style="width:100%">Profilini aç</button></div>`}
+function visit(u){cur={u,d:null};if(vOff)vOff();vOff=F().onValue(R('village2/'+u),s=>{if(!cur||cur.u!==u)return;cur.d=s.val();drawVisit()});drawVisit()}
+$('#vgB').addEventListener('click',e=>{const U=R('village2/'+me.uid),t=e.target;
+ if(cur){const u=cur.u;
+  if(t.closest('#vLk')){const h=cur.d&&cur.d.lk&&cur.d.lk[me.uid];F().set(R(`village2/${u}/lk/${me.uid}`),h?null:true)}
+  else if(t.closest('#vGf')){if(localStorage['c_gf_'+u]==day())return;localStorage['c_gf_'+u]=day();F().update(R('village2/'+u),{g:F().increment(10)});if(V)F().update(U,{g:(V.g||0)+3});toast('Hediye gönderildi · sana +3 altın');drawVisit()}
+  else if(t.closest('#vPr')){close();openProfile(u)}return}
+ if(!V)return;const d=t.closest('[data-v]');if(d)return visit(d.dataset.v);
+ if(t.closest('#vCol')){const p=pend(V);if(p<1)return toast('Henüz toplanacak bir şey yok');F().update(U,{g:(V.g||0)+p,t:now()});toast('+'+p+' altın');return}
+ if(t.closest('#vDl')){const st=(V.d||0)===day()-1?(V.st||0)+1:1,g=50+Math.min(st,10)*10;F().update(U,{g:(V.g||0)+g,st,d:day()});toast(`+${g} altın · ${st}. gün serisi`);return}
+ const p=t.closest('.vp');if(!p)return;const i=p.dataset.i,x=V.b&&V.b[i];
+ if(!x)sheet('<b>Ne inşa edelim?</b>'+Object.entries(B).map(([k,o])=>`<button class="op" data-t="${k}" ${V.g<o.c?'style="opacity:.45"':''}><span>${o.e}</span><div><b>${o.n}</b><small>Saatte +${o.r} altın · 🪙 ${o.c}</small></div></button>`).join(''),(c,s)=>{c.onclick=ev=>{const o=ev.target.closest('[data-t]');if(!o)return;const k=o.dataset.t;if(V.g<B[k].c)return toast('Yeterli altının yok');const b={...(V.b||{}),[i]:k+1};F().update(U,{g:V.g-B[k].c,b,s:score(b),t:pend(V)?V.t:now()});s.remove();toast(B[k].n+' kuruldu')}});
+ else{const k=x[0],l=+x.slice(1);if(l>=MAXL)return toast(B[k].n+' en üst seviyede');const pr=cost(k,l);
+  sheet(`<div class="op"><span>${B[k].e}</span><div><b>${B[k].n} · Seviye ${l}</b><small>Geliştirince saatte +${B[k].r} altın daha</small></div></div><button class="btn pri" id="vUp" style="justify-content:center">Geliştir · 🪙 ${pr}</button>`,(c,s)=>{c.querySelector('#vUp').onclick=()=>{if(V.g<pr)return toast('Yeterli altının yok');const b={...V.b,[i]:k+(l+1)};F().update(U,{g:V.g-pr,b,s:score(b)});s.remove();toast('Geliştirildi')}})}});
+/* ================= koleksiyon: kaydedilenler + repostlar ================= */
+$('#vgC').onclick=()=>{const me_=me.uid,ents=Object.entries(RX),sv=ents.filter(([,r])=>r.sv&&r.sv[me_]).reverse(),rp=ents.filter(([,r])=>r.rp&&r.rp[me_]).reverse(),
+ t=([k,r])=>`<button data-r="${k}" style="${r.yt?`background-image:url(https://i.ytimg.com/vi/${r.yt}/hqdefault.jpg)`:''}">${esc(r.cap||'@'+(r.n||''))}</button>`;
+ sheet(`<b>Kaydettiklerim</b><div class="cg">${sv.map(t).join('')||'<div class="small">Henüz kaydetmedin.</div>'}</div><b>Repostlarım</b><div class="cg">${rp.map(t).join('')||'<div class="small">Henüz repost yok.</div>'}</div>`,(c,s)=>{c.onclick=e=>{const b=e.target.closest('[data-r]');if(!b)return;s.remove();close();nb.querySelector('[data-k=reels]').click();setTimeout(()=>rlF.querySelector(`[data-k="${b.dataset.r}"]`)?.scrollIntoView(),500)}})};
+/* ================= firebase ================= */
+function start(){const f=F();
+ f.onValue(f.query(R('reels'),f.orderByKey(),f.limitToLast(40)),s=>{RX=s.val()||{};all()});
+ f.onValue(f.query(R('village2'),f.orderByChild('s'),f.limitToLast(30)),s=>{VL=[];s.forEach(c=>{VL.unshift([c.key,c.val()])});if(!ov.hidden&&!cur)draw()});
+ f.onValue(R('village2/'+me.uid),s=>{V=s.val();if(!V)return f.set(R('village2/'+me.uid),{n:me.name,g:100,t:now(),b:{},s:0,st:0,d:0});if(!ov.hidden&&!cur)draw()});
+ setInterval(()=>{if(!V)return;const p=pend(V);$('#vgBd').hidden=!(p>=10||(V.d||0)!==day());const e=$('#vPd');if(e)e.textContent=p},1000)}
+window.FB?start():addEventListener('fb',start);
+}catch(e){console.error('v17',e)}})();
+</script>
 </body>
 </html>
